@@ -1,0 +1,26 @@
+[
+  {
+    "badge": "상품 01",
+    "name": "리노 스윙 3인소파_아이보리",
+    "brand": "까사미아",
+    "discount": "20%",
+    "price": "1,160,000원",
+    "image": "img/sub/main1.avif"
+  },
+  {
+    "badge": "상품 02",
+    "name": "리노 스윙 4인소파_아이보리",
+    "brand": "까사미아",
+    "discount": "20%",
+    "price": "1,592,000원",
+    "image": "img/sub/main2.avif"
+  },
+  {
+    "badge": "상품 03",
+    "name": "리노 헤드쿠션_아이보리",
+    "brand": "까사미아",
+    "discount": "20%",
+    "price": "36,000원",
+    "image": "img/sub/main4.avif"
+  }
+]

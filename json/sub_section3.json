@@ -1,0 +1,76 @@
+[
+{
+"id": 1,
+"brand": "까사미아",
+"name": "[모음딜]캄포클래식 클라우드 소...",
+"originalPrice": "3,200,000",
+"discount": "40%",
+"price": "1,920,000",
+"image": "img/sub_section3/1.avif"
+},
+{
+"id": 2,
+"brand": "까사미아",
+"name": "[모음딜]캄포패밀리 소파(옵션 택1)",
+"originalPrice": "2,200,000",
+"discount": "40%",
+"price": "1,320,000",
+"image": "img/sub_section3/2.avif"
+},
+{
+"id": 3,
+"brand": "까사미아",
+"name": "[브랜드위크][패키지]캄포레더...",
+"originalPrice": "2,730,000",
+"discount": "20%",
+"price": "2,184,000",
+"image": "img/sub_section3/3.avif"
+},
+{
+"id": 4,
+"brand": "까사미아",
+"name": "[모음딜]캄포구스 50 리클라이너...",
+"originalPrice": "2,950,000",
+"discount": "15%",
+"price": "2,507,500",
+"image": "img/sub_section3/4.avif"
+},
+{
+"id": 5,
+"brand": "까사미아",
+"name": "[모음딜]루고 리클라이너 소파(...",
+"originalPrice": null,
+"discount": null,
+"price": "3,050,000",
+"image": "img/sub_section3/5.avif"
+},
+{
+"id": 6,
+"brand": "바이노만",
+"name": "몽루즈 거위털 천연면피 소가죽...",
+"originalPrice": "1,099,000",
+"discount": "10%",
+"price": "979,000",
+"image": "img/sub_section3/6.avif"
+} ,
+{
+"id": 7,
+"brand": "까사미아",
+"name": "바스토 스윙백 4인소파 일반형 (...",
+"originalPrice": null,
+"discount": null,
+"price": "6,480,000",
+"image": "img/sub_section3/7.avif"
+},
+{
+"id": 8,
+"brand": "까사미아",
+"name": "바스토 스윙백 3인소파 일반형 (...",
+"originalPrice": null,
+"discount": null,
+"price": "4,800,000",
+"image": "img/sub_section3/8.avif"
+}  
+
+
+]

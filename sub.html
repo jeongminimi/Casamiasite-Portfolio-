@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>casamia_main</title>
+
+  <!-- ========================================== -->
+  <!-- 1. 외부 라이브러리 (Font Awesome 아이콘)   -->
+  <!-- ========================================== -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- ========================================== -->
+  <!-- 2. 외부 CSS 스타일시트 연결                 -->
+  <!-- ========================================== -->
+  <link rel="stylesheet" href="css/top_bar.css" />       <!-- 상단 헤더 & GNB 스타일 -->
+  <link rel="stylesheet" href="css/main.css" />          <!-- 공통 레이아웃 및 특가/기획전 슬라이더 스타일 -->
+  <link rel="stylesheet" href="css/sub.css" />     <!-- 베스트 시리즈(3단 그리드) 스타일 -->
+  <link rel="stylesheet" href="css/footer.css" />        <!-- 푸터 스타일 -->
+  <link rel="stylesheet" href="css/sub_section1.css"> <!--sub section 스타일-->
+  <link rel="stylesheet" href="css/sub_section3.css">
+
+  <!-- ========================================== -->
+  <!-- 3. 메인 최상단 배너 슬라이더 전용 CSS       -->
+  <!-- ========================================== -->
+  <style>
+    #slider {
+      width: 100%;
+      min-height: 450px;
+      overflow: hidden;
+    }
+    #slider > img {
+      width: 100%;
+      min-height: 450px;
+      display: block;
+      object-fit: cover;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ========================================== -->
+  <!-- [헤더] 상단 유틸리티 배지, 로고, 검색, GNB  -->
+  <!-- ========================================== -->
+  <header class="site-header">
+    <!-- 우측 상단 Guud 배지 & 툴팁 -->
+    <div class="top-badge-wrap">
+      <a href="#" class="guud-badge">
+        <span class="guud-logo">Guud</span>
+        <i class="fa-solid fa-angle-right"></i>
+      </a>
+      <div class="badge-tooltip">
+        <span>입점 브랜드관</span>
+        <button type="button" class="tooltip-close" aria-label="닫기">×</button>
+      </div>
+    </div>
+
+    <div class="header-inner">
+      <!-- 1층: 로고 및 우측 검색/아이콘 메뉴 -->
+      <div class="header-main">
+        <h1 class="logo">
+          <a href="#">casamia</a>
+        </h1>
+
+        <div class="header-util">
+          <!-- 검색창 -->
+          <form class="search-box" id="searchForm">
+            <input type="text" class="search-input" placeholder="검색어를 입력해주세요" />
+            <button type="submit" class="search-btn" aria-label="검색">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </form>
+
+          <!-- 유저 메뉴 아이콘 -->
+          <ul class="user-menu">
+            <li><a href="#" aria-label="장바구니"><i class="fa-solid fa-bag-shopping"></i></a></li>
+            <li><a href="#" aria-label="마이페이지"><i class="fa-regular fa-user"></i></a></li>
+            <li>
+              <button type="button" class="btn-menu" aria-label="전체메뉴">
+                <i class="fa-solid fa-bars"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 2층: 카테고리 네비게이션 (GNB) -->
+      <nav class="gnb-nav">
+        <ul class="gnb-list">
+          <li class="brand-week">
+            <a href="#">
+              <span class="bell-icon">🔔</span>브랜드위크
+              <span class="red-dot"></span>
+            </a>
+          </li>
+          <li><a href="#">거실가구</a></li>
+          <li><a href="#">침실가구</a></li>
+          <li><a href="#">주방가구</a></li>
+          <li><a href="#">수납가구</a></li>
+          <li><a href="#">서재가구</a></li>
+          <li><a href="#">유아/아동가구</a></li>
+          <li><a href="#">인테리어 소품</a></li>
+          <li class="divider" aria-hidden="true">|</li>
+          <li class="catalog"><a href="#">CATALOG</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
+
+
+
+
+
+  <!-- 왼쪽 섹션: 상품 정보 ... -->
+  <main class="container">
+  <!-- 왼쪽 섹션: 브레드크럼 + 이미지 슬라이더 -->
+  <section class="left-section">
+    <div class="breadcrumb">
+      거실가구 &gt; 소파 &gt; 패브릭소파
+    </div>
+
+    <div class="slider-wrapper">
+      <button class="nav-btn prev-btn" id="prevBtn">&#10094;</button>
+      <div class="main-image-container">
+        <img id="mainImage" src="img/sub/main4.avif" alt="소파 이미지">
+      </div>
+      <button class="nav-btn next-btn" id="nextBtn">&#10095;</button>
+    </div>
+
+    <div class="thumbnail-list">
+      <img class="thumb active" src="img/sub/main4.avif" alt="썸네일 1" data-index="0">
+      <img class="thumb" src="img/sub/main1.avif" alt="썸네일 2" data-index="1">
+      <img class="thumb" src="img/sub/main2.avif" alt="썸네일 3" data-index="2">
+      <img class="thumb" src="img/sub/main3.avif" alt="썸네일 4" data-index="3">
+    </div>
+  </section>
+
+  <!-- 오른쪽 섹션: 상품 정보 및 옵션 -->
+  <section class="right-section">
+    <div class="title-area">
+      <h1>[모음딜] 리노 스윙 소파 (옵션 택1)</h1>
+    </div>
+
+    <div class="price-area">
+      <div class="price-info">
+        <span class="original-price">45,000</span>
+        <div class="sale-price">
+          <span class="discount-rate">~20%</span>
+          <span class="current-price">36,000원~</span>
+        </div>
+      </div>
+      
+      <button class="wish-btn" id="wishBtn">
+        <span class="heart-icon">♡</span> 찜 상품
+      </button>
+    </div>
+
+    <!-- 혜택정보, 상품선택 옵션, 구매버튼 등 나머지 영역 -->
+    <div class="benefit-info">
+      <div class="benefit-row">
+        <span class="label">할부혜택</span>
+        <span class="value">최대 12개월 무이자 할부 &gt;</span>
+      </div>
+      <div class="benefit-row">
+        <span class="label">결제혜택</span>
+        <span class="value">GuudPay 즉시할인 최대 5만원 &gt;</span>
+      </div>
+      <div class="benefit-row">
+        <span class="label">배송정보</span>
+        <span class="value">자세한 배송정보는 해당 상품 상세정보에서 확인하시기 바랍니다.</span>
+      </div>
+    </div>
+
+    <div class="select-area">
+      <div class="select-group">
+        <label>상품선택</label>
+        <div class="custom-select" id="customProductSelect">
+          <div class="selected-option">
+            <span class="placeholder">선택해 주세요.</span>
+          </div>
+          <ul class="option-list">
+            <li data-value="1160000">
+              <img src="img/sub/main1.avif" alt="상품1">
+              <div class="option-text">
+                <span>01. 리노 3인 스윙 패브릭 소파</span>
+                <span class="sub">(20% / 1,160,000원)</span>
+              </div>
+            </li>
+            <li data-value="1592000">
+              <img src="img/sub/main2.avif" alt="상품2">
+              <div class="option-text">
+                <span>02. 리노 4인 스윙 패브릭 소파</span>
+                <span class="sub">(20% / 1,592,000원)</span>
+              </div>
+            </li>
+            <li data-value="36000">
+              <img src="img/sub/main4.avif" alt="상품3">
+              <div class="option-text">
+                <span>03. 리노 헤드쿠션_아이보리</span>
+                <span class="sub">(20% / 36,000원)</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="select-group">
+        <label for="optionSelect">옵션선택</label>
+        <select id="optionSelect" disabled>
+          <option value="" disabled selected>선택해 주세요.</option>
+          <option value="red">red</option>
+          <option value="ivory">ivory</option>
+          <option value="gray">gray</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="total-price-area">
+      <span>총 상품금액</span>
+      <span class="total-price" id="totalPrice">0원</span>
+    </div>
+
+    <div class="action-buttons">
+      <button class="cart-btn">장바구니 담기</button>
+      <button class="buy-btn">바로 구매하기</button>
+    </div>
+
+          <div class="promo-banner-list">
+        <div>🎉 [첫구매] 까사미아 5% 쿠폰 &gt;</div>
+        <div>🎁 [즉시할인] 굳페이 1/5만원 &gt;</div>
+        <div>🎁 [캐시백] 신한카드 최대 25만원 &gt;</div>
+      </div>
+    </section>
+</main>
+
+
+
+<div class="detail-container">
+    <!-- sub의 section1  영역 -->
+    <nav class="detail-tabs">
+      <button class="tab-item active">상품정보</button>
+      <button class="tab-item">구매정보</button>
+      <button class="tab-item">상품리뷰</button>
+      <button class="tab-item">Q&amp;A</button>
+    </nav>
+
+    <!-- 상세정보 본문 영역 -->
+    <section class="detail-content">
+      <h2 class="section-title">상세정보</h2>
+
+      <!-- 2x2 상품 그리드 -->
+      <div class="product-grid" id="productGrid">
+        <!-- JS로 상품 카드 3개가 동적으로 렌더링됩니다. -->
+        <!-- 4번째 빈 슬롯(워터마크/로고 영역) -->
+        <div class="product-card empty-card">
+          <div class="logo-watermark">Guud</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+
+    <!-- sub의 section2  영역 -->
+<section class="sub_section2">
+  <!-- 첫 번째 블록: 전체 가로 메인 이미지 -->
+  <div class="content-block full-img-box">
+    <img src="img/sub_section2/1.avif" alt="소파 인테리어 컷">
+    <img src="img/sub_section2/2.avif" alt="소파 인테리어 컷">
+    <img src="img/sub_section2/3.avif" alt="소파 인테리어 컷">
+    <img src="img/sub_section2/4.avif" alt="funcion 01">
+    <img src="img/sub_section2/5.gif" alt="스윙 모션 GIF">
+    <img src="img/sub_section2/6.avif" alt="조절가능 스윙 기능설명">
+    <img src="img/sub_section2/7.avif" alt="funcion 02">
+    <img src="img/sub_section2/8.webp" alt="팔걸이 조절 컷">
+    <img src="img/sub_section2/9.avif" alt="각도조절 팔걸이 컷">
+    <img src="img/sub_section2/10.avif" alt="제품 유의사항">
+  </div>
+</section>
+
+
+
+<!-- Sub section3 -->
+<section class="sub_section3">
+  <!-- 상단 타이틀 및 AI 추천 뱃지 -->
+  <div class="recommend-header">
+    <h2 class="recommend-title">이런 상품은 어떠세요?</h2>
+    <span class="ai-badge">
+      <svg class="robot-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+        <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.38-1 1.72V7h4a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-8a3 3 0 0 1 3-3h4V5.72c-.6-.34-1-.98-1-1.72a2 2 0 0 1 2-2M7.5 13a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m9 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3"/>
+      </svg>
+      AI 추천
+    </span>
+  </div>
+
+  <!-- 슬라이더 뷰포트 및 트랙 -->
+  <div class="slider-viewport" id="sliderViewport">
+    <div class="slider-track" id="recommendGrid"></div>
+  </div>
+
+  <!-- 하단 페이지 인디케이터 (JS에서 페이지 수에 맞게 자동 생성) -->
+  <div class="pagination-dots" id="paginationDots"></div>
+</section>
+
+
+
+
+
+
+
+
+  <!-- ========================================== -->
+  <!-- [푸터] 회사 정보, 고객센터, SNS 링크        -->
+  <!-- ========================================== -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <!-- 좌측 정보 -->
+      <div class="footer-left">
+        <div class="footer-logo">casamia</div>
+        <ul class="footer-policy-links">
+          <li><a href="#" class="highlight">개인정보처리방침</a></li>
+          <li><a href="#">서비스 이용약관</a></li>
+          <li><a href="#">영상정보처리기기 운영관리방침</a></li>
+          <li><a href="#">회사소개</a></li>
+          <li><a href="#">채용정보</a></li>
+        </ul>
+        <div class="footer-company-info">
+          <p>상호명 : (주)신세계까사 <span>|</span> 대표이사 : 김홍극 <span>|</span> 주소 : 서울시 중구 남대문시장10길2 메사빌딩 5-6층</p>
+          <p>사업자등록번호 : 120-81-11794 <span>|</span> 통신판매업 신고:2021-서울중구-1960 <span>|</span> 개인정보보호책임자 : 김찬후 <span>|</span> <a href="#" class="btn-verify">사업자 정보확인</a></p>
+          <p>호스팅제공자 : (주)신세계아이앤씨 <span>|</span> e-mail:guud@shinsegae.com</p>
+          <p class="desc-warning">일부 상품의 경우 (주)신세계까사는 통신판매의 당사자가 아닌 통신판매중개자로서, 입점 판매자가 등록한 상품 정보 및 거래에 대해 책임을 지지 않습니다.</p>
+        </div>
+        <div class="footer-escrow">
+          <span class="escrow-title">우리은행 채무지급보증 안내</span>
+          <button type="button" class="btn-escrow">서비스 가입사실 확인 <i class="fa-solid fa-play"></i></button>
+          <p>당사는 고객님이 현금 결제한 금액에 대해 우리은행과 채무지급 보증 계약을 체결하여 안전거래를 보장하고 있습니다.</p>
+        </div>
+        <p class="copyright">Copyright© SHINSEGAE CASA Co., Ltd. All rights reserved</p>
+        <div class="footer-isms">
+          <span class="isms-badge">ISMS</span>
+          <p>[인증범위] 온라인 쇼핑몰 운영 <span>|</span> [유효기간] 2026-05-17 ~ 2029-05-16</p>
+        </div>
+      </div>
+
+      <!-- 우측 고객센터 및 SNS -->
+      <div class="footer-right">
+        <div class="cs-wrap">
+          <span class="cs-label">고객센터</span>
+          <div class="cs-numbers">
+            <span class="cs-tel">1566-0228</span>
+            <span class="cs-tel">1588-3408</span>
+          </div>
+          <p class="cs-hours">평일 08:30~17:30 (주말 및 공휴일 휴무)</p>
+        </div>
+        <div class="cs-buttons">
+          <a href="#" class="btn-cs">까사미아몰 입점문의</a>
+          <a href="#" class="btn-cs">까사미아 대리점 개설안내</a>
+          <a href="#" class="btn-cs">마테라소 대리점 개설안내</a>
+        </div>
+        <div class="footer-sns">
+          <a href="#" aria-label="유튜브"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" aria-label="인스타그램"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ========================================================= -->
+  <!-- [자바스크립트 연결] DOM이 모두 로드된 후 안전하게 실행됩니다 -->
+  <!-- ========================================================= -->
+  <script src="js/top_bar.js"></script>         <!-- 상단 헤더/메뉴 인터랙션 -->
+  <script src="js/quick_menu.js"></script>      <!-- 퀵 카테고리 데이터 동적 렌더링 -->
+  <script src="js/best_section.js"></script>       <!-- 베스트 시리즈 기능 (필요시) -->
+  <script src="js/casamia_sale.js"></script>    <!-- 금주의 특가 상품 리스트 렌더링 -->
+  <script src="js/slider2.js"></script>         <!-- slider2 배너 전환 제어 -->
+  <script src="js/casamia_autumn.js"></script>  <!-- 가을/신혼 상품 리스트 렌더링 -->
+  <script src="js/section2.js"></script>        <!-- 쉼 섹션 제어 (필요시) -->
+  <script src="js/sub.js"></script>             <!-- SUB 페이지 제어  -->
+  <script src="js/sub_section1.js"></script>
+  <script src="js/sub_section2.js"></script>
+  <script src="js/sub_section3.js"></script>
+
+</body>
+</html>

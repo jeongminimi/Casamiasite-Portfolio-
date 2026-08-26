@@ -1,0 +1,65 @@
+@charset "UTF-8";
+
+/* 기본 여백 초기화 및 박스 사이징 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 슬라이더 외곽 컨테이너 */
+.slider-container {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;        /* 필요에 따라 배너 최대 너비 조절 가능 */
+  margin: 0 auto;
+  overflow: hidden;          /* 화면 밖으로 나간 슬라이드는 보이지 않도록 숨김 */
+  background-color: #f6f3ed; /* 이미지 로딩 전 배경색 (베이지 톤) */
+}
+
+/* 4개의 슬라이드가 일렬로 배치되는 트랙 */
+.slider-track {
+  display: flex;
+  width: 100%;
+  /* 0.6초 동안 부드럽게 왼쪽으로 밀리는 애니메이션 */
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* 개별 슬라이드 (화면 가로폭 100% 고정) */
+.slide {
+  flex: 0 0 100%;
+  width: 100%;
+}
+
+.slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* 하단 점(Indicator) 묶음 위치 설정 */
+.slider-dots {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%); /* 정확히 정중앙 정렬 */
+  display: flex;
+  gap: 7px;
+  z-index: 10;
+}
+
+/* 기본 비활성화 점 스타일 */
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.18); /* 연한 회색 */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* 현재 화면에 보이는 배너의 점 스타일 (진한 검정) */
+.dot.active {
+  background-color: #111111;
+}

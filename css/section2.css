@@ -1,0 +1,115 @@
+@charset "utf-8";
+/* 기본 섹션 설정 */
+.rest-time-section {
+  width: 100%;
+  padding: 80px 0;
+  background-color: #fff;
+}
+
+.rest-time-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.rest-time-section .section-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #111;
+  margin-bottom: 40px;
+}
+
+/* 3열 2행 그리드 */
+.rest-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.rest-card {
+  display: block;
+  text-decoration: none;
+  width: 100%;
+}
+
+/* 이미지 및 오버레이 래퍼 */
+.rest-card .img-wrap {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  overflow: hidden;
+  background-color: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rest-card .img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+/* 1번(디퓨저), 6번(쿠션) 같은 누끼/단독 제품 핏 유지용 */
+.rest-item:first-child .img-wrap img,
+.rest-item:last-child .img-wrap img {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+}
+
+/* 중앙 오버레이 텍스트 박스 */
+.rest-card .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 2;
+}
+
+.rest-card .overlay .brand {
+  font-size: 12px;
+  color: #e0e0e0;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.rest-card .overlay .product-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 10px;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+.rest-card .overlay .product-price {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* JS 활성화 클래스 적용 스타일 */
+.rest-card.is-hovered .overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+.rest-card.is-hovered .img-wrap img {
+  transform: scale(1.05);
+}

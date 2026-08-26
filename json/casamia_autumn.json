@@ -1,0 +1,61 @@
+[{
+  "id": 9,
+  "name": "[브랜드위크]뉴로건 컴팩트 4인 리클라이너",
+  "description": "까사미아",
+  "price": "1,856,000",
+  "main_img": "img/sale/9.jpg",
+  "discount": 20,
+  "badge": "단독특가"
+},{
+  "id": 10,
+  "name": "[브랜드위크]모리 와이서랍장",
+  "description": "마테라소",
+  "price": "977,500",
+  "main_img": "img/sale/10.jpg",
+    "discount": 15,
+    "badge": "단독특가"
+},{
+  "id": 11,
+  "name": "[브랜드위크]그라나다 패브릭침대 Q(매트제외)",
+  "description": "마테라소",
+  "price": "952,000",
+  "main_img": "img/sale/11.jpg",
+    "discount": 20,
+    "badge": "단독특가"
+},{
+  "id": 12,
+  "name": "[브랜드위크]포레스트 아이리스 매트리스Q",
+  "description": "마테라소",
+  "price": "1,112,000",
+  "main_img": "img/sale/12.jpg",
+    "discount": 20,
+    "badge": "단독특가"
+},{
+  "id": 13,
+  "name": "포멜로 세라믹식탁 4인세트 160cm 브라운_가죽체어",
+  "description": "까사미아",
+  "price": "2,350,000",
+  "main_img": "img/sale/13.jpg"
+},{
+  "id": 14,
+  "name": "[모음딜]로네 소파 (옵션 택1)",
+  "description": "까사미아",
+  "price": "320,000",
+  "main_img": "img/sale/14.jpg"
+},{
+  "id": 15,
+  "name": "[자사몰 단독] 코랄 와플 슬리퍼 2p (옵션 택1)",
+  "description": "까사미아",
+  "price": "19,900",
+  "main_img": "img/sale/15.jpg",
+  "discount": 20,
+  "badge": "단독특가"
+},{
+  "id": 16,
+  "name": "[자사몰 단독]비안코 배쓰룸 세트 5p",
+  "description": "까사미아",
+  "price": "49,900",
+  "main_img": "img/sale/16.jpg",
+  "discount": 20,
+  "badge": "단독특가"
+}]

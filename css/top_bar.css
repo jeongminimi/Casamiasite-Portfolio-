@@ -1,0 +1,200 @@
+@charset "UTF-8";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif;
+  color: #222;
+}
+
+/* 헤더 기본 스타일 (베이지톤 배경) */
+.site-header {
+  position: relative;
+  width: 100%;
+  background-color: #f6f3ed;
+  border-bottom: 1px solid #ebe6dc;
+}
+
+/* 우측 상단 Guud 배지 */
+.top-badge-wrap {
+  position: absolute;
+  top: 0;
+  right: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  z-index: 50;
+}
+
+.guud-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #1a1a1a;
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 18px 8px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.badge-tooltip {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  background-color: #ff6022;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 3px;
+  margin-top: 6px;
+}
+
+.badge-tooltip .tooltip-close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* 헤더 컨테이너 */
+.header-inner {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 24px 30px 14px;
+}
+
+/* 1층 로고 & 우측 메뉴 */
+.header-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo a {
+  text-decoration: none;
+  color: #111;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.header-util {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+/* 밑줄 검색바 */
+.search-box {
+  display: flex;
+  align-items: center;
+  border-bottom: 1.5px solid #222;
+  padding-bottom: 3px;
+  width: 220px;
+}
+
+.search-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+  color: #222;
+}
+
+.search-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #222;
+  padding: 0 4px;
+}
+
+/* 유저 메뉴 아이콘 */
+.user-menu {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.user-menu a,
+.user-menu .btn-menu {
+  background: none;
+  border: none;
+  color: #222;
+  font-size: 19px;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+/* 2층 GNB 네비게이션 */
+.gnb-nav {
+  margin-top: 22px;
+}
+
+.gnb-list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.gnb-list li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.gnb-list li a:hover {
+  color: #ff6022;
+}
+
+.gnb-list .brand-week a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  font-weight: 700;
+}
+
+.brand-week .red-dot {
+  width: 4px;
+  height: 4px;
+  background-color: #e53e3e;
+  border-radius: 50%;
+  position: absolute;
+  top: -2px;
+  right: -6px;
+}
+
+.gnb-list .divider {
+  color: #ccc;
+  font-size: 12px;
+}
+
+.gnb-list .catalog a {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* 슬라이더 이미지 반응형 */
+#slider img {
+  width: 100%;
+  display: block;
+}

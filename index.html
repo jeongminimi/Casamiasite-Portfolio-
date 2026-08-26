@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>casamia_main</title>
+
+  <!-- ========================================== -->
+  <!-- 1. 외부 라이브러리 (Font Awesome 아이콘)   -->
+  <!-- ========================================== -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- ========================================== -->
+  <!-- 2. 외부 CSS 스타일시트 연결                 -->
+  <!-- ========================================== -->
+  <link rel="stylesheet" href="css/top_bar.css" />       <!-- 상단 헤더 & GNB 스타일 -->
+  <link rel="stylesheet" href="css/main.css" />          <!-- 공통 레이아웃 및 특가/기획전 슬라이더 스타일 -->
+  <link rel="stylesheet" href="css/best_section.css" />     <!-- 베스트 시리즈(3단 그리드) 스타일 -->
+  <link rel="stylesheet" href="css/slider2.css" />       <!-- 메인 중간 배너 슬라이더(slider2) 스타일 -->
+  <link rel="stylesheet" href="css/section2.css" />      <!-- 쉼을 채우는 시간 그리드 스타일 -->
+  <link rel="stylesheet" href="css/footer.css" />        <!-- 푸터 스타일 -->
+
+  <!-- ========================================== -->
+  <!-- 3. 메인 최상단 배너 슬라이더 전용 CSS       -->
+  <!-- ========================================== -->
+  <style>
+    #slider {
+      width: 100%;
+      min-height: 450px;
+      overflow: hidden;
+    }
+    #slider > img {
+      width: 100%;
+      min-height: 450px;
+      display: block;
+      object-fit: cover;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ========================================== -->
+  <!-- [헤더] 상단 유틸리티 배지, 로고, 검색, GNB  -->
+  <!-- ========================================== -->
+  <header class="site-header">
+    <!-- 우측 상단 Guud 배지 & 툴팁 -->
+    <div class="top-badge-wrap">
+      <a href="#" class="guud-badge">
+        <span class="guud-logo">Guud</span>
+        <i class="fa-solid fa-angle-right"></i>
+      </a>
+      <div class="badge-tooltip">
+        <span>입점 브랜드관</span>
+        <button type="button" class="tooltip-close" aria-label="닫기">×</button>
+      </div>
+    </div>
+
+    <div class="header-inner">
+      <!-- 1층: 로고 및 우측 검색/아이콘 메뉴 -->
+      <div class="header-main">
+        <h1 class="logo">
+          <a href="#">casamia</a>
+        </h1>
+
+        <div class="header-util">
+          <!-- 검색창 -->
+          <form class="search-box" id="searchForm">
+            <input type="text" class="search-input" placeholder="검색어를 입력해주세요" />
+            <button type="submit" class="search-btn" aria-label="검색">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </form>
+
+          <!-- 유저 메뉴 아이콘 -->
+          <ul class="user-menu">
+            <li><a href="#" aria-label="장바구니"><i class="fa-solid fa-bag-shopping"></i></a></li>
+            <li><a href="#" aria-label="마이페이지"><i class="fa-regular fa-user"></i></a></li>
+            <li>
+              <button type="button" class="btn-menu" aria-label="전체메뉴">
+                <i class="fa-solid fa-bars"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+<!-- ========================================== -->
+      <!-- top: 카테고리 네비게이션 (GNB) -->
+  <!-- ========================================== -->
+      <nav class="gnb-nav">
+        <ul class="gnb-list">
+          <li class="brand-week">
+            <a href="#">
+              <span class="bell-icon">🔔</span>브랜드위크
+              <span class="red-dot"></span>
+            </a>
+          </li>
+          <li><a href="#">거실가구</a></li>
+          <li><a href="#">침실가구</a></li>
+          <li><a href="#">주방가구</a></li>
+          <li><a href="#">수납가구</a></li>
+          <li><a href="#">서재가구</a></li>
+          <li><a href="#">유아/아동가구</a></li>
+          <li><a href="#">인테리어 소품</a></li>
+          <li class="divider" aria-hidden="true">|</li>
+          <li class="catalog"><a href="#">CATALOG</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
+  <!-- ========================================== -->
+  <!-- [1층] 메인 최상단 자동 롤링 배너 슬라이더   -->
+  <!-- ========================================== -->
+  <section id="slider">
+    <img id="bannerImg" src="img/slider/1.avif" alt="메인 배너" />
+  </section>
+
+
+  <br><br>
+
+
+  <!-- ========================================== -->
+  <!-- [2층] 카테고리 퀵메뉴 (quick_menu.js 렌더링) -->
+  <!-- ========================================== -->
+  <section class="quick-category-section">
+    <div class="quick-category-container">
+      <ul class="quick-category-list" id="quickCategoryList">
+        <!-- quick_menu.js를 통해 li 아이템이 동적으로 들어옵니다 -->
+      </ul>
+    </div>
+  </section>
+  <br><br>
+
+
+  <!-- ========================================== -->
+  <!-- [3층] BEST SERIES (3열 큐레이션 영역)      -->
+  <!-- ========================================== -->
+<section class="best-series-section">
+  <div class="best-series-container">
+    <h2 class="section-title">BEST SERIES</h2>
+
+    <!-- best_item.js가 best_section.json 데이터를 읽어와 렌더링합니다 -->
+    <div class="series-grid" id="seriesGrid"></div>
+  </div>
+</section>
+
+
+  <!-- ========================================== -->
+  <!-- [4층] 금주의 특가 (casamia_sale.js 렌더링)    -->
+  <!-- ========================================== -->
+  <section class="first-sell-category-section">
+    <div class="container">
+      <div class="week's_Special">
+        <h3 class="section-title">금주의 특가</h3>
+
+        <!-- 탭 카테고리 버튼 -->
+        <div class="category-tabs">
+          <button type="button" class="tab-btn active"># 까사미아</button>
+          <button type="button" class="tab-btn"># 가구</button>
+          <button type="button" class="tab-btn"># 패브릭</button>
+          <button type="button" class="tab-btn"># 주방</button>
+          <button type="button" class="tab-btn"># 생활/가전</button>
+          <button type="button" class="tab-btn"># 조명/홈데코</button>
+        </div>
+
+        <!-- 가로 일직선 스크롤/슬라이더 컨테이너 -->
+        <div class="slider-wrapper">
+          <div class="product-list"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br><br><br>
+
+
+  <!-- ========================================== -->
+  <!-- [5층] 슬라이더 2 (slider2.js 제어 영역)     -->
+  <!-- ========================================== -->
+  <section class="slider2-section">
+    <div class="slider-container">
+      <!-- 4단 이미지 레일 -->
+      <div class="slider-track" id="sliderTrack">
+        <div class="slide"><img src="img/slider2/1.avif" alt="배너 1" /></div>
+        <div class="slide"><img src="img/slider2/2.avif" alt="배너 2" /></div>
+        <div class="slide"><img src="img/slider2/3.avif" alt="배너 3" /></div>
+        <div class="slide"><img src="img/slider2/4.avif" alt="배너 4" /></div>
+      </div>
+
+      <!-- 하단 인디케이터 Dots -->
+      <div class="slider-dots" id="sliderDots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+  </section>
+  <br><br><br>
+
+
+  <!-- ========================================== -->
+  <!-- [6층] 처음 맞는 가을 (casamia_autumn.js 렌더링)-->
+  <!-- ========================================== -->
+  <section class="second-category-section">
+    <div class="container">
+      <div class="NewHome">
+        <h3 class="section2-title">처음 맞는 가을,신혼 우리 집</h3>
+
+        <!-- 가로 일직선 상품 리스트 컨테이너 -->
+        <div class="slider-wrapper">
+          <div class="product-list autumn-list"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br><br>
+
+
+  <!-- ========================================== -->
+  <!-- [7층] 쉼을 채우는 시간 (6개 카드 큐레이션)    -->
+  <!-- ========================================== -->
+  <section class="rest-time-section">
+    <div class="rest-time-container">
+      <h2 class="section-title">쉼을 채우는 시간</h2>
+
+      <div class="rest-grid" id="restGrid">
+        <div class="rest-item">
+          <a href="#" class="rest-card">
+            <div class="img-wrap">
+              <img src="img/section2/1.avif" alt="오라티오 디퓨저" />
+              <div class="overlay">
+                <span class="brand">까사미아</span>
+                <p class="product-name">오라티오 디퓨저 200ml</p>
+                <p class="product-price">39,000원</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="rest-item">
+          <a href="#" class="rest-card">
+            <div class="img-wrap">
+              <img src="img/section2/2.avif" alt="무드 단스탠드" />
+              <div class="overlay">
+                <span class="brand">까사미아</span>
+                <p class="product-name">루미에르 무드 단스탠드</p>
+                <p class="product-price">129,000원</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="rest-item">
+          <a href="#" class="rest-card">
+            <div class="img-wrap">
+              <img src="img/section2/3.avif" alt="볼륨 패브릭 침대" />
+              <div class="overlay">
+                <span class="brand">까사미아</span>
+                <p class="product-name">라르고 볼륨 패브릭 침대 Q</p>
+                <p class="product-price">1,490,000원</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="rest-item">
+          <a href="#" class="rest-card">
+            <div class="img-wrap">
+              <img src="img/section2/4.avif" alt="원목 접이식 트레이 테이블" />
+              <div class="overlay">
+                <span class="brand">까사미아</span>
+                <p class="product-name">모리 원목 접이식 트레이 테이블</p>
+                <p class="product-price">79,000원</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="rest-item">
+          <a href="#" class="rest-card">
+            <div class="img-wrap">
+              <img src="img/section2/5.avif" alt="부클레 라운드 3인 소파" />
+              <div class="overlay">
+                <span class="brand">까사미아</span>
+                <p class="product-name">아치 부클레 라운드 3인 소파</p>
+                <p class="product-price">1,890,000원</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="rest-item">
+          <a href="#" class="rest-card">
+            <div class="img-wrap">
+              <img src="img/section2/6.avif" alt="클래식 패턴 쿠션 커버" />
+              <div class="overlay">
+                <span class="brand">까사미아</span>
+                <p class="product-name">빈티지 투알 쿠션 커버 (50x50)</p>
+                <p class="product-price">25,000원</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================== -->
+  <!-- [푸터] 회사 정보, 고객센터, SNS 링크        -->
+  <!-- ========================================== -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <!-- 좌측 정보 -->
+      <div class="footer-left">
+        <div class="footer-logo">casamia</div>
+        <ul class="footer-policy-links">
+          <li><a href="#" class="highlight">개인정보처리방침</a></li>
+          <li><a href="#">서비스 이용약관</a></li>
+          <li><a href="#">영상정보처리기기 운영관리방침</a></li>
+          <li><a href="#">회사소개</a></li>
+          <li><a href="#">채용정보</a></li>
+        </ul>
+        <div class="footer-company-info">
+          <p>상호명 : (주)신세계까사 <span>|</span> 대표이사 : 김홍극 <span>|</span> 주소 : 서울시 중구 남대문시장10길2 메사빌딩 5-6층</p>
+          <p>사업자등록번호 : 120-81-11794 <span>|</span> 통신판매업 신고:2021-서울중구-1960 <span>|</span> 개인정보보호책임자 : 김찬후 <span>|</span> <a href="#" class="btn-verify">사업자 정보확인</a></p>
+          <p>호스팅제공자 : (주)신세계아이앤씨 <span>|</span> e-mail:guud@shinsegae.com</p>
+          <p class="desc-warning">일부 상품의 경우 (주)신세계까사는 통신판매의 당사자가 아닌 통신판매중개자로서, 입점 판매자가 등록한 상품 정보 및 거래에 대해 책임을 지지 않습니다.</p>
+        </div>
+        <div class="footer-escrow">
+          <span class="escrow-title">우리은행 채무지급보증 안내</span>
+          <button type="button" class="btn-escrow">서비스 가입사실 확인 <i class="fa-solid fa-play"></i></button>
+          <p>당사는 고객님이 현금 결제한 금액에 대해 우리은행과 채무지급 보증 계약을 체결하여 안전거래를 보장하고 있습니다.</p>
+        </div>
+        <p class="copyright">Copyright© SHINSEGAE CASA Co., Ltd. All rights reserved</p>
+        <div class="footer-isms">
+          <span class="isms-badge">ISMS</span>
+          <p>[인증범위] 온라인 쇼핑몰 운영 <span>|</span> [유효기간] 2026-05-17 ~ 2029-05-16</p>
+        </div>
+      </div>
+
+      <!-- 우측 고객센터 및 SNS -->
+      <div class="footer-right">
+        <div class="cs-wrap">
+          <span class="cs-label">고객센터</span>
+          <div class="cs-numbers">
+            <span class="cs-tel">1566-0228</span>
+            <span class="cs-tel">1588-3408</span>
+          </div>
+          <p class="cs-hours">평일 08:30~17:30 (주말 및 공휴일 휴무)</p>
+        </div>
+        <div class="cs-buttons">
+          <a href="#" class="btn-cs">까사미아몰 입점문의</a>
+          <a href="#" class="btn-cs">까사미아 대리점 개설안내</a>
+          <a href="#" class="btn-cs">마테라소 대리점 개설안내</a>
+        </div>
+        <div class="footer-sns">
+          <a href="#" aria-label="유튜브"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" aria-label="인스타그램"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ========================================================= -->
+  <!-- [자바스크립트 연결] DOM이 모두 로드된 후 안전하게 실행됩니다 -->
+  <!-- ========================================================= -->
+  <script src="js/top_bar.js"></script>         <!-- 상단 헤더/메뉴 인터랙션 -->
+  <script src="js/quick_menu.js"></script>      <!-- 퀵 카테고리 데이터 동적 렌더링 -->
+  <script src="js/best_section.js"></script>       <!-- 베스트 시리즈 기능 (필요시) -->
+  <script src="js/casamia_sale.js"></script>    <!-- 금주의 특가 상품 리스트 렌더링 -->
+  <script src="js/slider2.js"></script>         <!-- slider2 배너 전환 제어 -->
+  <script src="js/casamia_autumn.js"></script>  <!-- 가을/신혼 상품 리스트 렌더링 -->
+  <script src="js/section2.js"></script>        <!-- 쉼 섹션 제어 (필요시) -->
+
+  <!-- 최상단 메인 슬라이더 전용 롤링 스크립트 -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const banners = [
+        "img/slider/1.avif",
+        "img/slider/2.avif",
+        "img/slider/3.avif",
+        "img/slider/4.avif",
+        "img/slider/5.avif"
+      ];
+
+      const bannerImg = document.getElementById("bannerImg");
+      let index = 0;
+
+      // 3초 주기로 배너 자동 전환
+      setInterval(() => {
+        index = (index + 1) % banners.length;
+        if (bannerImg) {
+          bannerImg.src = banners[index];
+        }
+      }, 2000);
+    });
+  </script>
+
+</body>
+</html>

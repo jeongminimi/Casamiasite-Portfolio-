@@ -1,0 +1,119 @@
+[
+  {
+    "banner": {
+      "img": "img/main/01.avif",
+      "title": "RENO",
+      "desc": "모던한 기능성 스윙 소파"
+    },
+    "products": [
+      {
+        "badge": "단독특가",
+        "thumb": "img/main/sub1.avif",
+        "alt": "리노 헤드쿠션",
+        "brand": "까사미아",
+        "name": "[브랜드위크] 리노 헤드쿠션_아이보리",
+        "originalPrice": "45,000",
+        "discount": "20%",
+        "price": "36,000"
+      },
+      {
+        "badge": "단독특가",
+        "thumb": "img/main/sub4.avif",
+        "alt": "리노 스윙 3인소파",
+        "brand": "까사미아",
+        "name": "[브랜드위크] 리노 스윙 3인소파_아이보리",
+        "originalPrice": "1,450,000",
+        "discount": "20%",
+        "price": "1,160,000"
+      },
+      {
+        "badge": "단독특가",
+        "thumb": "img/main/sub7.avif",
+        "alt": "리노 스윙 4인소파",
+        "brand": "까사미아",
+        "name": "[브랜드위크] 리노 스윙 4인소파_아이보리",
+        "originalPrice": "1,990,000",
+        "discount": "20%",
+        "price": "1,592,000"
+      }
+    ]
+  },
+  {
+    "banner": {
+      "img": "img/main/02.avif",
+      "title": "CARNE",
+      "desc": "따뜻한 감성 다이닝"
+    },
+    "products": [
+      {
+        "badge": "단독특가",
+        "thumb": "img/main/sub2.avif",
+        "alt": "카르네 세라믹 원형식탁 2인 세트",
+        "brand": "까사미아",
+        "name": "[브랜드위크] 카르네 세라믹 원형식탁 2인 세트 1000 브라운_체어2EA (옵션 택1)",
+        "originalPrice": "1,550,000",
+        "discount": "30%",
+        "price": "1,085,000"
+      },
+      {
+        "badge": "단독특가",
+        "thumb": "img/main/sub5.avif",
+        "alt": "카르네 세라믹식탁 4인세트",
+        "brand": "까사미아",
+        "name": "[브랜드위크] 카르네 세라믹식탁 4인세트 1400 브라운_패브릭벤치1100 1EA, 패...",
+        "originalPrice": "1,960,000",
+        "discount": "30%",
+        "price": "1,372,000"
+      },
+      {
+        "badge": "단독특가",
+        "thumb": "img/main/sub8.avif",
+        "alt": "카르네 세라믹 타원형식탁 6인세트",
+        "brand": "까사미아",
+        "name": "[브랜드위크] 카르네 세라믹 타원형식탁 6인세트 1800 브라운_체어6EA (옵션 택1)",
+        "originalPrice": "2,740,000",
+        "discount": "30%",
+        "price": "1,918,000"
+      }
+    ]
+  },
+  {
+    "banner": {
+      "img": "img/main/03.avif",
+      "title": "CAMPO FAMILY BED",
+      "desc": "우리 가족의 첫 번째 패밀리침대"
+    },
+    "products": [
+      {
+        "badge": "단독특가",
+        "thumb": "img/main/sub3.avif",
+        "alt": "캄포 패밀리침대 가드형 SS",
+        "brand": "까사미아",
+        "name": "[브랜드위크] 캄포 패밀리침대 가드형 SS (매트제외)",
+        "originalPrice": "1,088,000",
+        "discount": "20%",
+        "price": "870,400"
+      },
+      {
+        "badge": "단독특가",
+        "thumb": "img/main/sub6.avif",
+        "alt": "캄포 패밀리침대 우드형 다릿발 Q",
+        "brand": "까사미아",
+        "name": "[브랜드위크] 캄포 패밀리침대 우드형 다릿발 Q (매트제외)",
+        "originalPrice": "995,000",
+        "discount": "20%",
+        "price": "796,000"
+      },
+      {
+        "badge": "단독특가",
+        "thumb": "img/main/sub9.avif",
+        "alt": "캄포 패밀리침대 풀가드형 Q+SS",
+        "brand": "까사미아",
+        "name": "[브랜드위크] 캄포 패밀리침대 풀가드형 Q+SS (매트제외)",
+        "originalPrice": "2,634,000",
+        "discount": "20%",
+        "price": "2,107,200"
+      }
+    ]
+  }
+]

@@ -1,0 +1,62 @@
+[{
+  "id": 1,
+  "name": "모드 1인 소파베드_아이보리",
+  "description": "까사미아",
+  "price": 262650,
+  "main_img": "img/sale/1.jpg",
+  "discount": 15
+},{
+  "id": 2,
+  "name": "[모음딜]까사미아 브로도 식탁&체어(옵션 택1)",
+  "description": "까사미아",
+  "price": 136500,
+  "main_img": "img/sale/2.jpg",
+  "discount": 30,
+  "badge": "단독특가"
+},{
+  "id": 3,
+  "name": "[브랜드위크]뉴하이브 4인소파_라이트그레이",
+  "description": "까사미아",
+  "price": 2128000,
+  "main_img": "img/sale/3.jpg",
+  "discount": 20,
+  "badge": "단독특가"
+},{
+  "id": 4,
+  "name": "[모음딜]캄포미니 플러스 소파 모음(옵션 택1)",
+  "description": "까시미아",
+  "price": 432000,
+  "main_img": "img/sale/4.jpg",
+  "discount": 20,
+  "badge": "단독특가"
+},{
+  "id": 5,
+  "name": "[모음딜]마테라소 포레스트 친환경 매트릭스",
+  "description": "마테라소",
+  "price": 552000,
+  "main_img": "img/sale/5.jpg",
+  "discount": 20,
+    "badge": "단독특가"
+},{
+  "id": 6,
+  "name": "[브랜드위크]뉴로건 컴팩트 3인 리클라이너",
+  "description": "까사미아",
+  "price": 1480000,
+  "main_img": "img/sale/6.jpg",
+  "discount": 20,
+    "badge": "단독특가"
+},{
+  "id": 7,
+  "name": "[자사몰 단독]까르따 페이퍼라탄 바스켓 세트 3p",
+  "description": "까사미아",
+  "price": 62730,
+  "main_img": "img/sale/7.jpg",
+  "discount": 10
+},{
+  "id": 8,
+  "name": "[자사몰 단독]뜨왈드쟈뎅 모달100 차렵이불",
+  "description": "까사미아",
+  "price": 275400,
+  "main_img": "img/sale/8.jpg",
+  "discount": 10
+}]

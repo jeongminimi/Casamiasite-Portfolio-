@@ -1,0 +1,181 @@
+@charset "UTF-8";
+
+.detail-container {
+  max-width: 860px;
+  margin: 40px auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+/* 1. 상단 탭 메뉴 */
+.detail-tabs {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 40px;
+}
+
+.tab-item {
+  flex: 1;
+  padding: 14px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-item.active {
+  color: #000;
+  font-weight: bold;
+  border-bottom: 3px solid #000;
+}
+
+/* 2. 상세정보 섹션 및 2x2 그리드 */
+.section-title {
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 24px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-top: 1px solid #e5e5e5;
+  border-left: 1px solid #e5e5e5;
+}
+
+/* 상품 카드 프레임 */
+.product-card {
+  padding: 24px 20px;
+  border-right: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+}
+
+/* 3. 이미지 박스 & 돋보기 오버레이 */
+.card-img-box {
+  position: relative; /* 돋보기 뱃지의 기준 위치 */
+  width: 100%;
+  height: 280px;
+  background-color: #f7f7f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.card-img-box img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* 원형 돋보기 뱃지 (기본 숨김) */
+.zoom-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.85);
+  width: 90px;
+  height: 90px;
+  background-color: rgba(255, 255, 255, 0.92);
+  border: 1px solid #222;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 10;
+}
+
+.zoom-badge .zoom-icon {
+  stroke: #222;
+  display: block;
+}
+
+.zoom-badge span {
+  font-size: 11px;
+  font-weight: 600;
+  color: #222;
+  letter-spacing: -0.3px;
+}
+
+/* 마우스 올렸을 때 돋보기 표시 */
+.product-card.interactive:hover .zoom-badge,
+.product-card.interactive.is-hovered .zoom-badge {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* 4. 상품 정보 텍스트 */
+.card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.badge {
+  align-self: flex-start;
+  background-color: #000;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 12px;
+  margin-bottom: 2px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  line-height: 1.3;
+}
+
+.brand {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.discount {
+  color: #ff3838;
+}
+
+.price {
+  color: #000;
+}
+
+/* 4번째 빈 카드 (워터마크) */
+.empty-card {
+  align-items: center;
+  justify-content: center;
+  min-height: 380px;
+}
+
+.logo-watermark {
+  font-size: 32px;
+  font-weight: 800;
+  color: #d8dde3;
+  user-select: none;
+  letter-spacing: -0.5px;
+}
