@@ -8,6 +8,7 @@ from app.api.chat import router as chat_router
 from app.api.health import router as health_router
 from app.api.products import router as products_router
 from app.api.users import router as users_router
+from app.api.vision import router as vision_router
 from app.core.config import settings
 
 
@@ -26,3 +27,4 @@ app.include_router(admin_router, prefix=settings.api_v1_prefix)
 app.include_router(products_router, prefix=settings.api_v1_prefix)
 app.include_router(admin_products_router, prefix=settings.api_v1_prefix)
 app.include_router(chat_router, prefix=settings.api_v1_prefix)
+app.include_router(vision_router, prefix=settings.api_v1_prefix)

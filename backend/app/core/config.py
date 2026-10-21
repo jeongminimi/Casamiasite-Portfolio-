@@ -45,6 +45,16 @@ class Settings:
     )
     openai_embedding_dimensions: int = 1536
     rag_top_k: int = int(os.getenv("RAG_TOP_K", "5"))
+    yolo_model: str = os.getenv("YOLO_MODEL", "yolo11n.pt")
+    vision_confidence_threshold: float = float(
+        os.getenv("VISION_CONFIDENCE_THRESHOLD", "0.35")
+    )
+    vision_max_upload_bytes: int = int(
+        os.getenv("VISION_MAX_UPLOAD_BYTES", str(10 * 1024 * 1024))
+    )
+    vision_max_image_pixels: int = int(
+        os.getenv("VISION_MAX_IMAGE_PIXELS", "25000000")
+    )
     cors_origins: list[str] = field(
         default_factory=lambda: _parse_cors_origins(
             os.getenv(
