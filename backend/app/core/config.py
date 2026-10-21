@@ -35,6 +35,16 @@ class Settings:
     jwt_access_token_expire_minutes: int = int(
         os.getenv("JWT_ACCESS_TOKEN_EXPIRE_MINUTES", "60")
     )
+    openai_api_key: str = field(
+        default_factory=lambda: os.getenv("OPENAI_API_KEY", ""),
+        repr=False,
+    )
+    openai_chat_model: str = os.getenv("OPENAI_CHAT_MODEL", "gpt-5-mini")
+    openai_embedding_model: str = os.getenv(
+        "OPENAI_EMBEDDING_MODEL", "text-embedding-3-small"
+    )
+    openai_embedding_dimensions: int = 1536
+    rag_top_k: int = int(os.getenv("RAG_TOP_K", "5"))
     cors_origins: list[str] = field(
         default_factory=lambda: _parse_cors_origins(
             os.getenv(

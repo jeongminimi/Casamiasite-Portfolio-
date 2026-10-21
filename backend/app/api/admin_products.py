@@ -13,6 +13,11 @@ from app.schemas.product import (
     ProductResponse,
     ProductUpdate,
 )
+from app.services.rag import (
+    RagConfigurationError,
+    RagIndexService,
+    RagProviderError,
+)
 
 
 router = APIRouter(
@@ -20,12 +25,25 @@ router = APIRouter(
     tags=["admin-products"],
     dependencies=[Depends(require_admin)],
 )
+_rag_index_service = RagIndexService()
 
 
 def _conflict_exception() -> HTTPException:
     return HTTPException(
         status_code=status.HTTP_409_CONFLICT,
         detail="Product id, product URL, or official product code already exists",
+    )
+
+
+def _rag_exception(exc: Exception) -> HTTPException:
+    if isinstance(exc, RagConfigurationError):
+        return HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=str(exc),
+        )
+    return HTTPException(
+        status_code=status.HTTP_502_BAD_GATEWAY,
+        detail="Product was not saved because RAG indexing failed",
     )
 
 
@@ -40,10 +58,15 @@ def create_product(
     product = Product(**request.model_dump())
     db.add(product)
     try:
+        db.flush()
+        _rag_index_service.sync_product(db, product)
         db.commit()
     except IntegrityError:
         db.rollback()
         raise _conflict_exception() from None
+    except (RagConfigurationError, RagProviderError) as exc:
+        db.rollback()
+        raise _rag_exception(exc) from None
     db.refresh(product)
     return product
 
@@ -65,10 +88,15 @@ def update_product(
         setattr(product, field, value)
 
     try:
+        db.flush()
+        _rag_index_service.sync_product(db, product)
         db.commit()
     except IntegrityError:
         db.rollback()
         raise _conflict_exception() from None
+    except (RagConfigurationError, RagProviderError) as exc:
+        db.rollback()
+        raise _rag_exception(exc) from None
     db.refresh(product)
     return product
 
@@ -85,6 +113,11 @@ def delete_product(
             detail="Product not found",
         )
 
-    db.delete(product)
-    db.commit()
+    try:
+        _rag_index_service.delete_product(db, product_id)
+        db.delete(product)
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
     return ProductDeleteResponse(status="ok", deleted_id=product_id)
