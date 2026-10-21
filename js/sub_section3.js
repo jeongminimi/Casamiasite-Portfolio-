@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
       totalPages = Math.ceil(items.length / itemsPerPage);
       renderRecommendCards(items);
       renderDots(totalPages);
-      initHeartEvents();
+      Shop.sync();
       initSwipeEvents();
     })
     .catch((err) => console.error(err));
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   ${discountHtml}
                   <span class="rec-price">${item.price}</span>
                 </div>
-                <button class="rec-heart-btn" aria-label="찜하기">♥</button>
+                <button type="button" class="rec-heart-btn" aria-label="찜하기" ${Shop.wishAttributes({ id: "recommend-" + item.id, name: item.name, price: item.price, image: item.image, brand: item.brand })}>♥</button>
               </div>
             </div>
           </div>
@@ -107,14 +107,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 4. 개별 하트 찜 토글
-  function initHeartEvents() {
-    const heartBtns = document.querySelectorAll(".rec-heart-btn");
-    heartBtns.forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        btn.classList.toggle("liked");
-      });
-    });
-  }
 });

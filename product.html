@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>상품 상세 | casamia</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/top_bar.css" />
+  <link rel="stylesheet" href="css/product.css" />
+  <link rel="stylesheet" href="css/shop.css" />
+  <link rel="stylesheet" href="css/sub_section3.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="top-badge-wrap"><a href="#" class="guud-badge"><span class="guud-logo">Guud</span><i class="fa-solid fa-angle-right"></i></a><div class="badge-tooltip"><span>입점 브랜드관</span><button type="button" class="tooltip-close" aria-label="닫기">×</button></div></div>
+    <div class="header-inner"><div class="header-main"><h1 class="logo"><a href="index.html">casamia</a></h1><div class="header-util">
+      <form class="search-box" id="searchForm"><input type="text" class="search-input" placeholder="검색어를 입력해주세요" /><button type="submit" class="search-btn" aria-label="검색"><i class="fa-solid fa-magnifying-glass"></i></button></form>
+      <ul class="user-menu"><li><a href="#" data-shop-open="wishes" aria-label="찜 목록"><i class="fa-regular fa-heart" aria-hidden="true"></i><span class="shop-count" data-shop-count="wishes" hidden></span></a></li><li><a href="#" data-shop-open="cart" aria-label="장바구니"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i><span class="shop-count" data-shop-count="cart" hidden></span></a></li><li><a href="mypage.html" data-account-link aria-label="마이페이지"><i class="fa-regular fa-user"></i></a></li><li><button type="button" class="btn-menu" aria-label="전체메뉴"><i class="fa-solid fa-bars"></i></button></li></ul>
+    </div></div><nav class="gnb-nav"><ul class="gnb-list"><li class="brand-week"><a href="#"><span class="bell-icon">🔔</span>브랜드위크<span class="red-dot"></span></a></li><li><a href="#">거실가구</a></li><li><a href="#">침실가구</a></li><li><a href="#">주방가구</a></li><li><a href="#">수납가구</a></li><li><a href="#">서재가구</a></li><li><a href="#">유아/아동가구</a></li><li><a href="#">인테리어 소품</a></li><li class="divider" aria-hidden="true">|</li><li class="catalog"><a href="search.html">CATALOG</a></li></ul></nav></div>
+  </header>
+  <main class="product-main">
+    <div id="productState" class="product-state" role="status">상품 정보를 불러오는 중입니다.</div>
+    <article id="productDetail" hidden>
+      <p class="product-breadcrumb"><a href="index.html">홈</a> &gt; <span id="productCategoryCrumb">가구</span> &gt; 상품 상세</p>
+      <section class="product-layout" aria-label="상품 구매 정보">
+        <div class="gallery-column"><div class="product-image-wrap"><div class="gallery-brand-badge" aria-hidden="true">브랜드<br>위크</div><button class="gallery-arrow previous" id="galleryPrev" type="button" aria-label="이전 사진">‹</button><img id="productImage" alt="" /><button class="gallery-arrow next" id="galleryNext" type="button" aria-label="다음 사진">›</button></div><div id="productThumbnails" class="product-thumbnails" aria-label="상품 사진 선택"></div></div>
+        <section class="product-copy" aria-labelledby="productName">
+          <p id="productBrand" class="product-brand"></p><h1 id="productName"></h1>
+          <div class="price-row"><div class="price-stack"><p id="originalPrice" class="original-price"></p><p id="productPrice" class="product-price"></p><p id="priceDeal" class="price-deal"></p><p id="productRating" class="product-rating"></p></div><button id="wishProduct" class="product-wish" type="button" aria-label="찜하기">♡ 찜 상품</button></div>
+          <p id="priceNotice" class="product-price-notice"></p>
+          <div class="benefits"><p><span>상품정보</span> 카탈로그에 등록된 정보를 표시합니다.</p><p><span>배송정보</span> 배송 정보는 등록되어 있지 않습니다.</p></div>
+          <div class="option-area"><label for="productOption">상품선택</label><select id="productOption"><option value="">상품 옵션을 선택해 주세요</option><option value="default">기본 상품</option></select><label for="productQuantity">수량</label><input id="productQuantity" type="number" min="1" max="99" value="1" /></div>
+          <div class="total-row"><span>총 상품금액</span><strong id="totalPrice">0원</strong></div>
+          <div class="purchase-actions"><button id="addToCart" class="cart-button" type="button">장바구니 담기</button><button id="viewCart" class="buy-button" type="button">장바구니 보기</button></div>
+          <p id="priceFootnote" class="sample-note">예시 가격이며 실시간 판매가가 아닙니다.</p>
+        </section>
+      </section>
+      <nav class="detail-tabs" aria-label="상품 상세 메뉴"><a href="#detailInfo" class="active">상품정보</a><a href="#purchaseInfo">구매정보</a><a href="#reviewInfo">상품리뷰</a><a href="#qnaInfo">Q&amp;A</a></nav>
+      <section id="detailInfo" class="detail-section"><h2>상세정보</h2><div class="detail-content"><img id="detailImage" alt="" /><div class="detail-facts"><h3 id="detailTitle"></h3><dl id="productFacts"></dl><p id="productDescription"></p><p id="productCaveat" class="product-caveat" hidden></p><p id="sourceNote" class="product-source"></p></div></div><div id="officialAddons" class="official-addons" hidden><h3>추가 구성 상품</h3><div id="officialAddonsList" class="official-addons-list"></div></div><section class="sub_section3 product-recommendations"><div class="recommend-header"><h2 class="recommend-title">이런 상품은 어떠세요?</h2><span class="ai-badge"><svg class="robot-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.38-1 1.72V7h4a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-8a3 3 0 0 1 3-3h4V5.72c-.6-.34-1-.98-1-1.72a2 2 0 0 1 2-2M7.5 13a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m9 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3"/></svg>AI 추천</span></div><div class="slider-viewport" id="sliderViewport"><div class="slider-track" id="recommendGrid"></div></div><div class="pagination-dots" id="paginationDots"></div></section></section>
+      <section id="purchaseInfo" class="text-section"><h2>구매정보</h2><p>이 포트폴리오에서는 실제 주문이나 결제가 진행되지 않습니다. 장바구니 동작을 시연할 수 있습니다.</p></section>
+      <section id="reviewInfo" class="text-section"><h2>상품리뷰</h2><p>아직 등록된 리뷰가 없습니다.</p></section>
+      <section id="qnaInfo" class="text-section"><h2>Q&amp;A</h2><p>등록된 상품 문의가 없습니다.</p></section>
+    </article>
+  </main>
+  <script src="js/top_bar.js"></script>
+  <script src="js/shop.js"></script>
+  <script src="js/sub_section3.js"></script>
+  <script src="js/account.js"></script>
+  <script src="js/product.js"></script>
+</body>
+</html>

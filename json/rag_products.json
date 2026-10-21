@@ -1,0 +1,403 @@
+{
+  "schemaVersion": 1,
+  "catalogName": "Casamia portfolio recommendation sample",
+  "priceNotice": "포트폴리오 화면에 사용 중인 예시 가격입니다. 실시간 판매가가 아닙니다.",
+  "products": [
+    {
+      "id": "reno-sofa-3-ivory",
+      "name": "리노 스윙 3인소파_아이보리",
+      "brand": "까사미아",
+      "category": "소파",
+      "priceKrw": 1160000,
+      "image": "img/sub/main1.avif",
+      "productUrl": "sub.html?product=reno-3",
+      "attributes": {
+        "seatCount": 3,
+        "color": "아이보리",
+        "material": null,
+        "widthCm": null,
+        "depthCm": null,
+        "heightCm": null,
+        "style": [],
+        "room": [
+          "거실"
+        ]
+      },
+      "description": null,
+      "ragEnabled": true,
+      "missingFields": [
+        "material",
+        "widthCm",
+        "depthCm",
+        "heightCm",
+        "style",
+        "description"
+      ],
+      "source": {
+        "file": "json/sub_section1.json",
+        "pointer": "/0",
+        "evidence": "상품명, 브랜드, 표시 가격, 이미지"
+      }
+    },
+    {
+      "id": "reno-sofa-4-ivory",
+      "name": "리노 스윙 4인소파_아이보리",
+      "brand": "까사미아",
+      "category": "소파",
+      "priceKrw": 1592000,
+      "image": "img/sub/main2.avif",
+      "productUrl": "sub.html?product=reno-4",
+      "attributes": {
+        "seatCount": 4,
+        "color": "아이보리",
+        "material": null,
+        "widthCm": null,
+        "depthCm": null,
+        "heightCm": null,
+        "style": [],
+        "room": [
+          "거실"
+        ]
+      },
+      "description": null,
+      "ragEnabled": true,
+      "missingFields": [
+        "material",
+        "widthCm",
+        "depthCm",
+        "heightCm",
+        "style",
+        "description"
+      ],
+      "source": {
+        "file": "json/sub_section1.json",
+        "pointer": "/1",
+        "evidence": "상품명, 브랜드, 표시 가격, 이미지"
+      }
+    },
+    {
+      "id": "reno-head-cushion-ivory",
+      "name": "리노 헤드쿠션_아이보리",
+      "brand": "까사미아",
+      "category": "쿠션",
+      "priceKrw": 36000,
+      "image": "img/sub/main4.avif",
+      "productUrl": "sub.html?product=reno-cushion",
+      "attributes": {
+        "seatCount": null,
+        "color": "아이보리",
+        "material": null,
+        "widthCm": null,
+        "depthCm": null,
+        "heightCm": null,
+        "style": [],
+        "room": [
+          "거실"
+        ]
+      },
+      "description": null,
+      "ragEnabled": true,
+      "missingFields": [
+        "material",
+        "widthCm",
+        "depthCm",
+        "heightCm",
+        "style",
+        "description"
+      ],
+      "source": {
+        "file": "json/sub_section1.json",
+        "pointer": "/2",
+        "evidence": "상품명, 브랜드, 표시 가격, 이미지"
+      }
+    },
+    {
+      "id": "carne-dining-set-2-brown-100",
+      "name": "카르네 세라믹 원형식탁 2인 세트 1000 브라운_체어2EA (옵션 택1)",
+      "brand": "까사미아",
+      "category": "식탁",
+      "priceKrw": 1085000,
+      "image": "img/main/sub2.avif",
+      "productUrl": "product.html?id=carne-dining-set-2-brown-100",
+      "attributes": {
+        "seatCount": 2,
+        "color": "브라운",
+        "material": "세라믹",
+        "widthCm": 100,
+        "depthCm": null,
+        "heightCm": null,
+        "style": [],
+        "room": [
+          "다이닝"
+        ]
+      },
+      "description": null,
+      "ragEnabled": true,
+      "missingFields": [
+        "depthCm",
+        "heightCm",
+        "style",
+        "description"
+      ],
+      "source": {
+        "file": "json/best_section.json",
+        "pointer": "/1/products/0",
+        "evidence": "상품명, 브랜드, 표시 가격, 이미지"
+      }
+    },
+    {
+      "id": "carne-dining-set-4-brown-140",
+      "name": "[브랜드위크] 카르네 세라믹식탁 4인세트 1400 브라운_패브릭벤치1100 1EA, 패...",
+      "brand": "까사미아",
+      "category": "식탁",
+      "priceKrw": 1372000,
+      "image": "img/main/sub5.avif",
+      "productUrl": "product.html?id=carne-dining-set-4-brown-140",
+      "attributes": {
+        "seatCount": 4,
+        "color": "브라운",
+        "material": "세라믹",
+        "widthCm": 140,
+        "depthCm": null,
+        "heightCm": null,
+        "style": [],
+        "room": [
+          "다이닝"
+        ]
+      },
+      "description": null,
+      "ragEnabled": false,
+      "missingFields": [
+        "verifiedFullName",
+        "depthCm",
+        "heightCm",
+        "style",
+        "description"
+      ],
+      "source": {
+        "file": "json/best_section.json",
+        "pointer": "/1/products/1",
+        "evidence": "상품명 일부가 원본 데이터에서 생략되어 있음"
+      }
+    },
+    {
+      "id": "carne-dining-set-6-brown-180",
+      "name": "카르네 세라믹 타원형식탁 6인세트 1800 브라운_체어6EA (옵션 택1)",
+      "brand": "까사미아",
+      "category": "식탁",
+      "priceKrw": 1918000,
+      "originalPriceKrw": 2740000,
+      "discountRate": 30,
+      "rating": 4.6,
+      "reviewCount": 31,
+      "officialProductCode": "122648",
+      "officialCheckedAt": "2026-10-21",
+      "officialProductUrl": "https://www.guud.com/shop/goodsView?itemId=122648",
+      "image": "img/sub_section2/5.png",
+      "productUrl": "product.html?id=carne-dining-set-6-brown-180",
+      "attributes": {
+        "seatCount": 6,
+        "color": "브라운",
+        "material": "세라믹",
+        "widthCm": 180,
+        "depthCm": null,
+        "heightCm": null,
+        "style": [],
+        "room": [
+          "다이닝"
+        ]
+      },
+      "description": null,
+      "ragEnabled": true,
+      "missingFields": [
+        "depthCm",
+        "heightCm",
+        "style",
+        "description"
+      ],
+      "source": {
+        "file": "json/best_section.json",
+        "pointer": "/1/products/2",
+        "evidence": "상품명, 브랜드, 표시 가격, 이미지"
+      },
+      "galleryImages": [
+        {
+          "src": "img/sub_section2/5.png",
+          "alt": "??? 6? ?? ?? ?? ??"
+        },
+        {
+          "src": "img/sub_section2/2.png",
+          "alt": "??? ??? ?? ??"
+        },
+        {
+          "src": "img/sub_section2/1.png",
+          "alt": "??? ?? ?? ??"
+        },
+        {
+          "src": "img/sub_section2/3.png",
+          "alt": "??? ??? ?? ???"
+        },
+        {
+          "src": "img/sub_section2/4.png",
+          "alt": "??? ?? ?? ?? ??"
+        }
+      ]
+    },
+    {
+      "id": "campo-family-bed-guard-ss",
+      "name": "캄포 패밀리침대 가드형 SS (매트제외)",
+      "brand": "까사미아",
+      "category": "침대",
+      "priceKrw": 816000,
+      "image": "img/main/sub3.avif",
+      "productUrl": "product.html?id=campo-family-bed-guard-ss",
+      "attributes": {
+        "seatCount": null,
+        "color": null,
+        "material": null,
+        "widthCm": null,
+        "depthCm": null,
+        "heightCm": null,
+        "bedSize": [
+          "SS"
+        ],
+        "mattressIncluded": false,
+        "style": [],
+        "room": [
+          "침실"
+        ]
+      },
+        "description": "캄포 패밀리침대 가드형 SS입니다. 매트리스는 별도 구매 상품입니다. 공식 상품 화면에서 확인되는 상품코드는 269449입니다.",
+      "ragEnabled": true,
+      "missingFields": [
+        "color",
+        "material",
+        "widthCm",
+        "depthCm",
+        "heightCm",
+        "style"
+      ],
+      "source": {
+        "file": "https://www.guud.com/shop/goodsView?itemId=269449",
+          "pointer": "상품코드, 상품명, 표시 가격/할인율, 평점/리뷰/Q&A 수, 혜택, 추가 구성 상품",
+          "evidence": "Guud 공식 상품 페이지 화면 확인"
+      },
+      "originalPriceKrw": 1088000,
+      "discountRate": 25,
+      "officialProductCode": "269449",
+      "officialCheckedAt": "2026-10-21",
+      "officialProductUrl": "https://www.guud.com/shop/goodsView?itemId=269449",
+      "rating": 5,
+      "reviewCount": 16,
+      "qnaCount": 6,
+      "officialBenefits": [
+          "최대 12개월 무이자 할부",
+          "GuudPay 즉시할인 최대 8만원",
+          "배송일 지정 상품 무료",
+          "첫구매 까사미아 5% 쿠폰",
+          "신한/삼성 캐시백 최대 25만원"
+      ],
+      "officialAddons": [
+        {
+            "name": "캄포 패밀리침대 가드 216cm",
+          "priceKrw": 292500
+        },
+        {
+            "name": "캄포 패밀리침대 가드/풋보드 120cm",
+          "priceKrw": 180000
+        },
+        {
+            "name": "캄포 패밀리침대 쿠션",
+          "priceKrw": 56250
+        },
+        {
+            "name": "캄포 패밀리침대 풋보드 160cm",
+          "priceKrw": 217500
+        }
+      ]
+    },
+    {
+      "id": "campo-family-bed-wood-q",
+      "name": "캄포 패밀리침대 우드형 다릿발 Q (매트제외)",
+      "brand": "까사미아",
+      "category": "침대",
+      "priceKrw": 796000,
+      "image": "img/main/sub6.avif",
+      "productUrl": "product.html?id=campo-family-bed-wood-q",
+      "attributes": {
+        "seatCount": null,
+        "color": null,
+        "material": null,
+        "widthCm": null,
+        "depthCm": null,
+        "heightCm": null,
+        "bedSize": [
+          "Q"
+        ],
+        "mattressIncluded": false,
+        "style": [],
+        "room": [
+          "침실"
+        ]
+      },
+      "description": null,
+      "ragEnabled": true,
+      "missingFields": [
+        "color",
+        "material",
+        "widthCm",
+        "depthCm",
+        "heightCm",
+        "style",
+        "description"
+      ],
+      "source": {
+        "file": "json/best_section.json",
+        "pointer": "/2/products/1",
+        "evidence": "상품명, 브랜드, 표시 가격, 이미지"
+      }
+    },
+    {
+      "id": "campo-family-bed-full-guard-q-ss",
+      "name": "캄포 패밀리침대 풀가드형 Q+SS (매트제외)",
+      "brand": "까사미아",
+      "category": "침대",
+      "priceKrw": 2107200,
+      "image": "img/main/sub9.avif",
+      "productUrl": "product.html?id=campo-family-bed-full-guard-q-ss",
+      "attributes": {
+        "seatCount": null,
+        "color": null,
+        "material": null,
+        "widthCm": null,
+        "depthCm": null,
+        "heightCm": null,
+        "bedSize": [
+          "Q",
+          "SS"
+        ],
+        "mattressIncluded": false,
+        "style": [],
+        "room": [
+          "침실"
+        ]
+      },
+      "description": null,
+      "ragEnabled": true,
+      "missingFields": [
+        "color",
+        "material",
+        "widthCm",
+        "depthCm",
+        "heightCm",
+        "style",
+        "description"
+      ],
+      "source": {
+        "file": "json/best_section.json",
+        "pointer": "/2/products/2",
+        "evidence": "상품명, 브랜드, 표시 가격, 이미지"
+      }
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+/* 찜 목록과 장바구니 공통 UI */
+[hidden] { display: none !important; }
+.user-menu [data-shop-open] { gap: 5px; }
+.shop-count { min-width: 17px; height: 17px; padding: 0 4px; border-radius: 12px; background: #b45236; color: #fff; font-size: 10px; display: inline-flex; align-items: center; justify-content: center; }
+.wish-btn.is-saved, .mini-product-item .wish-btn.is-saved, .rec-heart-btn.is-saved { color: #c14b45; }
+.wish-btn.is-saved .heart-icon { color: #c14b45; }
+.wish-btn.is-saved svg { fill: #c14b45; stroke: #c14b45; }
+.shop-dialog { position: fixed; inset: 0; margin: auto; width: min(680px, calc(100% - 32px)); max-height: min(85dvh, 850px); border: 1px solid #e7e0d6; border-radius: 12px; padding: 28px; background: #fffdfa; color: #292621; box-shadow: 0 20px 80px #0003; overflow-y: auto; }
+.shop-dialog::backdrop { background: #18140f80; }
+.shop-dialog button, .shop-dialog input { font: inherit; }
+.shop-dialog button { cursor: pointer; border: 1px solid #ded7ce; background: transparent; color: inherit; border-radius: 4px; padding: 9px 14px; }
+.shop-dialog button:disabled { opacity: .35; cursor: default; }
+.shop-dialog :focus-visible, [data-shop-open]:focus-visible, [data-wish-id]:focus-visible { outline: 2px solid #a34c32; outline-offset: 3px; }
+.shop-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.shop-heading h2 { font-size: 25px; }
+.shop-dialog .shop-close { border: 0; font-size: 28px; padding: 0 8px; }
+.shop-tabs { display: flex; gap: 8px; margin: 24px 0 12px; }
+.shop-tabs button { flex: 1; }
+.shop-tabs button[aria-pressed="true"] { background: #302b25; border-color: #302b25; color: white; }
+.shop-note { font-size: 12px; line-height: 1.7; color: #777066; }
+.shop-row { display: flex; gap: 16px; padding: 22px 0; border-bottom: 1px solid #e9e3db; }
+.shop-row > img { width: 96px; height: 96px; object-fit: cover; border-radius: 4px; background: #f0ece5; }
+.shop-row-info { flex: 1; min-width: 0; }
+.shop-row-info h3 { font-size: 14px; line-height: 1.5; margin: 3px 0 8px; word-break: keep-all; }
+.shop-row-info p { font-size: 14px; }
+.shop-row-info .shop-brand, .shop-row-info .shop-option { font-size: 12px; color: #777066; margin-bottom: 6px; }
+.shop-row-end { display: flex; align-items: flex-end; justify-content: space-between; flex-direction: column; gap: 15px; white-space: nowrap; font-size: 14px; }
+.shop-dialog .shop-remove { border: 0; padding: 0; color: #777066; font-size: 12px; text-decoration: underline; }
+.shop-quantity { display: inline-flex; align-items: center; margin-top: 12px; }
+.shop-quantity input { width: 48px; height: 32px; text-align: center; border: 1px solid #ded7ce; border-left: 0; border-right: 0; border-radius: 0; background: white; appearance: textfield; }
+.shop-quantity input::-webkit-inner-spin-button { appearance: none; }
+.shop-dialog .shop-quantity button { width: 32px; height: 32px; padding: 0; }
+.shop-detail-link { display: inline-block; margin-top: 12px; font-size: 12px; text-decoration: underline; }
+.shop-total { display: flex; justify-content: space-between; align-items: center; padding: 24px 0 12px; gap: 12px; }
+.shop-total strong { font-size: 24px; }
+.shop-checkout { display: block; margin-top: 18px; padding: 14px 20px; border-radius: 4px; background: #302b25; color: #fff; text-align: center; text-decoration: none; font-weight: 600; }
+.shop-checkout:focus-visible { outline: 2px solid #a34c32; outline-offset: 3px; }
+.shop-bottom { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+.shop-dialog .shop-continue { background: #302b25; color: white; }
+.shop-empty { text-align: center; padding: 48px 10px; }
+.shop-empty span { font-size: 38px; color: #9d8d7a; }
+.shop-empty p { margin-top: 12px; line-height: 1.6; }
+.shop-empty p:last-child { font-size: 13px; color: #777066; }
+.shop-toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 1000; width: max-content; max-width: calc(100vw - 32px); padding: 14px 20px; border-radius: 6px; background: #302b25; color: white; font-size: 14px; line-height: 1.5; box-shadow: 0 4px 20px #0002; }
+/* dialog가 열렸을 때도 안내 메시지를 최상위 레이어 안에 표시합니다. */
+.shop-dialog .shop-toast { position: sticky; bottom: 0; left: auto; transform: none; margin: 16px auto 0; width: fit-content; max-width: 100%; }
+.detail-quantity { display: flex; align-items: center; justify-content: space-between; margin: 18px 0; font-size: 14px; }
+.detail-quantity input { width: 84px; border: 1px solid #ddd; padding: 9px; font: inherit; }
+@media (max-width: 600px) {
+  .shop-dialog { padding: 20px 16px; }
+  .shop-row { gap: 10px; flex-wrap: wrap; }
+  .shop-row > img { width: 72px; height: 72px; }
+  .shop-row-end { width: 100%; flex-direction: row; align-items: center; padding-left: 82px; }
+  .header-main { flex-wrap: wrap; gap: 16px; }
+  .header-util { flex-wrap: wrap; gap: 16px; }
+  .user-menu { gap: 14px; }
+  .gnb-nav { overflow-x: auto; }
+  .gnb-list { width: max-content; }
+  .shop-total strong { font-size: 21px; }
+}

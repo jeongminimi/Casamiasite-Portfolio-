@@ -10,31 +10,52 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!res.ok) throw new Error("best_section.json 로드 실패");
       return res.json();
     })
-    .then((data) => {
+    .then(async (data) => {
+      const catalogResponse = await fetch("json/rag_products.json");
+      if (!catalogResponse.ok) throw new Error("RAG 상품 카탈로그 로드 실패");
+      const catalog = await catalogResponse.json();
+      const catalogIds = [
+        ["reno-head-cushion-ivory", "reno-sofa-3-ivory", "reno-sofa-4-ivory"],
+        ["carne-dining-set-2-brown-100", "carne-dining-set-4-brown-140", "carne-dining-set-6-brown-180"],
+        ["campo-family-bed-guard-ss", "campo-family-bed-wood-q", "campo-family-bed-full-guard-q-ss"]
+      ];
+
       // 2. JSON 데이터를 기반으로 3단 그리드 HTML 생성
       const columnsHtml = data
-        .map((col) => {
+        .map((col, columnIndex) => {
           // 열 내부 상품 리스트 생성
           const productsHtml = col.products
             .map(
-              (item) => `
+              (item, productIndex) => {
+                const productId = catalogIds[columnIndex]?.[productIndex];
+                const catalogProduct = catalog.products.find(product => product.id === productId);
+                const productUrl = catalogProduct?.productUrl;
+                const itemName = catalogProduct?.name || item.name;
+                const itemBrand = catalogProduct?.brand || item.brand;
+                const itemImage = catalogProduct?.image || item.thumb;
+                const itemPrice = catalogProduct?.priceKrw ?? Shop.number(item.price);
+                const wishId = columnIndex === 0 ? ["reno-cushion", "reno-3", "reno-4"][productIndex] : productId;
+                return `
               <div class="mini-product-item">
-                <div class="thumb-wrap">
-                  <span class="badge">${item.badge}</span>
-                  <img src="${item.thumb}" alt="${item.alt}" />
-                </div>
-                <div class="product-details">
-                  <span class="brand">${item.brand}</span>
-                  <p class="name">${item.name}</p>
-                  <del class="original-price">${item.originalPrice}</del>
-                  <div class="price-wrap">
-                    <span class="discount">${item.discount}</span>
-                    <span class="price">${item.price}</span>
+                <a class="mini-product-link" href="${productUrl || "#"}" ${productUrl ? "" : "aria-disabled=\"true\""} data-product-id="${productId || ""}">
+                  <div class="thumb-wrap">
+                    <span class="badge">${item.badge}</span>
+                    <img src="${itemImage}" alt="${itemName}" />
                   </div>
-                </div>
-                <button type="button" class="wish-btn" aria-label="찜하기">♡</button>
+                  <div class="product-details">
+                    <span class="brand">${itemBrand}</span>
+                    <p class="name">${itemName}</p>
+                    <del class="original-price">${item.originalPrice}</del>
+                    <div class="price-wrap">
+                      <span class="discount">${item.discount}</span>
+                      <span class="price">${itemPrice.toLocaleString("ko-KR")}</span>
+                    </div>
+                  </div>
+                </a>
+                <button type="button" class="wish-btn" aria-label="찜하기" ${Shop.wishAttributes({ id: wishId, name: itemName, price: itemPrice, image: itemImage, brand: itemBrand, detail: columnIndex === 0 })}>♡</button>
               </div>
-            `
+            `;
+              }
             )
             .join("");
 
@@ -59,32 +80,18 @@ document.addEventListener("DOMContentLoaded", () => {
       // 3. 화면에 HTML 삽입
       seriesGrid.innerHTML = columnsHtml;
 
-      // 4. 찜하기 버튼 클릭 이벤트 (새 창 이동 방지)
-      const wishButtons = seriesGrid.querySelectorAll(".wish-btn");
-      wishButtons.forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-          e.preventDefault();
-          e.stopPropagation(); // 상위 섹션의 sub.html 새 창 이동 이벤트 차단
-
-          btn.classList.toggle("active");
-          btn.textContent = btn.classList.contains("active") ? "♥" : "♡";
-        });
-      });
+      Shop.sync();
     })
     .catch((err) => console.error("BEST SERIES 로딩 오류:", err));
 
-  // 5. 상품 및 배너 영역 클릭 시 sub.html 새 창 열기 (이벤트 위임)
+  // 배너 클릭은 기존 상세 페이지로, 상품 카드는 상품별 상세 페이지로 이동합니다.
   if (bestSection) {
     bestSection.addEventListener("click", (e) => {
-      // 찜하기 버튼 클릭 시에는 실행하지 않음
       if (e.target.closest(".wish-btn")) return;
-
-      // 배너 또는 상품 아이템 클릭 시 새 창 열기
-      const target = e.target.closest(".series-banner, .mini-product-item, .series-column");
-      if (target) {
-        e.preventDefault();
-        window.open("sub.html", "_blank");
-      }
+      const productLink = e.target.closest(".mini-product-link");
+      if (productLink?.dataset.productId) return;
+      if (productLink?.getAttribute("aria-disabled") === "true") { e.preventDefault(); return; }
+      if (e.target.closest(".series-banner")) window.location.href = "sub.html";
     });
   }
 });

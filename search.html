@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>상품 검색 | casamia</title>
+  <link rel="stylesheet" href="css/product.css" />
+  <link rel="stylesheet" href="css/search.css" />
+  <link rel="stylesheet" href="css/shop.css" />
+</head>
+<body>
+  <header class="product-header">
+    <a class="product-logo" href="index.html">casamia</a>
+    <nav aria-label="주요 메뉴">
+      <a href="index.html">홈</a>
+      <a href="index.html#bestSeries">BEST SERIES</a>
+    </nav>
+    <div class="product-header-actions">
+      <button type="button" data-shop-open="wishes">찜 <span data-shop-count="wishes" hidden></span></button>
+      <button type="button" data-shop-open="cart">장바구니 <span data-shop-count="cart" hidden></span></button>
+      <a href="mypage.html" data-account-link>마이페이지</a>
+    </div>
+  </header>
+  <main class="search-main">
+    <p class="search-eyebrow">CASAMIA PRODUCT FINDER</p>
+    <h1>원하는 가구를 찾아보세요</h1>
+    <p class="search-intro">상품 이름이나 종류, 좌석 수, 색상, 예산으로 포트폴리오 상품을 검색합니다.</p>
+    <form class="catalog-search-form" id="searchForm">
+      <label class="visually-hidden" for="catalogQuery">상품 검색어</label>
+      <input id="catalogQuery" class="search-input" type="search" placeholder="예: 150만원 이하 3인 소파" autocomplete="off" />
+      <button class="catalog-search-button" type="submit">검색</button>
+    </form>
+    <div class="search-examples" aria-label="검색 예시">
+      <span>예시</span>
+      <button type="button" data-query="150만원 이하 소파">150만원 이하 소파</button>
+      <button type="button" data-query="2인 식탁">2인 식탁</button>
+      <button type="button" data-query="아이보리 소파">아이보리 소파</button>
+    </div>
+    <section class="search-results" aria-live="polite" aria-labelledby="resultsTitle">
+      <div class="results-heading">
+        <div><p class="search-eyebrow">CATALOG MATCH</p><h2 id="resultsTitle">검색 결과</h2></div>
+        <span id="resultCount"></span>
+      </div>
+      <div id="criteriaList" class="criteria-list"></div>
+      <p id="searchNotice" class="search-notice" hidden></p>
+    <section class="answer-preview" aria-labelledby="answerPreviewTitle" aria-live="polite">
+      <p class="search-eyebrow">RETRIEVAL &amp; SOURCES</p>
+      <h3 id="answerPreviewTitle">추천 근거 요약</h3>
+      <p id="answerPreviewText">카탈로그 자료를 확인하고 있습니다.</p>
+    </section>
+      <div id="productResults" class="search-product-grid"></div>
+      <div id="emptyResults" class="search-empty" hidden>
+        <h3>조건에 맞는 상품을 찾지 못했어요.</h3>
+        <p>분류나 예산을 바꾸거나, 등록된 상품 이름으로 다시 검색해 보세요.</p>
+      </div>
+    </section>
+    <p class="catalog-disclaimer">검색은 현재 등록된 포트폴리오 상품 자료만 사용합니다. 표시 가격은 예시이며 실시간 판매가가 아닙니다. 치수·소재 등 등록되지 않은 사양은 조건 검색에 반영하지 않습니다.</p>
+  </main>
+  <script src="js/shop.js"></script>
+  <script src="js/account.js"></script>
+  <script src="js/top_bar.js"></script>
+  <script src="js/search.js"></script>
+</body>
+</html>

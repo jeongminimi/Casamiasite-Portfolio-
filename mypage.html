@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>마이페이지 | casamia</title>
+  <link rel="stylesheet" href="css/shop.css" /><link rel="stylesheet" href="css/account.css" />
+  <script src="js/shop.js" defer></script><script src="js/account.js" defer></script><script src="js/mypage.js" defer></script>
+</head>
+<body>
+  <header class="account-header"><a class="account-logo" href="index.html">casamia</a><span>MY COMFORT, MY SPACE</span><nav aria-label="상단 메뉴"><a href="index.html">홈으로</a><a href="#" data-shop-open="wishes">찜 목록</a><a href="#" data-shop-open="cart">장바구니</a><a href="mypage.html" data-account-link>마이페이지</a></nav></header>
+  <main class="mypage-main">
+    <section class="account-gate" id="accountGate" hidden><p class="eyebrow">YOUR OWN LITTLE SPACE</p><h1>나의 공간을 만나보세요.</h1><p>로그인하고 찜한 상품과 쇼핑 기록을 확인해 보세요.</p><a class="account-primary" href="login.html?next=mypage.html">데모 로그인하기</a><small>포트폴리오용 공개 체험 계정을 사용합니다.</small></section>
+    <div id="accountDashboard" hidden>
+      <div class="mypage-heading"><div><p class="eyebrow">MY CASAMIA</p><h1><span id="greetingName"></span>님,<br />오늘도 편안한 하루 보내세요.</h1><p>내 취향으로 채워가는 공간, 나의 쇼핑 기록.</p></div><button type="button" class="text-button" id="logoutButton">로그아웃</button></div>
+      <p class="browser-note">이 브라우저에 저장한 체험 기록입니다. 실제 회원 인증이나 배송은 진행되지 않습니다.</p>
+      <div class="account-stats"><a href="#orders"><span>모의 주문</span><strong id="orderStat">0</strong><small>최근 주문 확인 <span aria-hidden="true">↗</span></small></a><button type="button" data-shop-open="wishes"><span>찜한 상품</span><strong id="wishStat">0</strong><small>마음에 담은 가구 <span aria-hidden="true">↗</span></small></button><button type="button" data-shop-open="cart"><span>장바구니</span><strong id="cartStat">0</strong><small>담아둔 상품 보기 <span aria-hidden="true">↗</span></small></button></div>
+      <section class="mypage-section" id="orders" aria-labelledby="ordersTitle"><div class="account-section-heading"><h2 id="ordersTitle">최근 모의 주문</h2><span>최근 20건 · 실제 결제 없음</span></div><div id="myOrders"></div></section>
+      <section class="mypage-section" aria-labelledby="wishesTitle"><div class="account-section-heading"><h2 id="wishesTitle">마음에 담은 상품</h2><button type="button" class="text-button" data-shop-open="wishes">전체 보기</button></div><div id="myWishes" class="my-wishes"></div></section>
+      <section class="mypage-section profile-section" aria-labelledby="profileTitle"><div><p class="eyebrow">A LITTLE MORE YOU</p><h2 id="profileTitle">나의 체험 프로필</h2><p>공개 체험 계정 · demo@casamia.example</p></div><form id="profileForm"><div class="account-field"><label for="profileName">닉네임</label><input id="profileName" minlength="2" maxlength="20" required autocomplete="off" /></div><button type="submit" class="account-secondary">닉네임 저장</button><p id="profileStatus" role="status" aria-live="polite"></p></form></section>
+    </div>
+    <p id="accountError" class="account-error" role="alert" hidden></p>
+  </main>
+  <footer class="account-footer">casamia <span>개인 포트폴리오 · 실제 판매 및 회원 서비스가 아닙니다.</span></footer>
+</body>
+</html>

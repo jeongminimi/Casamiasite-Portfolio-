@@ -36,6 +36,7 @@
       object-fit: cover;
     }
   </style>
+  <link rel="stylesheet" href="css/shop.css" />
 </head>
 
 <body>
@@ -60,7 +61,7 @@
       <!-- 1층: 로고 및 우측 검색/아이콘 메뉴 -->
       <div class="header-main">
         <h1 class="logo">
-          <a href="#">casamia</a>
+          <a href="index.html">casamia</a>
         </h1>
 
         <div class="header-util">
@@ -74,8 +75,9 @@
 
           <!-- 유저 메뉴 아이콘 -->
           <ul class="user-menu">
-            <li><a href="#" aria-label="장바구니"><i class="fa-solid fa-bag-shopping"></i></a></li>
-            <li><a href="#" aria-label="마이페이지"><i class="fa-regular fa-user"></i></a></li>
+            <li><a href="#" data-shop-open="wishes" aria-label="찜 목록"><i class="fa-regular fa-heart" aria-hidden="true"></i><span class="shop-count" data-shop-count="wishes" hidden></span></a></li>
+            <li><a href="#" data-shop-open="cart" aria-label="장바구니"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i><span class="shop-count" data-shop-count="cart" hidden></span></a></li>
+            <li><a href="mypage.html" data-account-link aria-label="마이페이지"><i class="fa-regular fa-user"></i></a></li>
             <li>
               <button type="button" class="btn-menu" aria-label="전체메뉴">
                 <i class="fa-solid fa-bars"></i>
@@ -178,25 +180,25 @@
       <div class="select-group">
         <label>상품선택</label>
         <div class="custom-select" id="customProductSelect">
-          <div class="selected-option">
+          <div class="selected-option" role="button" tabindex="0" aria-expanded="false" aria-controls="productOptionList">
             <span class="placeholder">선택해 주세요.</span>
           </div>
-          <ul class="option-list">
-            <li data-value="1160000">
+          <ul class="option-list" id="productOptionList">
+            <li tabindex="0" role="button" data-value="1160000">
               <img src="img/sub/main1.avif" alt="상품1">
               <div class="option-text">
                 <span>01. 리노 3인 스윙 패브릭 소파</span>
                 <span class="sub">(20% / 1,160,000원)</span>
               </div>
             </li>
-            <li data-value="1592000">
+            <li tabindex="0" role="button" data-value="1592000">
               <img src="img/sub/main2.avif" alt="상품2">
               <div class="option-text">
                 <span>02. 리노 4인 스윙 패브릭 소파</span>
                 <span class="sub">(20% / 1,592,000원)</span>
               </div>
             </li>
-            <li data-value="36000">
+            <li tabindex="0" role="button" data-value="36000">
               <img src="img/sub/main4.avif" alt="상품3">
               <div class="option-text">
                 <span>03. 리노 헤드쿠션_아이보리</span>
@@ -217,6 +219,8 @@
         </select>
       </div>
     </div>
+
+    <div class="detail-quantity"><label for="productQuantity">수량</label><input id="productQuantity" type="number" min="1" max="99" step="1" value="1" /></div>
 
     <div class="total-price-area">
       <span>총 상품금액</span>
@@ -372,6 +376,8 @@
   <!-- ========================================================= -->
   <!-- [자바스크립트 연결] DOM이 모두 로드된 후 안전하게 실행됩니다 -->
   <!-- ========================================================= -->
+  <script src="js/shop.js"></script>
+  <script src="js/account.js"></script>
   <script src="js/top_bar.js"></script>         <!-- 상단 헤더/메뉴 인터랙션 -->
   <script src="js/quick_menu.js"></script>      <!-- 퀵 카테고리 데이터 동적 렌더링 -->
   <script src="js/best_section.js"></script>       <!-- 베스트 시리즈 기능 (필요시) -->

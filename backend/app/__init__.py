@@ -1,0 +1,1 @@
+"""CASAMIA FastAPI application package."""

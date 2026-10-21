@@ -1,129 +1,107 @@
 document.addEventListener("DOMContentLoaded", () => {
-  /* ==========================================================================
-     0. 상단 로고: 메인화면(index.html) 이동 기능
-     ========================================================================== */
-  const logoLink = document.querySelector(".logo a");
-  if (logoLink) {
-    logoLink.addEventListener("click", (e) => {
-      e.preventDefault(); // 기본 '#' 이동 동작 방지
-      location.href = "index.html"; // 메인 화면 파일명으로 이동
-    });
-  }
-
-  /* ==========================================================================
-     1. 왼쪽 섹션: 이미지 슬라이더 및 썸네일 기능
-     ========================================================================== */
-  const images = [
-    "img/sub/main1.avif",
-    "img/sub/main2.avif",
-    "img/sub/main3.avif",
-    "img/sub/main4.avif"
-  ];
-
-  let currentIndex = 0;
+  const thumbnails = [...document.querySelectorAll(".thumb")];
   const mainImage = document.getElementById("mainImage");
-  const prevBtn = document.getElementById("prevBtn");
-  const nextBtn = document.getElementById("nextBtn");
-  const thumbnails = document.querySelectorAll(".thumb");
-
-  // 메인 이미지 및 썸네일 활성화 상태 변경 함수
+  let currentIndex = 0;
   function updateImage(index) {
-    if (!mainImage) return;
     currentIndex = index;
-    mainImage.src = images[currentIndex];
-    thumbnails.forEach((thumb, idx) => {
-      thumb.classList.toggle("active", idx === currentIndex);
-    });
+    mainImage.src = thumbnails[index].getAttribute("src");
+    thumbnails.forEach((thumb, i) => thumb.classList.toggle("active", i === index));
   }
-
-  // 이전 버튼 클릭
-  if (prevBtn) {
-    prevBtn.addEventListener("click", () => {
-      const nextIdx = (currentIndex - 1 + images.length) % images.length;
-      updateImage(nextIdx);
-    });
-  }
-
-  // 다음 버튼 클릭
-  if (nextBtn) {
-    nextBtn.addEventListener("click", () => {
-      const nextIdx = (currentIndex + 1) % images.length;
-      updateImage(nextIdx);
-    });
-  }
-
-  // 하단 썸네일 클릭
-  thumbnails.forEach((thumb) => {
-    thumb.addEventListener("click", (e) => {
-      const idx = parseInt(e.currentTarget.dataset.index, 10);
-      if (!isNaN(idx)) {
-        updateImage(idx);
-      }
+  document.getElementById("prevBtn")?.addEventListener("click", () => updateImage((currentIndex - 1 + thumbnails.length) % thumbnails.length));
+  document.getElementById("nextBtn")?.addEventListener("click", () => updateImage((currentIndex + 1) % thumbnails.length));
+  thumbnails.forEach((thumb, index) => {
+    thumb.tabIndex = 0;
+    thumb.setAttribute("role", "button");
+    thumb.addEventListener("click", () => updateImage(index));
+    thumb.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") { event.preventDefault(); updateImage(index); }
     });
   });
 
-  /* ==========================================================================
-     2. 오른쪽 섹션: 찜(하트) 토글 기능
-     ========================================================================== */
-  const wishBtn = document.getElementById("wishBtn");
-  if (wishBtn) {
-    wishBtn.addEventListener("click", () => {
-      wishBtn.classList.toggle("liked");
-    });
-  }
-
-  /* ==========================================================================
-     3. 오른쪽 섹션: 상품 커스텀 드롭다운 & 하위 옵션 활성화 & 총 금액 계산
-     ========================================================================== */
+  const variants = [
+    { id: "reno-3", name: "리노 스윙 3인소파", price: 1160000, image: "img/sub/main1.avif", brand: "까사미아", detail: true },
+    { id: "reno-4", name: "리노 스윙 4인소파", price: 1592000, image: "img/sub/main2.avif", brand: "까사미아", detail: true },
+    { id: "reno-cushion", name: "리노 헤드쿠션", price: 36000, image: "img/sub/main4.avif", brand: "까사미아", detail: true }
+  ];
+  variants.forEach(Shop.register);
   const customSelect = document.getElementById("customProductSelect");
-  const optionSelect = document.getElementById("optionSelect");
+  if (!customSelect) return;
+  const display = customSelect.querySelector(".selected-option");
+  const options = [...customSelect.querySelectorAll(".option-list li")];
+  const colorSelect = document.getElementById("optionSelect");
+  const quantityInput = document.getElementById("productQuantity");
   const totalPrice = document.getElementById("totalPrice");
+  const wishButton = document.getElementById("wishBtn");
+  let selected = null;
 
-  if (customSelect) {
-    const selectedDisplay = customSelect.querySelector(".selected-option");
-    const optionItems = customSelect.querySelectorAll(".option-list li");
-
-    // 드롭다운 열기 / 닫기 토글
-    selectedDisplay.addEventListener("click", () => {
-      customSelect.classList.toggle("active");
-    });
-
-    // 드롭다운 외부 클릭 시 목록 닫기
-    document.addEventListener("click", (e) => {
-      if (!customSelect.contains(e.target)) {
-        customSelect.classList.remove("active");
+  function setExpanded(expanded) {
+    customSelect.classList.toggle("active", expanded);
+    display.setAttribute("aria-expanded", String(expanded));
+  }
+  function updateTotal() {
+    const count = Number(quantityInput.value);
+    totalPrice.textContent = selected && Number.isInteger(count) && count >= 1 && count <= 99 ? Shop.money(selected.price * count) : "0원";
+  }
+  function updateWish(product) {
+    wishButton.dataset.wishId = product.id;
+    Shop.sync();
+  }
+  updateWish(variants[2]);
+  display.addEventListener("click", () => setExpanded(!customSelect.classList.contains("active")));
+  display.addEventListener("keydown", event => {
+    if (["Enter", " ", "ArrowDown"].includes(event.key)) {
+      event.preventDefault(); setExpanded(true); options[0].focus();
+    }
+  });
+  customSelect.addEventListener("keydown", event => {
+    if (event.key === "Escape") { setExpanded(false); display.focus(); }
+  });
+  document.addEventListener("click", event => { if (!customSelect.contains(event.target)) setExpanded(false); });
+  options.forEach((item, index) => {
+    function select() {
+      selected = variants[index];
+      const image = document.createElement("img");
+      image.src = selected.image;
+      image.alt = "";
+      const label = document.createElement("span");
+      label.textContent = selected.name;
+      display.replaceChildren(image, label);
+      colorSelect.disabled = false;
+      colorSelect.selectedIndex = 0;
+      setExpanded(false);
+      display.focus();
+      updateWish(selected);
+      updateTotal();
+    }
+    item.addEventListener("click", select);
+    item.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") { event.preventDefault(); select(); }
+      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        event.preventDefault(); options[(index + (event.key === "ArrowDown" ? 1 : -1) + options.length) % options.length].focus();
       }
     });
-
-    // 커스텀 옵션 목록 항목 클릭 시
-    optionItems.forEach((item) => {
-      item.addEventListener("click", () => {
-        const imgElement = item.querySelector("img");
-        const titleElement = item.querySelector(".option-text span");
-        const price = parseInt(item.dataset.value, 10);
-
-        // 선택 영역의 내용(이미지 + 텍스트) 갱신
-        if (imgElement && titleElement) {
-          selectedDisplay.innerHTML = `
-            <img src="${imgElement.src}" alt="선택 상품">
-            <span>${titleElement.textContent}</span>
-          `;
-        }
-
-        // 드롭다운 닫기
-        customSelect.classList.remove("active");
-
-        // 2차 옵션선택(컬러) 활성화 및 기본값 초기화
-        if (optionSelect) {
-          optionSelect.disabled = false;
-          optionSelect.selectedIndex = 0;
-        }
-
-        // 총 상품금액 반영
-        if (totalPrice && !isNaN(price)) {
-          totalPrice.textContent = `${price.toLocaleString()}원`;
-        }
-      });
-    });
+  });
+  const requestedProduct = new URLSearchParams(window.location.search).get("product");
+  const requestedIndex = variants.findIndex(product => product.id === requestedProduct);
+  if (requestedIndex >= 0) {
+    options[requestedIndex].click();
+    colorSelect.value = "ivory";
+    updateTotal();
+  }
+  quantityInput.addEventListener("input", updateTotal);
+  function add() {
+    if (!selected) { Shop.notify("상품을 먼저 선택해 주세요."); display.focus(); return false; }
+    if (!colorSelect.value) { Shop.notify("색상 옵션을 선택해 주세요."); colorSelect.focus(); return false; }
+    const count = Number(quantityInput.value);
+    if (!Number.isInteger(count) || count < 1 || count > 99) {
+      Shop.notify("수량은 1~99개로 입력해 주세요."); quantityInput.focus(); return false;
+    }
+    return Shop.addToCart(selected, colorSelect.options[colorSelect.selectedIndex].text, count);
+  }
+  document.querySelector(".cart-btn")?.addEventListener("click", () => { if (add()) Shop.open("cart"); });
+  const buyButton = document.querySelector(".buy-btn");
+  if (buyButton) {
+    buyButton.textContent = "장바구니 보기";
+    buyButton.addEventListener("click", () => Shop.open("cart"));
   }
 });

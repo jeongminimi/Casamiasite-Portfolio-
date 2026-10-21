@@ -53,14 +53,6 @@
   transition: transform 0.4s ease, filter 0.4s ease;
 }
 
-/* 1번(디퓨저), 6번(쿠션) 같은 누끼/단독 제품 핏 유지용 */
-.rest-item:first-child .img-wrap img,
-.rest-item:last-child .img-wrap img {
-  width: 70%;
-  height: 70%;
-  object-fit: contain;
-}
-
 /* 중앙 오버레이 텍스트 박스 */
 .rest-card .overlay {
   position: absolute;
