@@ -1,52 +1,20 @@
-# RAG 상품 카탈로그 준비
+# 상품 카탈로그와 RAG 데이터 흐름
 
-`json/rag_products.json`은 기존 화면용 JSON을 그대로 AI에 넘기지 않고, 상품 추천과 상품 정보 답변에 쓸 필드를 정리한 포트폴리오용 카탈로그입니다.
+`json/rag_products.json`은 초기 개발 상품 데이터를 보존하는 seed 원본입니다. 브라우저 상품 검색과 상세 화면은 이 파일을 직접 읽지 않고 FastAPI 상품 API를 사용합니다.
 
-## 데이터 규칙
+## 현재 데이터 흐름
 
-- `id`: 화면과 검색 결과에서 계속 유지할 상품 고유 ID입니다.
-- `name`, `brand`, `category`, `priceKrw`, `image`: 정규화된 핵심 정보입니다. 가격은 원화 정수로 저장합니다.
-- `attributes`: 검색 필터에 쓸 수 있는 구조화된 사양입니다. 모르는 값은 `null` 또는 빈 배열로 둡니다.
-- `description`: 검증된 상품 설명만 저장합니다. 기존 상품 데이터의 `description` 값은 브랜드명으로 쓰인 경우가 있어 자동 복사하지 않았습니다.
-- `productUrl`: 상품 ID를 기준으로 여는 상세 화면 주소입니다. 리노 옵션은 기존 `sub.html`, 나머지 상품은 공통 `product.html`을 사용합니다.
-- `source`: 각 사실이 어느 파일의 어느 레코드에서 왔는지 기록합니다.
-- `ragEnabled`: 이름이나 핵심 정보가 불완전한 상품을 검색 결과에서 잠시 제외합니다.
-- `missingFields`: 상품 자료에 아직 없는 정보입니다. 이 필드들을 채우면 소재·크기·스타일 질문에 더 잘 답할 수 있습니다.
-- `originalPriceKrw`, `discountRate`, `rating`, `reviewCount`: 공식 상품 페이지에서 확인한 표시값입니다. 가격·할인·리뷰 수는 변동될 수 있으므로 `officialCheckedAt` 확인 시점과 함께 표시합니다.
-- `officialProductCode`, `officialProductUrl`, `officialCheckedAt`: 공식 상품 페이지의 상품 코드, 출처 주소, 확인 날짜입니다.
+1. `backend/scripts/import_products.py`가 JSON의 camelCase 필드를 PostgreSQL `products` 테이블로 가져옵니다.
+2. `backend/scripts/index_products.py`가 `rag_enabled=true`인 상품 문서를 생성합니다.
+3. Gemini Embedding 결과를 PostgreSQL `product_embeddings`의 `vector(1536)` 컬럼에 저장합니다.
+4. `/api/v1/chat`이 질문 임베딩과 상품 벡터를 cosine similarity로 검색합니다.
+5. 관련성 기준을 통과한 실제 DB 상품만 Gemini 답변의 근거와 추천 목록으로 반환합니다.
+6. ADMIN 상품 생성·수정·삭제 후 해당 embedding을 생성·갱신·삭제합니다.
 
-현재 포함된 상품 가격은 기존 포트폴리오 화면에 적힌 예시 가격입니다. 실시간 판매가로 표현하면 안 됩니다. `json/best_section.json`의 원본 상품명 일부가 줄임표로 잘린 항목은 이름이 검증될 때까지 `ragEnabled: false`로 두었습니다. 상품 카드는 이 카탈로그의 `productUrl`로 이동하고, 상세 화면은 등록된 사실만 표시합니다.
+## 보존하는 주요 상품 정보
 
-카르네 세라믹 타원형식탁 6인세트(상품 코드 122648)는 [Guud 공식 상품 페이지](https://www.guud.com/shop/goodsView?itemId=122648)에서 확인한 표시 가격, 할인율, 평점·리뷰 수와 혜택을 상세 화면에 반영했습니다. 해당 정보는 2026-10-21 확인 시점의 스냅샷이며 변경될 수 있습니다. 상품 상세 이미지에 글자로만 포함된 추가 내용을 기계 판독 가능한 사양으로 옮기지는 않았습니다.
+- 일반 컬럼: `id`, `name`, `brand`, `category`, `price_krw`, `image`, `product_url`, `description`, `rag_enabled`
+- JSONB: `attributes`, `gallery_images`, `official_benefits`, `official_addons`, `review_info`, `missing_fields`, `source`
+- RAG 문서: 상품명, 브랜드, 카테고리, 가격, attributes, 값이 있을 때 description
 
-BEST SERIES 상품 카드는 카탈로그의 ID와 상세 주소로 연결했습니다. 리노 옵션 3개는 기존 `sub.html`에서 해당 옵션을 미리 선택하고, 나머지 상품은 `product.html?id=...` 공통 템플릿에 상품 정보를 표시합니다. 새 상품을 카탈로그에 추가할 때는 BEST 목록 ID 연결도 함께 갱신해야 합니다.
-
-## 현재 검색 단계에서 읽는 방법
-
-브라우저에서 데이터를 불러와 예산과 좌석 수 같은 조건을 먼저 적용하고, 결과마다 어떤 조건이 일치했는지와 카탈로그 출처를 보여줍니다.
-
-```js
-const { products } = await fetch("json/rag_products.json").then((response) => {
-  if (!response.ok) throw new Error("상품 카탈로그를 불러오지 못했습니다.");
-  return response.json();
-});
-
-const matches = products.filter((product) =>
-  product.ragEnabled &&
-  product.category === "소파" &&
-  product.priceKrw <= 1_500_000 &&
-  product.attributes.seatCount === 3
-);
-```
-
-이 필터는 `js/search.js`에서 사용합니다. 홈페이지와 상품 페이지의 검색창은 `search.html?q=...`로 이동하고, 결과 카드는 상품별 상세 화면으로 연결됩니다. 결과 화면에는 선택된 조건, 상품의 일치 사실, `source.file`과 `source.pointer`가 표시됩니다. 현재는 결정 규칙에 따른 검색과 근거 표시 단계이며, 생성형 AI 답변과 벡터 검색은 아직 연결하지 않았습니다. 다음 단계에서는 검색된 상품 자료만 모델에 전달하고, 모델이 반환한 상품 ID와 출처를 검증해 답변 카드에 연결합니다. 검색 결과가 없으면 가격이나 좌석 수 조건을 바꿔 달라고 안내합니다.
-
-검색이 지원하는 조건은 상품 종류, 좌석 수, 등록된 색상, 예산, 침실·다이닝·거실 분류와 상품명 키워드입니다. 작은 공간 적합성, 세부 스타일, 실시간 재고·배송은 현재 자료에 근거가 없어 결과 조건에 반영되지 않는다고 안내합니다.
-
-## 지금 확인이 필요한 상품 정보
-
-우선순위가 높은 항목은 상품별 가로·세로·높이, 소재, 색상, 실제 상품 상세 주소, 상품 설명입니다. 제품 공식 정보를 확인해 입력해야 하며, 이름만 보고 추측한 사양은 추가하지 않습니다.
-
-캄포 패밀리침대 가드형 SS (상품 코드 269449)는 공식 상품 페이지 화면 확인 기준 정가 1,088,000원, 판매가 816,000원(25% 할인), 평점 5점·리뷰 16개·Q&A 6건입니다. 페이지에 표시된 무이자 할부, GuudPay 할인, 배송 혜택, 첫구매 쿠폰과 추가 구성품을 상세 화면에 기록했습니다. 가격과 프로모션은 2026-10-21 기준이며 변경될 수 있습니다. 소재·색상·치수처럼 화면에서 확인되지 않은 사양은 추측해 채우지 않습니다.
-
-[Guud 상품 페이지](https://www.guud.com/shop/goodsView?itemId=269449)
+`rag_products.json`은 초기 데이터 재구축에 필요하므로 사용 중인 파일입니다. 운영 데이터의 기준은 PostgreSQL이며, 프론트엔드는 `/api/v1/products`, `/api/v1/products/search`, `/api/v1/products/{product_id}`를 호출합니다.

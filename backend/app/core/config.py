@@ -18,7 +18,7 @@ class Settings:
     app_env: str = os.getenv("APP_ENV", "development")
     api_v1_prefix: str = os.getenv("API_V1_PREFIX", "/api/v1")
     backend_host: str = os.getenv("BACKEND_HOST", "127.0.0.1")
-    backend_port: int = int(os.getenv("BACKEND_PORT", "8000"))
+    backend_port: int = int(os.getenv("BACKEND_PORT", "8001"))
     db_host: str = os.getenv("DB_HOST", "127.0.0.1")
     db_port: int = int(os.getenv("DB_PORT", "1101"))
     db_name: str = os.getenv("DB_NAME", "casamia")
@@ -40,7 +40,7 @@ class Settings:
         default_factory=lambda: os.getenv("GEMINI_API_KEY", ""),
         repr=False,
     )
-    gemini_chat_model: str = os.getenv("GEMINI_CHAT_MODEL", "gemini-3.5-flash-lite")
+    gemini_chat_model: str = os.getenv("GEMINI_CHAT_MODEL", "gemini-flash-lite-latest")
     gemini_embedding_model: str = os.getenv(
         "GEMINI_EMBEDDING_MODEL", "gemini-embedding-2"
     )

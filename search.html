@@ -4,28 +4,55 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>상품 검색 | casamia</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/top_bar.css" />
   <link rel="stylesheet" href="css/product.css" />
   <link rel="stylesheet" href="css/search.css" />
   <link rel="stylesheet" href="css/shop.css" />
 </head>
 <body>
-  <header class="product-header">
-    <a class="product-logo" href="index.html">casamia</a>
-    <nav aria-label="주요 메뉴">
-      <a href="index.html">홈</a>
-      <a href="index.html#bestSeries">BEST SERIES</a>
-    </nav>
-    <div class="product-header-actions">
-      <button type="button" data-shop-open="wishes">찜 <span data-shop-count="wishes" hidden></span></button>
-      <button type="button" data-shop-open="cart">장바구니 <span data-shop-count="cart" hidden></span></button>
-      <a href="mypage.html" data-account-link>마이페이지</a>
+  <header class="site-header">
+    <div class="top-badge-wrap">
+      <a href="#" class="guud-badge"><span class="guud-logo">Guud</span><i class="fa-solid fa-angle-right"></i></a>
+      <div class="badge-tooltip"><span>입점 브랜드관</span><button type="button" class="tooltip-close" aria-label="닫기">×</button></div>
+    </div>
+    <div class="header-inner">
+      <div class="header-main">
+        <h1 class="logo"><a href="index.html">casamia</a></h1>
+        <div class="header-util">
+          <form class="search-box" id="searchForm">
+            <input type="text" class="search-input" placeholder="검색어를 입력해주세요" />
+            <button type="submit" class="search-btn" aria-label="검색"><i class="fa-solid fa-magnifying-glass"></i></button>
+          </form>
+          <ul class="user-menu">
+            <li><a href="#" data-shop-open="wishes" aria-label="찜 목록"><i class="fa-regular fa-heart" aria-hidden="true"></i><span class="shop-count" data-shop-count="wishes" hidden></span></a></li>
+            <li><a href="#" data-shop-open="cart" aria-label="장바구니"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i><span class="shop-count" data-shop-count="cart" hidden></span></a></li>
+            <li><a href="mypage.html" data-account-link aria-label="마이페이지"><i class="fa-regular fa-user"></i></a></li>
+            <li><button type="button" class="btn-menu" aria-label="전체메뉴"><i class="fa-solid fa-bars"></i></button></li>
+          </ul>
+        </div>
+      </div>
+      <nav class="gnb-nav" aria-label="상품 카테고리">
+        <ul class="gnb-list">
+          <li class="brand-week"><a href="#"><span class="bell-icon">🔔</span>브랜드위크<span class="red-dot"></span></a></li>
+          <li><a href="#">거실가구</a></li>
+          <li><a href="#">침실가구</a></li>
+          <li><a href="#">주방가구</a></li>
+          <li><a href="#">수납가구</a></li>
+          <li><a href="#">서재가구</a></li>
+          <li><a href="#">유아/아동가구</a></li>
+          <li><a href="#">인테리어 소품</a></li>
+          <li class="divider" aria-hidden="true">|</li>
+          <li class="catalog"><a href="search.html">CATALOG</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
   <main class="search-main">
     <p class="search-eyebrow">CASAMIA PRODUCT FINDER</p>
     <h1>원하는 가구를 찾아보세요</h1>
     <p class="search-intro">상품 이름이나 종류, 좌석 수, 색상, 예산으로 포트폴리오 상품을 검색합니다.</p>
-    <form class="catalog-search-form" id="searchForm">
+    <form class="catalog-search-form" id="catalogSearchForm">
       <label class="visually-hidden" for="catalogQuery">상품 검색어</label>
       <input id="catalogQuery" class="search-input" type="search" placeholder="예: 150만원 이하 3인 소파" autocomplete="off" />
       <button class="catalog-search-button" type="submit">검색</button>

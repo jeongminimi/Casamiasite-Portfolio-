@@ -91,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
   categoryItems.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const targetId = btn.getAttribute("data-id");
-      console.log(`선택된 카테고리: ${targetId}`);
       // 필요 시 페이지 이동 또는 상품 필터링 로직 연결
     });
   });

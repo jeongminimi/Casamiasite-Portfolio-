@@ -52,8 +52,6 @@
   .search-product-name { font-size: 13px; }
 }
 @media (max-width: 380px) {
-  .product-header-actions { gap: 8px; }
-  .product-header-actions button, .product-header-actions a { font-size: 10px; }
   .search-product-grid { grid-template-columns: 1fr; }
 }
 

@@ -1,42 +1,82 @@
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const vm = require("node:vm");
+
 const source = fs.readFileSync(require.resolve("../js/account.js"), "utf8");
-function setup(initial = null) {
-  let saved = initial, blocked = false;
+
+function setup() {
+  let token = "";
+  let user = null;
+  const calls = [];
+  const api = {
+    getToken: () => token,
+    getCachedUser: () => user,
+    updateCachedUser: value => { user = value; },
+    setSession: (value, profile) => { token = value; user = profile; },
+    clearSession: () => { token = ""; user = null; },
+    async get(path) {
+      calls.push(["GET", path]);
+      if (path === "/users/me" && token === "valid-token") {
+        return { id: 1, email: "user@example.com", name: "테스트 사용자", role: "USER", is_active: true };
+      }
+      throw { status: 401, message: "Unauthorized" };
+    },
+    async post(path, body) {
+      calls.push(["POST", path, body]);
+      if (path === "/auth/login") {
+        if (body.email === "user@example.com" && body.password === "Password123!") {
+          return { access_token: "valid-token", token_type: "bearer" };
+        }
+        throw { status: 401, message: "Unauthorized" };
+      }
+      if (path === "/auth/register") {
+        if (body.email === "existing@example.com") throw { status: 409, message: "Conflict" };
+        return { id: 1, email: body.email, name: body.name, role: "USER", is_active: true };
+      }
+      throw { status: 404, message: "Not found" };
+    },
+  };
   const context = {
     document: { addEventListener() {}, querySelectorAll() { return []; } },
-    window: { addEventListener() {} },
-    localStorage: {
-      getItem() { return saved; },
-      setItem(key, value) { assert.equal(key, "casamia.demo.profile.v1"); if (blocked) throw Error("quota"); saved = value; }
-    }
+    window: {
+      CasamiaApi: api,
+      addEventListener() {},
+      dispatchEvent() {},
+    },
   };
   vm.runInNewContext(source, context);
-  return { account: context.window.Account, get saved() { return saved; }, block() { blocked = true; } };
+  return { account: context.window.Account, calls, state: () => ({ token, user }) };
 }
-const session = setup();
-assert.equal(session.account.getUser(), null);
-assert.equal(session.account.login("wrong@example.com", "Demo1234!").ok, false);
-assert.equal(session.account.login("demo@casamia.example", "wrong").ok, false);
-assert.equal(session.saved, null);
-assert.equal(session.account.createProfile(" ").ok, false);
-assert.equal(session.account.createProfile("a".repeat(21)).ok, false);
-assert.equal(session.account.createProfile("  나의공간  ").ok, true);
-assert.equal(session.account.getUser().name, "나의공간");
-assert.equal(session.account.updateName("새로운공간").ok, true);
-assert.equal(setup(session.saved).account.getUser().name, "새로운공간");
-assert.equal(session.account.logout().ok, true);
-assert.equal(session.account.getUser(), null);
-assert.equal(session.account.updateName("로그아웃상태").ok, false);
-assert.equal(session.account.login(" DEMO@CASAMIA.EXAMPLE ", "Demo1234!").ok, true);
-assert.equal(session.account.getUser().name, "새로운공간");
-assert.equal(session.saved.includes("Demo1234!"), false);
-assert.deepEqual(Object.keys(JSON.parse(session.saved)).sort(), ["name", "signedIn"]);
-const denied = setup(session.saved);
-denied.block();
-assert.equal(denied.account.logout().ok, false);
-assert.equal(denied.account.getUser().name, "새로운공간");
-assert.equal(setup("{bad json").account.getUser(), null);
-assert.equal(setup(JSON.stringify({ name: "a", signedIn: true })).account.getUser(), null);
-console.log("PASS: demo login, invalid credentials, profile validation, persistence, logout, password omission, storage failure");
+
+(async () => {
+  const session = setup();
+  assert.equal(session.account.getUser(), null);
+
+  const denied = await session.account.login("user@example.com", "wrong");
+  assert.equal(denied.ok, false);
+  assert.equal(denied.status, 401);
+  assert.equal(session.state().token, "");
+
+  const loggedIn = await session.account.login(" user@example.com ", "Password123!");
+  assert.equal(loggedIn.ok, true);
+  assert.equal(loggedIn.user.role, "USER");
+  assert.equal(session.state().token, "valid-token");
+  assert.equal(session.account.getUser().email, "user@example.com");
+
+  assert.equal(session.account.logout().ok, true);
+  assert.equal(session.account.getUser(), null);
+
+  const registered = await session.account.register("user@example.com", "Password123!", " 테스트 사용자 ");
+  assert.equal(registered.ok, true);
+  assert.equal(session.account.getUser().name, "테스트 사용자");
+
+  const conflict = await session.account.register("existing@example.com", "Password123!", "기존 사용자");
+  assert.equal(conflict.ok, false);
+  assert.equal(conflict.status, 409);
+  assert.ok(session.calls.some(([method, path]) => method === "GET" && path === "/users/me"));
+  assert.ok(session.calls.some(([method, path]) => method === "POST" && path === "/auth/register"));
+  console.log("PASS: JWT login, current-user refresh, registration, conflict handling, and logout");
+})().catch(error => {
+  console.error(error);
+  process.exitCode = 1;
+});

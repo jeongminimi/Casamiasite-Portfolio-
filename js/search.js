@@ -1,4 +1,4 @@
-﻿document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const $ = id => document.getElementById(id);
   const input = $("catalogQuery"), resultCount = $("resultCount"), criteriaList = $("criteriaList");
   const notice = $("searchNotice"), answerPreview = $("answerPreviewText"), results = $("productResults"), empty = $("emptyResults");
@@ -118,7 +118,7 @@
     }
   }
 
-  $("searchForm").addEventListener("submit", event => { event.preventDefault(); const query = input.value.trim(); history.replaceState(null, "", query ? `search.html?q=${encodeURIComponent(query)}` : "search.html"); search(query); });
+  $("catalogSearchForm").addEventListener("submit", event => { event.preventDefault(); const query = input.value.trim(); history.replaceState(null, "", query ? `search.html?q=${encodeURIComponent(query)}` : "search.html"); search(query); });
   document.querySelectorAll("[data-query]").forEach(button => button.addEventListener("click", () => { const query = button.dataset.query; history.replaceState(null, "", `search.html?q=${encodeURIComponent(query)}`); search(query); }));
 
   $("aiQuestionForm").addEventListener("submit", async event => {
