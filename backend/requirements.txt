@@ -8,6 +8,7 @@ PyJWT
 pwdlib[argon2]
 email-validator
 openai
+google-genai
 pgvector
 httpx
 python-multipart

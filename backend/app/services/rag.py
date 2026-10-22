@@ -3,6 +3,8 @@ import re
 from dataclasses import dataclass
 from typing import Any
 
+from google import genai
+from google.genai import types as genai_types
 from openai import OpenAI
 from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
@@ -36,6 +38,7 @@ class ProductFilters:
     min_price: int | None = None
     max_price: int | None = None
     seat_count: int | None = None
+    category: str | None = None
 
 
 @dataclass(frozen=True)
@@ -50,6 +53,10 @@ class RagSearchHit:
 
 
 class OpenAIRagProvider:
+    @property
+    def embedding_model(self) -> str:
+        return settings.openai_embedding_model
+
     def __init__(self, client: OpenAI | None = None) -> None:
         if client is None and not settings.openai_api_key.strip():
             raise RagConfigurationError("OPENAI_API_KEY is not configured")
@@ -67,7 +74,7 @@ class OpenAIRagProvider:
                 model=settings.openai_embedding_model,
                 input=texts,
                 encoding_format="float",
-                dimensions=settings.openai_embedding_dimensions,
+                dimensions=settings.embedding_dimensions,
             )
         except Exception as exc:
             raise RagProviderError("Failed to create OpenAI embeddings") from exc
@@ -77,7 +84,7 @@ class OpenAIRagProvider:
         if len(vectors) != len(texts):
             raise RagProviderError("OpenAI returned an unexpected embedding count")
         for vector in vectors:
-            if len(vector) != settings.openai_embedding_dimensions:
+            if len(vector) != settings.embedding_dimensions:
                 raise RagProviderError("OpenAI returned an unexpected embedding size")
         return vectors
 
@@ -106,14 +113,97 @@ class OpenAIRagProvider:
         return answer
 
 
+class GeminiRagProvider:
+    def __init__(self, client: Any | None = None) -> None:
+        if client is None and not settings.gemini_api_key.strip():
+            raise RagConfigurationError("GEMINI_API_KEY is not configured")
+        self.client = client or genai.Client(
+            api_key=settings.gemini_api_key,
+            http_options=genai_types.HttpOptions(
+                timeout=30_000,
+                retry_options=genai_types.HttpRetryOptions(attempts=2),
+            ),
+        )
+
+    @property
+    def embedding_model(self) -> str:
+        return settings.gemini_embedding_model
+
+    def embed(self, texts: list[str]) -> list[list[float]]:
+        vectors: list[list[float]] = []
+        try:
+            for text in texts:
+                response = self.client.models.embed_content(
+                    model=settings.gemini_embedding_model,
+                    contents=text,
+                    config=genai_types.EmbedContentConfig(
+                        output_dimensionality=settings.embedding_dimensions,
+                    ),
+                )
+                embeddings = response.embeddings or []
+                if len(embeddings) != 1:
+                    raise RagProviderError(
+                        "Gemini returned an unexpected embedding count"
+                    )
+                vector = list(embeddings[0].values or [])
+                if len(vector) != settings.embedding_dimensions:
+                    raise RagProviderError(
+                        "Gemini returned an unexpected embedding size"
+                    )
+                vectors.append(vector)
+        except RagProviderError:
+            raise
+        except Exception as exc:
+            raise RagProviderError("Failed to create Gemini embeddings") from exc
+        return vectors
+
+    def answer(self, message: str, context: str) -> str:
+        instructions = (
+            "You are a CASAMIA product consultant. Answer in Korean using only "
+            "the supplied product context. Never invent a product, price, material, "
+            "color, size, or feature. If the context does not contain the answer, "
+            "say that the information is unavailable. Include the exact product "
+            "name and product ID for recommendations."
+        )
+        prompt = f"User question:\n{message}\n\nVerified product context:\n{context}"
+        try:
+            response = self.client.models.generate_content(
+                model=settings.gemini_chat_model,
+                contents=prompt,
+                config=genai_types.GenerateContentConfig(
+                    system_instruction=instructions,
+                    max_output_tokens=700,
+                ),
+            )
+        except Exception as exc:
+            raise RagProviderError("Failed to generate a Gemini response") from exc
+        answer = (response.text or "").strip()
+        if not answer:
+            raise RagProviderError("Gemini returned an empty response")
+        return answer
+
+
+RagProvider = OpenAIRagProvider | GeminiRagProvider
+
+
+def create_rag_provider() -> RagProvider:
+    if settings.ai_provider == "gemini":
+        return GeminiRagProvider()
+    if settings.ai_provider == "openai":
+        return OpenAIRagProvider()
+    raise RagConfigurationError(
+        f"Unsupported AI_PROVIDER: {settings.ai_provider}"
+    )
+
+
 class RagIndexService:
-    def __init__(self, provider: OpenAIRagProvider | None = None) -> None:
+    def __init__(self, provider: RagProvider | None = None) -> None:
         self._provider = provider
 
     @property
-    def provider(self) -> OpenAIRagProvider:
+    def provider(self) -> RagProvider:
         if self._provider is None:
-            self._provider = OpenAIRagProvider()
+            self._provider = create_rag_provider()
         return self._provider
 
     @staticmethod
@@ -135,7 +225,7 @@ class RagIndexService:
         if (
             existing is not None
             and existing.content_hash == content_hash
-            and existing.embedding_model == settings.openai_embedding_model
+            and existing.embedding_model == self.provider.embedding_model
         ):
             return "skipped"
 
@@ -145,7 +235,7 @@ class RagIndexService:
             db.add(existing)
         existing.content = content
         existing.content_hash = content_hash
-        existing.embedding_model = settings.openai_embedding_model
+        existing.embedding_model = self.provider.embedding_model
         existing.embedding = vector
         return "indexed"
 
@@ -179,7 +269,7 @@ class RagIndexService:
             if (
                 existing is not None
                 and existing.content_hash == content_hash
-                and existing.embedding_model == settings.openai_embedding_model
+                and existing.embedding_model == self.provider.embedding_model
             ):
                 skipped += 1
                 continue
@@ -194,7 +284,7 @@ class RagIndexService:
                 db.add(row)
             row.content = content
             row.content_hash = content_hash
-            row.embedding_model = settings.openai_embedding_model
+            row.embedding_model = self.provider.embedding_model
             row.embedding = vector
 
         return IndexResult(indexed=len(changed), skipped=skipped, removed=removed)
@@ -235,10 +325,22 @@ def parse_product_filters(message: str) -> ProductFilters:
         min_price=min_price,
         max_price=max_price,
         seat_count=int(seat_match.group("count")) if seat_match else None,
+        category=next(
+            (
+                category
+                for category in ("소파", "침대", "식탁", "쿠션")
+                if category in message
+            ),
+            None,
+        ),
     )
 
 
 def _matches_filters(product: Product, filters: ProductFilters) -> bool:
+    if filters.category is not None:
+        searchable_category = f"{product.category} {product.name}"
+        if filters.category not in searchable_category:
+            return False
     if filters.min_price is not None and product.price_krw < filters.min_price:
         return False
     if filters.max_price is not None and product.price_krw > filters.max_price:
@@ -254,13 +356,13 @@ def _matches_filters(product: Product, filters: ProductFilters) -> bool:
 
 
 class RagChatService:
-    def __init__(self, provider: OpenAIRagProvider | None = None) -> None:
+    def __init__(self, provider: RagProvider | None = None) -> None:
         self._provider = provider
 
     @property
-    def provider(self) -> OpenAIRagProvider:
+    def provider(self) -> RagProvider:
         if self._provider is None:
-            self._provider = OpenAIRagProvider()
+            self._provider = create_rag_provider()
         return self._provider
 
     def search(self, db: Session, message: str, top_k: int | None = None) -> list[RagSearchHit]:
@@ -285,6 +387,7 @@ class RagChatService:
             RagSearchHit(product=row[0], content=row[1], distance=float(row[2]))
             for row in rows
             if _matches_filters(row[0], filters)
+            and (1.0 - float(row[2])) >= settings.rag_min_similarity
         ]
         return hits[:limit]
 

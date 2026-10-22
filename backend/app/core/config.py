@@ -35,6 +35,15 @@ class Settings:
     jwt_access_token_expire_minutes: int = int(
         os.getenv("JWT_ACCESS_TOKEN_EXPIRE_MINUTES", "60")
     )
+    ai_provider: str = os.getenv("AI_PROVIDER", "gemini").strip().lower()
+    gemini_api_key: str = field(
+        default_factory=lambda: os.getenv("GEMINI_API_KEY", ""),
+        repr=False,
+    )
+    gemini_chat_model: str = os.getenv("GEMINI_CHAT_MODEL", "gemini-3.5-flash-lite")
+    gemini_embedding_model: str = os.getenv(
+        "GEMINI_EMBEDDING_MODEL", "gemini-embedding-2"
+    )
     openai_api_key: str = field(
         default_factory=lambda: os.getenv("OPENAI_API_KEY", ""),
         repr=False,
@@ -43,8 +52,9 @@ class Settings:
     openai_embedding_model: str = os.getenv(
         "OPENAI_EMBEDDING_MODEL", "text-embedding-3-small"
     )
-    openai_embedding_dimensions: int = 1536
+    embedding_dimensions: int = 1536
     rag_top_k: int = int(os.getenv("RAG_TOP_K", "5"))
+    rag_min_similarity: float = float(os.getenv("RAG_MIN_SIMILARITY", "0.55"))
     yolo_model: str = os.getenv("YOLO_MODEL", "yolo11n.pt")
     vision_confidence_threshold: float = float(
         os.getenv("VISION_CONFIDENCE_THRESHOLD", "0.35")
@@ -63,6 +73,14 @@ class Settings:
             )
         )
     )
+
+    @property
+    def rag_api_key_configured(self) -> bool:
+        if self.ai_provider == "gemini":
+            return bool(self.gemini_api_key.strip())
+        if self.ai_provider == "openai":
+            return bool(self.openai_api_key.strip())
+        return False
 
     @property
     def database_url(self) -> str:

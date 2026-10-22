@@ -37,7 +37,7 @@ def _rag_storage_exists(db: Session) -> bool:
 def _sync_product_rag_if_ready(db: Session, product: Product) -> None:
     if not _rag_storage_exists(db):
         return
-    if product.rag_enabled and not settings.openai_api_key.strip():
+    if product.rag_enabled and not settings.rag_api_key_configured:
         return
     _rag_index_service.sync_product(db, product)
 

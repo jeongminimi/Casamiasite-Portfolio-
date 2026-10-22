@@ -11,6 +11,7 @@ from app.main import app
 from app.models import Product, ProductEmbedding
 from app.services.product_document import build_product_document
 from app.services.rag import (
+    GeminiRagProvider,
     OpenAIRagProvider,
     RagChatService,
     RagIndexService,
@@ -41,13 +42,14 @@ def make_product(**overrides):
 
 class FakeProvider:
     def __init__(self):
+        self.embedding_model = "fake-embedding"
         self.embed_calls = 0
         self.answer_calls = 0
         self.last_context = ""
 
     def embed(self, texts):
         self.embed_calls += 1
-        return [[0.0] * settings.openai_embedding_dimensions for _ in texts]
+        return [[0.0] * settings.embedding_dimensions for _ in texts]
 
     def answer(self, message, context):
         self.answer_calls += 1
@@ -109,6 +111,7 @@ class FilterTests(unittest.TestCase):
 
         self.assertEqual(filters.max_price, 1_500_000)
         self.assertEqual(filters.seat_count, 3)
+        self.assertEqual(filters.category, "\uC18C\uD30C")
 
     def test_parses_full_won_lower_bound(self):
         filters = parse_product_filters("1,000,000원 이상 상품")
@@ -164,6 +167,28 @@ class IndexTests(unittest.TestCase):
         self.assertEqual(len(session.embeddings), 0)
 
 
+class GeminiProviderTests(unittest.TestCase):
+    def test_uses_configured_dimension_and_generate_content(self):
+        client = MagicMock()
+        client.models.embed_content.return_value = SimpleNamespace(
+            embeddings=[
+                SimpleNamespace(values=[0.0] * settings.embedding_dimensions)
+            ]
+        )
+        client.models.generate_content.return_value = SimpleNamespace(
+            text="grounded answer"
+        )
+        provider = GeminiRagProvider(client=client)
+
+        vector = provider.embed(["product document"])[0]
+        answer = provider.answer("question", "verified context")
+
+        self.assertEqual(len(vector), settings.embedding_dimensions)
+        self.assertEqual(answer, "grounded answer")
+        client.models.embed_content.assert_called_once()
+        client.models.generate_content.assert_called_once()
+
+
 class ChatServiceTests(unittest.TestCase):
     def test_price_and_attribute_filters_limit_grounded_products(self):
         provider = FakeProvider()
@@ -189,6 +214,34 @@ class ChatServiceTests(unittest.TestCase):
         self.assertEqual([hit.product.id for hit in hits], ["test-sofa"])
         self.assertIn("조건 일치 상품 근거", provider.last_context)
         self.assertNotIn("고가 상품 근거", provider.last_context)
+
+    def test_explicit_category_excludes_other_product_categories(self):
+        provider = FakeProvider()
+        service = RagChatService(provider=provider)
+        sofa = make_product()
+        bed = make_product(
+            id="test-bed",
+            name="\uD14C\uC2A4\uD2B8 \uCE68\uB300",
+            category="\uCE68\uB300",
+        )
+        session = FakeSearchSession(
+            [(bed, "bed context", 0.10), (sofa, "sofa context", 0.10)]
+        )
+
+        hits = service.search(session, "\uC18C\uD30C \uCD94\uCC9C\uD574\uC918")
+
+        self.assertEqual([hit.product.id for hit in hits], ["test-sofa"])
+
+    def test_low_similarity_result_is_excluded(self):
+        provider = FakeProvider()
+        service = RagChatService(provider=provider)
+        session = FakeSearchSession([(make_product(), "weak context", 0.60)])
+
+        answer, hits = service.answer(session, "unrelated question")
+
+        self.assertEqual(hits, [])
+        self.assertEqual(provider.answer_calls, 0)
+        self.assertTrue(answer)
 
     def test_no_matching_product_does_not_call_llm(self):
         provider = FakeProvider()
@@ -246,7 +299,7 @@ class OpenAIProviderTests(unittest.TestCase):
         client.embeddings.create.return_value = SimpleNamespace(
             data=[
                 SimpleNamespace(
-                    embedding=[0.0] * settings.openai_embedding_dimensions,
+                    embedding=[0.0] * settings.embedding_dimensions,
                     index=0,
                 )
             ]
