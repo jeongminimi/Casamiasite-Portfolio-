@@ -7,6 +7,7 @@ from fastapi.testclient import TestClient
 from PIL import Image
 
 from app.api.vision import get_yolo_service
+from app.db.session import get_db
 from app.main import app
 from app.services.yolo import (
     CATEGORY_MAPPING,
@@ -95,9 +96,15 @@ class FakeVisionService:
         ]
 
 
+class FakeDb:
+    def scalars(self, statement):
+        return []
+
+
 class VisionApiTests(unittest.TestCase):
     def setUp(self):
         app.dependency_overrides[get_yolo_service] = lambda: FakeVisionService()
+        app.dependency_overrides[get_db] = lambda: FakeDb()
         self.client = TestClient(app)
 
     def tearDown(self):
@@ -117,6 +124,7 @@ class VisionApiTests(unittest.TestCase):
         self.assertEqual(body["detections"][0]["label"], "couch")
         self.assertEqual(body["detections"][0]["category"], "소파")
         self.assertEqual(body["detections"][0]["confidence"], 0.91)
+        self.assertEqual(body["products"], [])
 
     def test_invalid_extension_is_rejected(self):
         response = self.client.post(

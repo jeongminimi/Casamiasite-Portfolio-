@@ -56,3 +56,20 @@
   .product-header-actions button, .product-header-actions a { font-size: 10px; }
   .search-product-grid { grid-template-columns: 1fr; }
 }
+
+.vision-search { margin-top: 64px; }
+.vision-search .results-heading > span { color: #817b72; font-size: 13px; }
+.vision-intro { margin: 18px 0; color: #777168; font-size: 14px; line-height: 1.7; }
+.vision-form { display: flex; align-items: stretch; max-width: 760px; min-height: 54px; border: 1px solid #dfdbd4; background: #fff; }
+.vision-file-label { display: grid; place-items: center; min-width: 110px; padding: 0 16px; background: #f3f0ea; color: #4f4a43; font-size: 13px; cursor: pointer; }
+.vision-form input[type="file"] { flex: 1; min-width: 0; padding: 15px 12px; color: #6f6960; font-size: 12px; }
+.vision-preview { display: block; width: min(420px, 100%); max-height: 320px; margin-top: 20px; object-fit: contain; background: #f6f5f2; }
+.vision-detections { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+.vision-detection { padding: 7px 10px; border: 1px solid #dfd8cf; background: #f8f6f2; color: #5d564d; font-size: 12px; }
+.vision-product-grid { margin-top: 20px; }
+@media (max-width: 600px) {
+  .vision-form { flex-wrap: wrap; }
+  .vision-file-label { min-height: 48px; }
+  .vision-form input[type="file"] { flex-basis: calc(100% - 110px); }
+  .vision-form .catalog-search-button { width: 100%; min-height: 48px; }
+}

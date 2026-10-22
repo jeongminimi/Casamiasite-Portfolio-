@@ -4,9 +4,13 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from PIL import Image, UnidentifiedImageError
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 from starlette.concurrency import run_in_threadpool
 
 from app.core.config import settings
+from app.db.session import get_db
+from app.models import Product
 from app.schemas.vision import VisionDetectionResponse
 from app.services.yolo import YoloDetectionService, YoloServiceError
 
@@ -47,6 +51,7 @@ def _decode_image(data: bytes) -> Image.Image:
 @router.post("/detect", response_model=VisionDetectionResponse)
 async def detect_furniture(
     file: Annotated[UploadFile, File(...)],
+    db: Annotated[Session, Depends(get_db)],
     service: Annotated[YoloDetectionService, Depends(get_yolo_service)],
 ) -> VisionDetectionResponse:
     filename = file.filename or ""
@@ -91,4 +96,15 @@ async def detect_furniture(
     finally:
         image.close()
 
-    return VisionDetectionResponse(detections=detections)
+    categories = sorted({item["category"] for item in detections})
+    products = []
+    if categories:
+        products = list(
+            db.scalars(
+                select(Product)
+                .where(Product.category.in_(categories))
+                .order_by(Product.category, Product.id)
+            )
+        )
+
+    return VisionDetectionResponse(detections=detections, products=products)

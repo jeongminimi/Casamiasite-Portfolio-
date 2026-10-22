@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field
 
+from app.schemas.product import ProductResponse
+
 
 class BoundingBox(BaseModel):
     x1: float
@@ -17,3 +19,4 @@ class VisionDetection(BaseModel):
 
 class VisionDetectionResponse(BaseModel):
     detections: list[VisionDetection]
+    products: list[ProductResponse]

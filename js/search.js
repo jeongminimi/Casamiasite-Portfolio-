@@ -142,6 +142,85 @@
     } finally { button.disabled = false; button.textContent = "AI에게 물어보기"; }
   });
 
+
+  let visionPreviewUrl = "";
+  $("visionImage").addEventListener("change", () => {
+    const file = $("visionImage").files[0];
+    if (visionPreviewUrl) URL.revokeObjectURL(visionPreviewUrl);
+    visionPreviewUrl = "";
+    $("visionPreview").hidden = true;
+    if (!file) return;
+    visionPreviewUrl = URL.createObjectURL(file);
+    $("visionPreview").src = visionPreviewUrl;
+    $("visionPreview").hidden = false;
+  });
+
+  $("visionForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    const file = $("visionImage").files[0];
+    const button = $("visionSubmitButton");
+    const status = $("visionStatus");
+    const detections = $("visionDetections");
+    const products = $("visionProducts");
+    detections.replaceChildren();
+    products.replaceChildren();
+    if (!file) return;
+
+    const allowedTypes = new Set(["image/jpeg", "image/png", "image/webp"]);
+    if (!allowedTypes.has(file.type)) {
+      status.hidden = false;
+      status.textContent = "JPG, PNG, WEBP 이미지만 업로드할 수 있습니다.";
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      status.hidden = false;
+      status.textContent = "이미지 파일은 10MB 이하만 업로드할 수 있습니다.";
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = "분석 중...";
+    status.hidden = false;
+    status.textContent = "YOLO11이 이미지 속 가구를 확인하고 있습니다.";
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await CasamiaApi.post("/vision/detect", formData);
+      if (!response.detections.length) {
+        status.textContent = "지원되는 가구를 찾지 못했습니다. 소파, 의자, 식탁, 침대가 잘 보이는 사진을 사용해 주세요.";
+        return;
+      }
+
+      const uniqueDetections = [];
+      const seen = new Set();
+      response.detections.forEach(item => {
+        const key = item.label + ":" + item.category;
+        if (!seen.has(key)) {
+          seen.add(key);
+          uniqueDetections.push(item);
+        }
+      });
+      detections.replaceChildren(...uniqueDetections.map(item => {
+        const chip = document.createElement("span");
+        chip.className = "vision-detection";
+        chip.textContent = item.category + " · " + item.label + " · " + (item.confidence * 100).toFixed(1) + "%";
+        return chip;
+      }));
+
+      const detectedCategories = [...new Set(uniqueDetections.map(item => item.category))];
+      status.textContent = "사진에서 " + detectedCategories.join(", ") + " 카테고리를 발견했습니다.";
+      const adapted = response.products.map(adaptProduct);
+      products.replaceChildren(...adapted.map(product => createProductCard(product)));
+      if (!adapted.length) status.textContent += " 현재 DB에는 연결할 상품이 없습니다.";
+    } catch (error) {
+      status.textContent = error.message;
+    } finally {
+      button.disabled = false;
+      button.textContent = "가구 분석하기";
+    }
+  });
+
   const initialQuery = new URLSearchParams(location.search).get("q")?.trim() || "";
   await search(initialQuery);
 });
