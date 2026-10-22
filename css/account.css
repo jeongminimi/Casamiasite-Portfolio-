@@ -127,3 +127,9 @@ button { cursor: pointer; }
   .profile-section { grid-template-columns: 1fr; padding: 24px 18px; gap: 24px; }
   .account-gate { margin: 80px auto 100px; } .account-gate h1 { font-size: 27px; }
 }
+.profile-details { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; }
+.profile-details > div { background: #fffefa; border: 1px solid #e3dacd; padding: 15px; min-width: 0; }
+.profile-details dt { color: #95826a; font-size: 10px; margin-bottom: 8px; }
+.profile-details dd { font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+.profile-details .account-secondary { grid-column: 1 / -1; width: fit-content; margin-top: 4px; }
+@media (max-width: 680px) { .profile-details { grid-template-columns: 1fr; } .profile-details .account-secondary { grid-column: auto; } }

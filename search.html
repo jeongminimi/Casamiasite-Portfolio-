@@ -54,9 +54,23 @@
         <p>분류나 예산을 바꾸거나, 등록된 상품 이름으로 다시 검색해 보세요.</p>
       </div>
     </section>
+    <section class="ai-consult" aria-labelledby="aiConsultTitle">
+      <div class="results-heading"><div><p class="search-eyebrow">GEMINI RAG CONSULTANT</p><h2 id="aiConsultTitle">AI 상품 상담</h2></div><span>DB 상품 근거 기반</span></div>
+      <p class="ai-consult-intro">예산, 공간, 좌석 수처럼 원하는 조건을 자연스럽게 질문해 보세요.</p>
+      <form id="aiQuestionForm" class="catalog-search-form">
+        <label class="visually-hidden" for="aiQuestion">AI 상품 상담 질문</label>
+        <input id="aiQuestion" class="search-input" type="text" maxlength="2000" required placeholder="예: 150만원 이하 3인용 소파 추천해줘" autocomplete="off" />
+        <button id="aiAskButton" class="catalog-search-button" type="submit">AI에게 물어보기</button>
+      </form>
+      <p id="aiStatus" class="search-notice" role="status" aria-live="polite" hidden></p>
+      <div id="aiAnswer" class="ai-answer" hidden></div>
+      <div id="aiProducts" class="search-product-grid ai-product-grid"></div>
+      <details id="aiSources" class="ai-sources" hidden><summary>답변 근거 보기</summary><ul></ul></details>
+    </section>
     <p class="catalog-disclaimer">검색은 현재 등록된 포트폴리오 상품 자료만 사용합니다. 표시 가격은 예시이며 실시간 판매가가 아닙니다. 치수·소재 등 등록되지 않은 사양은 조건 검색에 반영하지 않습니다.</p>
   </main>
   <script src="js/shop.js"></script>
+  <script src="js/api.js"></script>
   <script src="js/account.js"></script>
   <script src="js/top_bar.js"></script>
   <script src="js/search.js"></script>

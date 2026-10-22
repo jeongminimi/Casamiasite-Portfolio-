@@ -1,7 +1,8 @@
-document.addEventListener("DOMContentLoaded", () => {
+﻿document.addEventListener("DOMContentLoaded", () => {
   const $ = id => document.getElementById(id);
   const escape = value => String(value).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const methods = { card: "신용·체크카드", easy: "간편결제", bank: "계좌이체" };
+
   function renderShopping() {
     if (!Account.getUser()) return;
     const orders = Shop.getOrders(), wishes = Shop.getWishes(), cart = Shop.getCart();
@@ -15,27 +16,36 @@ document.addEventListener("DOMContentLoaded", () => {
     $("myWishes").innerHTML = wishes.length ? wishes.slice(0, 4).map(item => `<article class="my-wish"><img src="${escape(item.image)}" alt="${escape(item.name)}" /><button type="button" class="my-wish-heart" ${Shop.wishAttributes(item)}>♥</button><small>${escape(item.brand || "까사미아")}</small><h3>${escape(item.name)}</h3><strong>${Shop.money(item.price)}</strong></article>`).join("") : '<div class="account-empty wishes-empty"><h3>마음에 드는 상품을 담아보세요.</h3><p>상품의 하트를 누르면 여기에 모입니다.</p><a href="index.html">구경하러 가기 →</a></div>';
     Shop.sync();
   }
+
   function renderUser() {
     const user = Account.getUser();
     $("accountError").hidden = true;
-    $("profileStatus").textContent = "";
     $("accountGate").hidden = !!user;
     $("accountDashboard").hidden = !user;
-    if (user) { $("greetingName").textContent = user.name; $("profileName").value = user.name; renderShopping(); }
-    else { $("myOrders").replaceChildren(); $("myWishes").replaceChildren(); $("profileName").value = ""; }
+    if (user) {
+      $("greetingName").textContent = user.name;
+      $("profileNameDisplay").textContent = user.name;
+      $("profileEmailDisplay").textContent = user.email;
+      $("profileRoleDisplay").textContent = user.role;
+      $("adminPageLink").hidden = user.role !== "ADMIN";
+      renderShopping();
+    } else {
+      $("myOrders").replaceChildren();
+      $("myWishes").replaceChildren();
+    }
   }
-  $("logoutButton").addEventListener("click", () => {
-    const result = Account.logout();
-    if (!result.ok) { $("accountError").textContent = result.message; $("accountError").hidden = false; }
-  });
-  $("profileForm").addEventListener("submit", event => {
-    event.preventDefault();
-    const result = Account.updateName($("profileName").value);
-    $("profileStatus").textContent = result.ok ? "닉네임을 저장했습니다." : result.message;
-  });
+
+  $("logoutButton").addEventListener("click", () => Account.logout());
   window.addEventListener("accountchange", renderUser);
   window.addEventListener("shopchange", renderShopping);
   window.addEventListener("storage", event => { if (event.key === "casamia.shop.v1" || event.key === null) renderShopping(); });
   window.addEventListener("pageshow", renderUser);
   renderUser();
+  if (CasamiaApi.getToken()) {
+    Account.refresh().then(renderUser).catch(error => {
+      $("accountError").textContent = error.message;
+      $("accountError").hidden = false;
+      renderUser();
+    });
+  }
 });

@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>상품 관리 | casamia</title>
+  <link rel="stylesheet" href="css/account.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+  <script src="js/api.js" defer></script><script src="js/account.js" defer></script><script src="js/admin.js" defer></script>
+</head>
+<body>
+  <header class="account-header"><a class="account-logo" href="index.html">casamia</a><span>PRODUCT ADMINISTRATION</span><nav aria-label="상단 메뉴"><a href="index.html">홈으로</a><a href="mypage.html">마이페이지</a></nav></header>
+  <main class="admin-main">
+    <section id="adminState" class="admin-state" role="status"><p class="eyebrow">ADMIN ACCESS</p><h1>관리자 권한을 확인하고 있습니다.</h1></section>
+    <section id="adminDenied" class="account-gate" hidden><p class="eyebrow">ADMIN ONLY</p><h1>관리자 전용 페이지입니다.</h1><p id="adminDeniedMessage">ADMIN 계정으로 로그인해 주세요.</p><a class="account-primary" href="login.html?next=admin.html">관리자 로그인</a></section>
+    <section id="adminDashboard" hidden>
+      <div class="admin-heading"><div><p class="eyebrow">PRODUCT MANAGEMENT</p><h1>상품 정보 수정</h1><p>저장된 변경사항은 PostgreSQL과 RAG embedding에 함께 반영됩니다.</p></div><span id="adminIdentity"></span></div>
+      <div class="admin-layout">
+        <aside class="admin-products"><label for="adminProductSearch">상품 찾기</label><input id="adminProductSearch" type="search" placeholder="상품명 또는 ID" /><div id="adminProductList" role="listbox" aria-label="상품 목록"></div></aside>
+        <section class="admin-editor" aria-labelledby="editorTitle"><h2 id="editorTitle">수정할 상품을 선택해 주세요</h2>
+          <form id="adminProductForm" hidden>
+            <input id="adminProductId" type="hidden" />
+            <div class="admin-grid"><div class="account-field"><label for="adminName">상품명</label><input id="adminName" required maxlength="255" /></div><div class="account-field"><label for="adminBrand">브랜드</label><input id="adminBrand" required maxlength="100" /></div><div class="account-field"><label for="adminCategory">카테고리</label><input id="adminCategory" required maxlength="100" /></div><div class="account-field"><label for="adminPrice">가격</label><input id="adminPrice" type="number" min="0" required /></div></div>
+            <div class="account-field"><label for="adminDescription">상품 설명</label><textarea id="adminDescription" rows="5"></textarea></div>
+            <div class="account-field"><label for="adminAttributes">Attributes (JSON)</label><textarea id="adminAttributes" rows="10" spellcheck="false"></textarea></div>
+            <label class="admin-checkbox"><input id="adminRagEnabled" type="checkbox" /> RAG 검색과 AI 추천에 사용</label>
+            <div class="admin-actions"><button class="account-primary" type="submit">변경사항 저장</button><a id="adminProductLink" class="account-secondary" href="#">상세 페이지 보기</a></div>
+            <p id="adminFormStatus" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+      </div>
+    </section>
+  </main>
+  <footer class="account-footer">casamia <span>개인 포트폴리오 · ADMIN 상품 관리</span></footer>
+</body>
+</html>

@@ -3,13 +3,34 @@ document.addEventListener("DOMContentLoaded", async () => {
   const detail = document.getElementById("productDetail");
   const id = new URLSearchParams(location.search).get("id");
   if (!id) { state.textContent = "상품 주소가 올바르지 않습니다. 상품 목록에서 다시 선택해 주세요."; return; }
+  const adaptProduct = raw => ({
+    id: raw.id,
+    name: raw.name,
+    brand: raw.brand,
+    category: raw.category,
+    priceKrw: raw.price_krw,
+    originalPriceKrw: raw.original_price_krw,
+    discountRate: raw.discount_rate,
+    image: raw.image,
+    productUrl: raw.product_url || `product.html?id=${encodeURIComponent(raw.id)}`,
+    officialProductCode: raw.official_product_code,
+    officialCheckedAt: raw.official_checked_at,
+    officialProductUrl: raw.official_product_url,
+    description: raw.description,
+    ragEnabled: raw.rag_enabled,
+    rating: raw.rating === null ? null : Number(raw.rating),
+    reviewCount: raw.review_count,
+    qnaCount: raw.qna_count,
+    attributes: raw.attributes || {},
+    galleryImages: raw.gallery_images || [],
+    officialBenefits: raw.official_benefits || [],
+    officialAddons: raw.official_addons || [],
+    missingFields: raw.missing_fields || [],
+    source: raw.source || {},
+  });
   try {
-    const response = await fetch("json/rag_products.json");
-    if (!response.ok) throw new Error("상품 자료를 불러오지 못했습니다.");
-    const catalog = await response.json();
-    const products = catalog.products;
-    const product = products.find(item => item.id === id);
-    if (!product) { state.textContent = "요청한 상품을 찾지 못했습니다. 상품 목록에서 다시 선택해 주세요."; return; }
+    const product = adaptProduct(await CasamiaApi.get(`/products/${encodeURIComponent(id)}`));
+    const catalog = { priceNotice: "PostgreSQL 상품 DB에 등록된 예시 가격이며 실시간 판매가가 아닙니다." };
     document.title = `${product.name} | casamia 상품 상세`;
     document.getElementById("productBrand").textContent = product.brand || "까사미아";
     document.getElementById("productName").textContent = product.name;
@@ -110,7 +131,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const caveat = document.getElementById("productCaveat");
     if (!product.ragEnabled) { caveat.hidden = false; caveat.textContent = "원본 상품명이 일부 생략되어 상세 정보 확인이 필요하며, 현재 추천 검색 대상에서 제외되어 있습니다."; }
     else if (product.missingFields.some(field => ["material", "widthCm", "depthCm", "heightCm"].includes(field))) { caveat.hidden = false; caveat.textContent = "소재와 상세 치수 등 등록되지 않은 정보가 있습니다. 확인되지 않은 사양은 안내하지 않습니다."; }
-    document.getElementById("sourceNote").textContent = `상품 근거: ${product.source.file} ${product.source.pointer}`;
+    document.getElementById("sourceNote").textContent = product.source.file ? `상품 근거: ${product.source.file} ${product.source.pointer || ""}` : "상품 근거: PostgreSQL products 테이블";
 
     const price = document.getElementById("productPrice");
     const quantity = document.getElementById("productQuantity");

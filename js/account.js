@@ -1,55 +1,87 @@
-// 공개 체험 계정 전용 UI입니다. 실제 인증·접근 제어를 제공하지 않습니다.
-// 실사용 계정은 인증 서비스에서 검증하고 비밀번호를 이 코드에 저장하지 마세요.
-(() => {
+﻿(() => {
   "use strict";
-  const KEY = "casamia.demo.profile.v1";
-  const DEMO_EMAIL = "demo@casamia.example";
-  const DEMO_PASSWORD = "Demo1234!";
-  function read() {
-    try {
-      const value = JSON.parse(localStorage.getItem(KEY));
-      if (value && typeof value.name === "string" && value.name.trim().length >= 2 && value.name.length <= 20 && typeof value.signedIn === "boolean") return value;
-    } catch {}
-    return { name: "까사미아", signedIn: false };
-  }
-  function getUser() {
-    const profile = read();
-    return profile.signedIn ? { name: profile.name, email: DEMO_EMAIL } : null;
-  }
+  const Api = window.CasamiaApi;
+  if (!Api) throw new Error("js/api.js must be loaded before js/account.js");
+
+  const getUser = () => Api.getToken() ? Api.getCachedUser() : null;
+
   function sync() {
     const user = getUser();
     document.querySelectorAll("[data-account-link]").forEach(link => {
       link.href = user ? "mypage.html" : "login.html";
       link.setAttribute("aria-label", user ? "마이페이지" : "로그인");
-      link.title = user ? `${user.name}님의 마이페이지` : "데모 로그인";
+      link.title = user ? `${user.name}님의 마이페이지` : "로그인";
       if (!link.querySelector("i")) link.textContent = user ? "마이페이지" : "로그인";
     });
   }
-  function write(profile) {
-    try { localStorage.setItem(KEY, JSON.stringify({ name: profile.name, signedIn: profile.signedIn })); }
-    catch { return { ok: false, message: "브라우저에 저장하지 못했습니다. 사이트 저장 허용 설정과 저장 공간을 확인해 주세요." }; }
+
+  async function refresh() {
+    if (!Api.getToken()) {
+      Api.updateCachedUser(null);
+      sync();
+      return null;
+    }
+    try {
+      const user = await Api.get("/users/me");
+      Api.updateCachedUser(user);
+      sync();
+      return user;
+    } catch (error) {
+      if (error.status === 401) Api.clearSession();
+      sync();
+      throw error;
+    }
+  }
+
+  async function login(email, password) {
+    try {
+      const token = await Api.post("/auth/login", { email: email.trim(), password });
+      Api.setSession(token.access_token, null);
+      const user = await Api.get("/users/me");
+      Api.setSession(token.access_token, user);
+      sync();
+      return { ok: true, user };
+    } catch (error) {
+      Api.clearSession();
+      const message = error.status === 401
+        ? "이메일 또는 비밀번호가 올바르지 않습니다."
+        : error.message;
+      return { ok: false, message, status: error.status };
+    }
+  }
+
+  async function register(email, password, name) {
+    try {
+      await Api.post("/auth/register", { email: email.trim(), password, name: name.trim() });
+      return await login(email, password);
+    } catch (error) {
+      const message = error.status === 409
+        ? "이미 가입된 이메일입니다. 로그인해 주세요."
+        : error.status === 422
+          ? "이메일, 이름, 비밀번호 형식을 확인해 주세요."
+          : error.message;
+      return { ok: false, message, status: error.status };
+    }
+  }
+
+  function logout() {
+    Api.clearSession();
     sync();
-    window.dispatchEvent?.(new Event("accountchange"));
     return { ok: true };
   }
-  function login(email, password) {
-    if (email.trim().toLowerCase() !== DEMO_EMAIL || password !== DEMO_PASSWORD) return { ok: false, message: "체험 계정의 이메일과 비밀번호를 확인해 주세요." };
-    return write({ ...read(), signedIn: true });
-  }
-  function createProfile(name) {
-    const trimmed = name.trim();
-    if (trimmed.length < 2 || trimmed.length > 20) return { ok: false, message: "닉네임은 2~20자로 입력해 주세요." };
-    return write({ name: trimmed, signedIn: true });
-  }
-  function updateName(name) {
-    if (!getUser()) return { ok: false, message: "먼저 데모 로그인해 주세요." };
-    return createProfile(name);
-  }
-  function logout() { return write({ ...read(), signedIn: false }); }
-  document.addEventListener("DOMContentLoaded", sync);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    sync();
+    if (Api.getToken()) refresh().catch(() => {});
+  });
   window.addEventListener("pageshow", sync);
   window.addEventListener("storage", event => {
-    if (event.key === KEY || event.key === null) { sync(); window.dispatchEvent?.(new Event("accountchange")); }
+    if (["casamia.auth.token.v1", "casamia.auth.user.v1", null].includes(event.key)) {
+      sync();
+      window.dispatchEvent(new Event("accountchange"));
+    }
   });
-  window.Account = { getUser, login, createProfile, updateName, logout };
+  window.addEventListener("accountchange", sync);
+
+  window.Account = { getUser, refresh, login, register, logout, sync };
 })();

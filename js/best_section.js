@@ -11,9 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return res.json();
     })
     .then(async (data) => {
-      const catalogResponse = await fetch("json/rag_products.json");
-      if (!catalogResponse.ok) throw new Error("RAG 상품 카탈로그 로드 실패");
-      const catalog = await catalogResponse.json();
+      const catalog = await CasamiaApi.get("/products");
       const catalogIds = [
         ["reno-head-cushion-ivory", "reno-sofa-3-ivory", "reno-sofa-4-ivory"],
         ["carne-dining-set-2-brown-100", "carne-dining-set-4-brown-140", "carne-dining-set-6-brown-180"],
@@ -28,12 +26,12 @@ document.addEventListener("DOMContentLoaded", () => {
             .map(
               (item, productIndex) => {
                 const productId = catalogIds[columnIndex]?.[productIndex];
-                const catalogProduct = catalog.products.find(product => product.id === productId);
-                const productUrl = catalogProduct?.productUrl;
+                const catalogProduct = catalog.find(product => product.id === productId);
+                const productUrl = catalogProduct ? `product.html?id=${encodeURIComponent(catalogProduct.id)}` : null;
                 const itemName = catalogProduct?.name || item.name;
                 const itemBrand = catalogProduct?.brand || item.brand;
                 const itemImage = catalogProduct?.image || item.thumb;
-                const itemPrice = catalogProduct?.priceKrw ?? Shop.number(item.price);
+                const itemPrice = catalogProduct?.price_krw ?? Shop.number(item.price);
                 const wishId = columnIndex === 0 ? ["reno-cushion", "reno-3", "reno-4"][productIndex] : productId;
                 return `
               <div class="mini-product-item">
