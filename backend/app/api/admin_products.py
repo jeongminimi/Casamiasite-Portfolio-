@@ -1,12 +1,14 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy import inspect
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.api.dependencies import require_admin
+from app.core.config import settings
 from app.db.session import get_db
-from app.models import Product
+from app.models import Product, ProductEmbedding
 from app.schemas.product import (
     ProductCreate,
     ProductDeleteResponse,
@@ -26,6 +28,23 @@ router = APIRouter(
     dependencies=[Depends(require_admin)],
 )
 _rag_index_service = RagIndexService()
+
+
+def _rag_storage_exists(db: Session) -> bool:
+    return inspect(db.get_bind()).has_table(ProductEmbedding.__tablename__)
+
+
+def _sync_product_rag_if_ready(db: Session, product: Product) -> None:
+    if not _rag_storage_exists(db):
+        return
+    if product.rag_enabled and not settings.openai_api_key.strip():
+        return
+    _rag_index_service.sync_product(db, product)
+
+
+def _delete_product_rag_if_ready(db: Session, product_id: str) -> None:
+    if _rag_storage_exists(db):
+        _rag_index_service.delete_product(db, product_id)
 
 
 def _conflict_exception() -> HTTPException:
@@ -59,7 +78,7 @@ def create_product(
     db.add(product)
     try:
         db.flush()
-        _rag_index_service.sync_product(db, product)
+        _sync_product_rag_if_ready(db, product)
         db.commit()
     except IntegrityError:
         db.rollback()
@@ -89,7 +108,7 @@ def update_product(
 
     try:
         db.flush()
-        _rag_index_service.sync_product(db, product)
+        _sync_product_rag_if_ready(db, product)
         db.commit()
     except IntegrityError:
         db.rollback()
@@ -114,7 +133,7 @@ def delete_product(
         )
 
     try:
-        _rag_index_service.delete_product(db, product_id)
+        _delete_product_rag_if_ready(db, product_id)
         db.delete(product)
         db.commit()
     except Exception:

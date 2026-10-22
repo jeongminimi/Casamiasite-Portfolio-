@@ -9,6 +9,6 @@ pwdlib[argon2]
 email-validator
 openai
 pgvector
-ultralytics
+httpx
 python-multipart
 Pillow
