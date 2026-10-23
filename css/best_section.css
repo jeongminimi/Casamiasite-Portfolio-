@@ -36,6 +36,7 @@
   overflow: hidden;
   background-color: #f5f5f5;
   margin-bottom: 20px;
+  cursor: pointer;
 }
 
 .series-banner .banner-img {

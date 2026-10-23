@@ -12,7 +12,13 @@ document.addEventListener("DOMContentLoaded", () => {
       return res.json();
     })
     .then(async (data) => {
-      const catalog = await CasamiaApi.get("/products");
+      let catalog = [];
+      try {
+        const res = await CasamiaApi.get("/products");
+        if (Array.isArray(res)) catalog = res;
+      } catch (e) {
+        console.warn("백엔드 상품 카탈로그를 불러오지 못해 기본 데이터를 사용합니다.", e);
+      }
       const catalogIds = [
         ["reno-head-cushion-ivory", "reno-sofa-3-ivory", "reno-sofa-4-ivory"],
         ["carne-dining-set-2-brown-100", "carne-dining-set-4-brown-140", "carne-dining-set-6-brown-180"],
@@ -58,10 +64,17 @@ document.addEventListener("DOMContentLoaded", () => {
             )
             .join("");
 
+          const bannerUrls = [
+            "sub.html",                                     // RENO (소파 상세 모음전)
+            "product.html?id=carne-dining-set-4-brown-140", // CARNE (카르네 세라믹식탁 4인세트 상세)
+            "product.html?id=campo-family-bed-wood-q"       // CAMPO FAMILY BED (캄포 패밀리침대 우드형 Q 상세)
+          ];
+          const bannerUrl = bannerUrls[columnIndex] || "sub.html";
+
           // 배너 + 상품 리스트를 포함한 1개 열 완성
           return `
             <div class="series-column">
-              <div class="series-banner">
+              <div class="series-banner" data-banner-url="${bannerUrl}">
                 <img src="${col.banner.img}" alt="${col.banner.title}" class="banner-img" />
                 <div class="banner-info">
                   <h3 class="banner-title">${col.banner.title}</h3>
@@ -83,14 +96,17 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch((err) => console.error("BEST SERIES 로딩 오류:", err));
 
-  // 배너 클릭은 기존 상세 페이지로, 상품 카드는 상품별 상세 페이지로 이동합니다.
+  // 배너 클릭 시 해당 카테고리/상세 페이지로, 상품 카드는 상품별 상세 페이지로 이동합니다.
   if (bestSection) {
     bestSection.addEventListener("click", (e) => {
       if (e.target.closest(".wish-btn")) return;
       const productLink = e.target.closest(".mini-product-link");
       if (productLink?.dataset.productId) return;
       if (productLink?.getAttribute("aria-disabled") === "true") { e.preventDefault(); return; }
-      if (e.target.closest(".series-banner")) window.location.href = "sub.html";
+      const banner = e.target.closest(".series-banner");
+      if (banner) {
+        window.location.href = banner.dataset.bannerUrl || "sub.html";
+      }
     });
   }
 });
