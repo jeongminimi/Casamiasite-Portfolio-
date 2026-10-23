@@ -2,9 +2,43 @@
 
 > **정적 가구 쇼핑몰을 JWT 인증, PostgreSQL, pgvector RAG, YOLO11 기반 AI 커머스 시스템으로 확장한 포트폴리오 프로젝트**
 
+<div align="center">
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#2b2d42', 'primaryTextColor': '#fff', 'primaryBorderColor': '#8d99ae', 'lineColor': '#ef233c', 'secondaryColor': '#edf2f4', 'tertiaryColor': '#fff'}}}%%
+flowchart LR
+    A[🏷️ 정적 쇼핑몰] -->|JWT 인증 & PostgreSQL DB| B[⚙️ 백엔드 시스템화]
+    B -->|Gemini + pgvector| C[🤖 RAG 지능형 상담]
+    C -->|YOLO11 가구 탐지| D[📷 멀티모달 AI 커머스]
+```
+
+</div>
+
 기존 CASAMIA 쇼핑몰 UI를 유지하면서 정적 포트폴리오를 인증, 상품 관리, 자연어 상담, 이미지 기반 상품 탐색이 가능한 AI 커머스 시스템으로 확장한 프로젝트입니다. 프론트엔드는 HTML/CSS/Vanilla JavaScript를 유지하고, FastAPI와 PostgreSQL을 연결했습니다.
 
+---
+
 ## 문제 → 개선
+
+```mermaid
+%%{init: {'theme': 'neutral'}}%%
+graph TB
+    subgraph Problem["❌ [Before] 초기 정적 쇼핑몰의 한계"]
+        direction TB
+        P1["브라우저 데모 로그인<br>(보안/세션 부재)"]
+        P2["JSON 정적 상품 데이터<br>(DB/서버 관리 부재)"]
+        P3["단순 조건 필터 검색<br>(자연어/이미지 검색 부재)"]
+    end
+
+    subgraph Solution["✨ [After] AI 커머스 엔지니어링 개선"]
+        direction TB
+        S1["PostgreSQL DB 사용자 &<br>JWT 안전한 인증 체계"]
+        S2["PostgreSQL + REST API &<br>ADMIN 동적 관리"]
+        S3["Gemini RAG 자연어 상담 &<br>YOLO11 비전 카테고리 추천"]
+    end
+
+    Problem ==>|Modernization & AI Integration| Solution
+```
 
 ### 문제
 
@@ -18,7 +52,25 @@
 - YOLO11로 개별 상품을 맞히는 대신 가구 카테고리를 탐지하고 실제 DB 상품과 연결했습니다.
 - ADMIN 상품 변경 후 embedding이 자동으로 갱신되도록 데이터와 AI 검색 인덱스의 일관성을 유지했습니다.
 
+---
+
 ## RAG와 YOLO11이 필요한 이유
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1e293b', 'primaryTextColor': '#f8fafc', 'primaryBorderColor': '#334155', 'lineColor': '#3b82f6'}}}%%
+flowchart TD
+    subgraph RAG_Pipeline["🧠 RAG : 텍스트 의미 & 조건 기반 추천"]
+        Q1["자연어 질문<br>'좁은 거실용 2인 소파'"] --> E1["Gemini Embedding<br>(벡터화)"]
+        E1 --> V1["pgvector 코사인 유사도 검색<br>(임계값 필터링)"]
+        V1 --> G1["실제 DB 상품 근거<br>신뢰도 높은 맞춤 추천"]
+    end
+
+    subgraph YOLO_Pipeline["👁️ YOLO11 : 이미지 시각 정보 기반 탐색"]
+        Q2["가구 사진 업로드<br>(형태/외형 정보)"] --> E2["YOLO11 객체 탐지<br>(Bounding Box/Label)"]
+        E2 --> V2["CASAMIA 카테고리 매핑<br>(couch, chair, table, bed)"]
+        V2 --> G2["해당 카테고리의<br>실제 DB 상품 제시"]
+    end
+```
 
 | 구분 | 해결하려는 사용자 질문 | 입력 → 처리 → 결과 |
 |---|---|---|
@@ -27,7 +79,18 @@
 
 RAG는 **텍스트의 의미와 상품 조건**을 연결하고, YOLO11은 **이미지 속 가구 유형**을 찾아 검색의 출발점을 만듭니다. 두 기능 모두 최종 추천은 PostgreSQL 상품 데이터에 연결합니다. YOLO11은 사진 속 CASAMIA 개별 상품을 식별하는 모델은 아닙니다.
 
+---
+
 ## 핵심 구현
+
+```mermaid
+%%{init: {'theme': 'neutral'}}%%
+flowchart LR
+    A["🔐 다층 인증 검증<br>JWT Payload role + DB 실시간 권한 재확인"] --- B["🔄 트랜잭션 동기화<br>상품 C/U/D 발생 시 즉시 pgvector 재색인"]
+    B --- C["🎯 환각 방지 임계값<br>Similarity Threshold로 무관 질문 필터링"]
+    C --- D["📦 100% DB 정합성<br>실제 존재하는 DB 상품만 응답 구성"]
+    D --- E["🏷️ 카테고리 한정 매핑<br>couch, chair, table, bed 지원 객체 엄선"]
+```
 
 - JWT payload의 role만 신뢰하지 않고 요청마다 DB의 사용자와 현재 권한을 확인합니다.
 - 상품 변경 트랜잭션 이후 해당 상품의 embedding을 생성·갱신·삭제합니다.
@@ -35,7 +98,18 @@ RAG는 **텍스트의 의미와 상품 조건**을 연결하고, YOLO11은 **이
 - RAG 응답의 추천 ID, 이름, 가격은 PostgreSQL에 존재하는 상품을 기준으로 구성합니다.
 - YOLO11은 `couch`, `chair`, `dining table`, `bed`를 CASAMIA 카테고리로 명시적으로 매핑하며 지원하지 않는 객체는 추천에서 제외합니다.
 
+---
+
 ## 검증 결과
+
+<div align="center">
+
+| 🧪 백엔드 통합 & 단위 테스트 | 🌐 프론트엔드 E2E/상태 검증 |
+| :---: | :---: |
+| **`23 / 23 PASSED` (100%)** | **`2 / 2 SCRIPTS PASSED` (100%)** |
+| RAG 문서 생성, 필터 파싱, 임계값, 인덱스 동기화, YOLO11 검증 | JWT 인증 주기, 세션 유지, 찜/장바구니/주문 상태 검증 |
+
+</div>
 
 - 백엔드 단위·API 테스트: **23개 통과**. RAG의 상품 문서·필터·유사도 기준·인덱스 동기화와 YOLO11의 업로드 검증·카테고리 매핑·응답 스키마를 확인했습니다.
 - 프론트엔드 Node 테스트: **2개 스크립트 통과**. 인증 흐름과 장바구니·찜·주문 상태를 확인했습니다.
@@ -59,6 +133,8 @@ node tests/shop.test.cjs
 - `rag_enabled=true`: 8개
 - `product_embeddings`: 8개
 
+---
+
 ## 핵심 기능
 
 - JWT 기반 회원가입·로그인과 USER/ADMIN 권한 분리
@@ -70,7 +146,38 @@ node tests/shop.test.cjs
 - 탐지 카테고리와 일치하는 실제 DB 상품 추천
 - 기존 상품 상세, 장바구니, 찜 UI 유지
 
+---
+
 ## 사용자 시나리오
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#2b2d42', 'lineColor': '#e63946'}}}%%
+sequenceDiagram
+    autonumber
+    actor User as 사용자
+    actor Admin as 관리자
+    participant Web as 프론트엔드 (UI)
+    participant API as FastAPI 서버
+    participant DB as PostgreSQL (pgvector)
+    participant AI as AI Engine (Gemini / YOLO)
+
+    User->>Web: 1. 회원가입 및 로그인 요청
+    Web->>API: JWT 발급 및 인증
+    User->>Web: 2. 자연어로 상품 조건 질문
+    Web->>API: 3. RAG 상품 추천 질의 (/api/v1/chat)
+    API->>DB: 벡터 유사도 검색 & DB 상품 확인
+    API-->>Web: 실제 상품 기반 추천 및 답변 반환
+
+    Admin->>Web: 4. ADMIN 화면에서 상품 가격/설명 수정
+    Web->>API: 상품 변경 트랜잭션 요청
+    API->>DB: 5. 상품 갱신 및 임베딩 자동 재색인
+
+    User->>Web: 6. 가구 사진 업로드 (/api/v1/vision/detect)
+    Web->>AI: YOLO11 가구 유형 탐지
+    AI->>API: 카테고리 매핑 (소파/식탁/침대)
+    API->>DB: 7. 매핑된 카테고리의 실제 DB 상품 조회
+    API-->>Web: 추천 상품 카드 제시
+```
 
 1. 사용자가 회원가입 후 JWT 기반으로 로그인합니다.
 2. 자연어로 예산, 공간, 좌석 수 등의 상품 조건을 질문합니다.
@@ -79,6 +186,8 @@ node tests/shop.test.cjs
 5. 변경된 상품 문서와 embedding이 자동으로 갱신됩니다.
 6. 사용자가 가구 이미지를 업로드하면 YOLO11이 가구 유형을 탐지합니다.
 7. 탐지된 카테고리를 기준으로 PostgreSQL의 실제 상품을 추천합니다.
+
+---
 
 ## 기술 스택
 
@@ -89,6 +198,8 @@ node tests/shop.test.cjs
 | Database | PostgreSQL, pgvector |
 | AI | Gemini Embedding, Gemini Chat, YOLO11 |
 | Authentication | JWT, Argon2 password hashing |
+
+---
 
 ## 아키텍처
 
@@ -118,6 +229,8 @@ flowchart TD
     PRODUCTS -->|실제 상품 추천| U
 ```
 
+---
+
 ## 주요 화면
 
 | 로그인 화면 | RAG 챗봇 추천 화면 |
@@ -125,6 +238,8 @@ flowchart TD
 | ![CASAMIA 로그인 화면](docs/screenshots/login.jpg) | ![Gemini RAG 상품 추천 화면](docs/screenshots/rag-chat.jpg) |
 | **ADMIN 상품 수정 화면** | **YOLO11 이미지 탐지·추천 결과** |
 | ![ADMIN 상품 수정 화면](docs/screenshots/admin-product-edit.jpg) | ![YOLO11 이미지 탐지와 DB 상품 추천 화면](docs/screenshots/yolo-recommendation.jpg) |
+
+---
 
 ## 주요 디렉터리
 
@@ -146,6 +261,8 @@ js/               Vanilla JS 화면 로직과 공통 API 모듈
 json/             초기 상품 및 기존 화면용 데이터
 ```
 
+---
+
 ## 주요 API
 
 | Method | Endpoint | 설명 | 권한 |
@@ -161,6 +278,8 @@ json/             초기 상품 및 기존 화면용 데이터
 | POST/PATCH/DELETE | `/api/v1/admin/products...` | 상품 관리 | ADMIN |
 | POST | `/api/v1/chat` | RAG 상품 상담 | 공개 |
 | POST | `/api/v1/vision/detect` | 이미지 탐지와 상품 추천 | 공개 |
+
+---
 
 ## 실행 준비
 
@@ -226,6 +345,8 @@ py -m http.server 5500
 ```
 
 브라우저에서 `http://127.0.0.1:5500/index.html`을 엽니다. 프론트 API 주소는 `js/api.js`의 `DEFAULT_API_BASE_URL` 한 곳에서 관리합니다.
+
+---
 
 ## 현재 한계
 
