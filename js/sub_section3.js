@@ -1,3 +1,4 @@
+// Control recommendation cards and pagination dots.
 document.addEventListener("DOMContentLoaded", () => {
   const recommendGrid = document.getElementById("recommendGrid");
   const viewport = document.getElementById("sliderViewport");

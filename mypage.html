@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Current user, wishes, and mock order history screen -->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,7 +8,9 @@
   <script src="js/api.js" defer></script><script src="js/shop.js" defer></script><script src="js/account.js" defer></script><script src="js/mypage.js" defer></script>
 </head>
 <body>
+  <!-- Shared account header -->
   <header class="account-header"><a class="account-logo" href="index.html">casamia</a><span>MY COMFORT, MY SPACE</span><nav aria-label="상단 메뉴"><a href="index.html">홈으로</a><a href="#" data-shop-open="wishes">찜 목록</a><a href="#" data-shop-open="cart">장바구니</a><a href="mypage.html" data-account-link>마이페이지</a></nav></header>
+  <!-- Profile, order, and wish sections for the current session -->
   <main class="mypage-main">
     <section class="account-gate" id="accountGate" hidden><p class="eyebrow">YOUR OWN LITTLE SPACE</p><h1>나의 공간을 만나보세요.</h1><p>로그인하고 찜한 상품과 쇼핑 기록을 확인해 보세요.</p><a class="account-primary" href="login.html?next=mypage.html">로그인하기</a><small>FastAPI 계정으로 로그인합니다.</small></section>
     <div id="accountDashboard" hidden>

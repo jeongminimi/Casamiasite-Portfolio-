@@ -1,4 +1,5 @@
-﻿.admin-main { max-width: 1180px; min-height: 650px; margin: 54px auto 80px; padding: 0 24px; }
+/* ADMIN product list and editor form */
+.admin-main { max-width: 1180px; min-height: 650px; margin: 54px auto 80px; padding: 0 24px; }
 .admin-state { text-align: center; padding: 140px 20px; color: #766854; }
 .admin-state h1 { font-size: 25px; font-weight: 500; margin-top: 12px; }
 .admin-heading { display: flex; justify-content: space-between; gap: 24px; align-items: flex-start; margin-bottom: 32px; }

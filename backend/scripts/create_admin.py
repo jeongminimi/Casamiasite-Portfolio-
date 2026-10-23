@@ -1,3 +1,5 @@
+"""Create one development ADMIN account from environment variables."""
+
 import os
 import sys
 from pathlib import Path

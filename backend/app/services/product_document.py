@@ -1,3 +1,5 @@
+"""Build normalized product text for embedding and grounded answers."""
+
 import json
 from collections.abc import Mapping, Sequence
 from typing import Any

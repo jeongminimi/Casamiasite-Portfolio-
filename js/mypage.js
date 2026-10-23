@@ -1,4 +1,5 @@
-﻿document.addEventListener("DOMContentLoaded", () => {
+// Render the current user plus local wishes and mock order history.
+document.addEventListener("DOMContentLoaded", () => {
   const $ = id => document.getElementById(id);
   const escape = value => String(value).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const methods = { card: "신용·체크카드", easy: "간편결제", bank: "계좌이체" };

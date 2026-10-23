@@ -1,3 +1,4 @@
+// Control the fixed quick menu and scroll navigation.
 document.addEventListener("DOMContentLoaded", () => {
   // 카테고리 데이터 정의
   const categories = [

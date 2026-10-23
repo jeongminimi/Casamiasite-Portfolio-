@@ -1,3 +1,5 @@
+"""Define the public user response without password fields."""
+
 from pydantic import BaseModel, ConfigDict, EmailStr
 
 from app.models.user import UserRole

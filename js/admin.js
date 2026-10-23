@@ -1,7 +1,9 @@
-﻿document.addEventListener("DOMContentLoaded", async () => {
+// Verify ADMIN access, select products, and submit product updates.
+document.addEventListener("DOMContentLoaded", async () => {
   const $ = id => document.getElementById(id);
   let products = [], selectedId = null;
 
+  // Authorization state and product list UI
   function deny(message) {
     $("adminState").hidden = true;
     $("adminDashboard").hidden = true;
@@ -35,6 +37,7 @@
     if (preferredId && products.some(product => product.id === preferredId)) selectProduct(preferredId);
   }
 
+  // Reveal the dashboard only after JWT and server-side role checks pass.
   try {
     if (!CasamiaApi.getToken()) { deny("ADMIN 계정으로 로그인해 주세요."); return; }
     const user = await CasamiaApi.get("/users/me");
@@ -49,6 +52,7 @@
   }
 
   $("adminProductSearch").addEventListener("input", event => renderList(event.target.value));
+  // A successful PATCH also triggers backend embedding synchronization.
   $("adminProductForm").addEventListener("submit", async event => {
     event.preventDefault();
     const submit = event.submitter, status = $("adminFormStatus");

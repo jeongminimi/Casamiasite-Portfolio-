@@ -1,3 +1,4 @@
+// Control the BEST product slider movement and autoplay.
 document.addEventListener("DOMContentLoaded", () => {
   const seriesGrid = document.getElementById("seriesGrid");
   const bestSection = document.querySelector(".best-series-section");

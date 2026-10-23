@@ -1,3 +1,4 @@
+// Control autoplay and navigation for the secondary main slider.
 document.addEventListener("DOMContentLoaded", () => {
   // 1. 메인 HTML에 이미 존재하는 슬라이더 트랙과 인디케이터 점 선택
   const track = document.getElementById("sliderTrack");

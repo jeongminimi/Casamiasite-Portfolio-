@@ -1,3 +1,4 @@
+// Centralize the API base URL, JWT storage, HTTP requests, and 401 handling.
 (() => {
   "use strict";
   const TOKEN_KEY = "casamia.auth.token.v1";
@@ -5,6 +6,7 @@
   const API_URL_KEY = "casamia.api.baseUrl";
   const DEFAULT_API_BASE_URL = "http://127.0.0.1:8001/api/v1";
 
+  // Shared API error shape and browser storage keys
   class ApiError extends Error {
     constructor(message, status, detail) {
       super(message);
@@ -44,6 +46,7 @@
     window.dispatchEvent(new Event("accountchange"));
   }
 
+  // Shared fetch wrapper: attach JWT, encode JSON, and clear expired sessions.
   async function request(path, options = {}) {
     const headers = new Headers(options.headers || {});
     const token = getToken();
@@ -69,6 +72,7 @@
     return data;
   }
 
+  // Public API consumed by page-specific scripts
   window.CasamiaApi = {
     get API_BASE_URL() { return getBaseUrl(); },
     ApiError,

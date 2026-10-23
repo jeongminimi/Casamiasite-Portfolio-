@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Mock checkout screen backed by the local cart -->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -12,6 +13,7 @@
   <script src="js/checkout.js" defer></script>
 </head>
 <body>
+  <!-- Checkout header -->
   <header class="checkout-header">
     <a class="checkout-logo" href="index.html" aria-label="casamia 홈">casamia</a>
     <span>PORTFOLIO SHOP</span>
@@ -19,6 +21,7 @@
     <a href="sub.html">쇼핑 계속하기 <span aria-hidden="true">↗</span></a>
   </header>
 
+  <!-- Order items, shipping information, and payment method -->
   <main class="checkout-main">
     <nav class="checkout-steps" aria-label="주문 진행 단계">
       <span>01 장바구니</span><span aria-current="step" id="checkoutStep">02 주문·결제</span><span id="completeStep">03 주문 완료</span>

@@ -1,4 +1,6 @@
-﻿from typing import Annotated
+"""Expose public product listing, filtered search, and detail APIs."""
+
+from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import func, select

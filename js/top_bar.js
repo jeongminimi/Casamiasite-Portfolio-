@@ -1,3 +1,4 @@
+// Initialize shared top-bar menus and search interactions.
 document.addEventListener("DOMContentLoaded", () => {
   const searchForm = document.getElementById("searchForm");
   const searchInput = document.querySelector(".search-input");

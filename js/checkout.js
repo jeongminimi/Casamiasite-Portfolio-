@@ -1,3 +1,4 @@
+// Render the local cart and save completed mock orders.
 document.addEventListener("DOMContentLoaded", () => {
   "use strict";
   const $ = id => document.getElementById(id);

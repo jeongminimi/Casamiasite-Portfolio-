@@ -1,4 +1,5 @@
-﻿document.addEventListener("DOMContentLoaded", () => {
+// Connect the existing login UI to FastAPI registration and login.
+document.addEventListener("DOMContentLoaded", () => {
   const $ = id => document.getElementById(id);
   const requested = new URLSearchParams(location.search).get("next");
   const allowed = ["mypage.html", "checkout.html", "index.html", "sub.html", "admin.html"];

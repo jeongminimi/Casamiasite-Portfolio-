@@ -1,3 +1,5 @@
+"""Connect Alembic to application settings and SQLAlchemy metadata."""
+
 from logging.config import fileConfig
 
 from alembic import context

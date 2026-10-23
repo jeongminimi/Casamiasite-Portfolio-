@@ -1,3 +1,5 @@
+"""Define RAG chat requests, products, sources, and responses."""
+
 from pydantic import BaseModel, ConfigDict, Field
 
 

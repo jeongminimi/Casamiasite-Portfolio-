@@ -1,3 +1,4 @@
+// Initialize supporting content on the legacy detail page.
 document.addEventListener("DOMContentLoaded", () => {
   const blocks = document.querySelectorAll(".sub_section2 .content-block");
 

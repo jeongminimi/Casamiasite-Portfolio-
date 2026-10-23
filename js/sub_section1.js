@@ -1,3 +1,4 @@
+// Control the first recommendation slider on the legacy detail page.
 document.addEventListener("DOMContentLoaded", () => {
   const gridContainer = document.getElementById("productGrid");
   const emptyCard = gridContainer ? gridContainer.querySelector(".empty-card") : null;

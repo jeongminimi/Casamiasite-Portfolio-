@@ -1,3 +1,5 @@
+"""Define the shared SQLAlchemy declarative base."""
+
 from sqlalchemy.orm import DeclarativeBase
 
 

@@ -1,3 +1,5 @@
+"""Provide ADMIN product CRUD with per-product RAG synchronization."""
+
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -30,6 +32,7 @@ router = APIRouter(
 _rag_index_service = RagIndexService()
 
 
+# Check for RAG storage so CRUD remains importable before its migration.
 def _rag_storage_exists(db: Session) -> bool:
     return inspect(db.get_bind()).has_table(ProductEmbedding.__tablename__)
 
@@ -66,6 +69,7 @@ def _rag_exception(exc: Exception) -> HTTPException:
     )
 
 
+# Keep product and embedding changes in the same database transaction.
 @router.post("", response_model=ProductResponse, status_code=status.HTTP_201_CREATED)
 def create_product(
     request: ProductCreate,

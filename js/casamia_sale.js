@@ -1,3 +1,4 @@
+// Control buttons and drag movement for the sale campaign slider.
 document.addEventListener("DOMContentLoaded", () => {
   // 1. 메인 HTML 4층의 상품 리스트 컨테이너 선택
   const listContainer = document.querySelector(".first-sell-category-section .product-list");

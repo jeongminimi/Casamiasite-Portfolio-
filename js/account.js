@@ -1,4 +1,5 @@
-﻿(() => {
+// Synchronize JWT session state with shared account navigation.
+(() => {
   "use strict";
   const Api = window.CasamiaApi;
   if (!Api) throw new Error("js/api.js must be loaded before js/account.js");

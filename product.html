@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Product API powered detail screen -->
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -11,6 +12,7 @@
   <link rel="stylesheet" href="css/sub_section3.css" />
 </head>
 <body>
+  <!-- Product navigation header shared with the main page -->
   <header class="site-header">
     <div class="top-badge-wrap"><a href="#" class="guud-badge"><span class="guud-logo">Guud</span><i class="fa-solid fa-angle-right"></i></a><div class="badge-tooltip"><span>입점 브랜드관</span><button type="button" class="tooltip-close" aria-label="닫기">×</button></div></div>
     <div class="header-inner"><div class="header-main"><h1 class="logo"><a href="index.html">casamia</a></h1><div class="header-util">
@@ -18,6 +20,7 @@
       <ul class="user-menu"><li><a href="#" data-shop-open="wishes" aria-label="찜 목록"><i class="fa-regular fa-heart" aria-hidden="true"></i><span class="shop-count" data-shop-count="wishes" hidden></span></a></li><li><a href="#" data-shop-open="cart" aria-label="장바구니"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i><span class="shop-count" data-shop-count="cart" hidden></span></a></li><li><a href="mypage.html" data-account-link aria-label="마이페이지"><i class="fa-regular fa-user"></i></a></li><li><button type="button" class="btn-menu" aria-label="전체메뉴"><i class="fa-solid fa-bars"></i></button></li></ul>
     </div></div><nav class="gnb-nav"><ul class="gnb-list"><li class="brand-week"><a href="#"><span class="bell-icon">🔔</span>브랜드위크<span class="red-dot"></span></a></li><li><a href="#">거실가구</a></li><li><a href="#">침실가구</a></li><li><a href="#">주방가구</a></li><li><a href="#">수납가구</a></li><li><a href="#">서재가구</a></li><li><a href="#">유아/아동가구</a></li><li><a href="#">인테리어 소품</a></li><li class="divider" aria-hidden="true">|</li><li class="catalog"><a href="search.html">CATALOG</a></li></ul></nav></div>
   </header>
+  <!-- Purchase summary and product detail tabs -->
   <main class="product-main">
     <div id="productState" class="product-state" role="status">상품 정보를 불러오는 중입니다.</div>
     <article id="productDetail" hidden>

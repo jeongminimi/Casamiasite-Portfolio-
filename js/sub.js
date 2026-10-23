@@ -1,3 +1,4 @@
+// Control the legacy detail gallery, options, quantity, and cart actions.
 document.addEventListener("DOMContentLoaded", () => {
   const thumbnails = [...document.querySelectorAll(".thumb")];
   const mainImage = document.getElementById("mainImage");

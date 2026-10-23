@@ -1,3 +1,5 @@
+"""Define YOLO bounding boxes, detections, and recommendation responses."""
+
 from pydantic import BaseModel, Field
 
 from app.schemas.product import ProductResponse

@@ -1,3 +1,4 @@
+// Control the secondary content tab and slide transition.
 document.addEventListener("DOMContentLoaded", () => {
   // 1. 메인 HTML에 이미 존재하는 6개의 카드 요소 직접 선택
   const restCards = document.querySelectorAll(".rest-card");

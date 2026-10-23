@@ -1,3 +1,4 @@
+/* Shared login, registration, and account layouts */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root { font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "맑은 고딕", sans-serif; color: #302b25; background: #f8f6f1; }
 body { min-width: 320px; }

@@ -1,3 +1,4 @@
+// Render standard search, Gemini RAG, and YOLO results with shared cards.
 document.addEventListener("DOMContentLoaded", async () => {
   const $ = id => document.getElementById(id);
   const input = $("catalogQuery"), resultCount = $("resultCount"), criteriaList = $("criteriaList");
@@ -9,6 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const colors = [{ value: "아이보리", terms: ["아이보리", "ivory"] }, { value: "브라운", terms: ["브라운", "brown"] }];
   const stopWords = new Set(["추천", "추천해", "추천해줘", "추천해주세요", "찾아줘", "찾아주세요", "보여줘", "보여주세요", "알려줘", "알려주세요", "상품", "제품", "가구", "원하는", "주세요", "거실", "거실에", "침실", "침실에", "주방", "주방에", "만원", "만", "원", "이하", "이내", "아래", "미만", "이상", "초과", "넘는"]);
 
+  // Adapt backend snake_case fields to the existing card model.
   const adaptProduct = raw => ({
     id: raw.id, name: raw.name, brand: raw.brand, category: raw.category,
     priceKrw: raw.price_krw, image: raw.image,
@@ -16,6 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     description: raw.description || "", ragEnabled: raw.rag_enabled,
     attributes: raw.attributes || {}, source: raw.source || {},
   });
+  // Extract category, price, color, and seat filters from natural language.
   function parsePrice(query) {
     const match = query.match(/([\d,]+(?:\.\d+)?)\s*(만원|만\s*원|만|원)\s*(이하|이내|아래|미만|이상|초과|넘는)?/i);
     if (!match) return null;
@@ -68,6 +71,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     return true;
   }
+  // Shared card renderer for standard search, RAG, and YOLO results.
   function createProductCard(product, criteria = null) {
     const link = document.createElement("a"); link.className = "search-product-card"; link.href = product.productUrl;
     const frame = document.createElement("div"); frame.className = "search-product-image";

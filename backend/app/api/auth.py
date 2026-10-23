@@ -1,3 +1,5 @@
+"""Register users, verify credentials, and issue JWT access tokens."""
+
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status

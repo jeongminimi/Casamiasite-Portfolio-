@@ -1,3 +1,5 @@
+"""Provide the PostgreSQL engine, session factory, and DB dependency."""
+
 from collections.abc import Generator
 
 from sqlalchemy import create_engine

@@ -1,3 +1,5 @@
+"""Define product creation, update, response, and deletion schemas."""
+
 from datetime import date, datetime
 from decimal import Decimal
 from typing import Any

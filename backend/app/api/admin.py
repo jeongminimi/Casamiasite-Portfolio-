@@ -1,3 +1,5 @@
+"""Expose a minimal endpoint that verifies ADMIN authorization."""
+
 from typing import Annotated
 
 from fastapi import APIRouter, Depends

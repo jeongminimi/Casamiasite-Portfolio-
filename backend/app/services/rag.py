@@ -1,3 +1,5 @@
+"""Provide AI providers, pgvector indexing, retrieval, and grounded chat."""
+
 import hashlib
 import re
 from dataclasses import dataclass
@@ -52,6 +54,7 @@ class RagSearchHit:
         return max(-1.0, min(1.0, 1.0 - self.distance))
 
 
+# Pluggable AI provider implementations
 class OpenAIRagProvider:
     @property
     def embedding_model(self) -> str:
@@ -196,6 +199,7 @@ def create_rag_provider() -> RagProvider:
     )
 
 
+# Synchronize product changes with their pgvector rows.
 class RagIndexService:
     def __init__(self, provider: RagProvider | None = None) -> None:
         self._provider = provider
@@ -299,6 +303,7 @@ _PRICE_WON_RE = re.compile(
 _SEAT_RE = re.compile(r"(?P<count>\d+)\s*인용")
 
 
+# Parse structured price, seat, and category filters alongside vector search.
 def parse_product_filters(message: str) -> ProductFilters:
     price_match = _PRICE_MAN_RE.search(message)
     multiplier = 10_000
@@ -355,6 +360,7 @@ def _matches_filters(product: Product, filters: ProductFilters) -> bool:
     return True
 
 
+# Build answers only from products retrieved from the database.
 class RagChatService:
     def __init__(self, provider: RagProvider | None = None) -> None:
         self._provider = provider

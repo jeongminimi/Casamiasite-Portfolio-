@@ -1,3 +1,5 @@
+"""Return grounded product recommendations from the RAG chat service."""
+
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status

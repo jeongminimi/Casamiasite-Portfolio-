@@ -1,4 +1,6 @@
-﻿import json
+"""Import the rag_products.json seed into PostgreSQL idempotently."""
+
+import json
 import sys
 from datetime import date
 from decimal import Decimal

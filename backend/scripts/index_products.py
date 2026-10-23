@@ -1,3 +1,5 @@
+"""Synchronize RAG-enabled products with the pgvector index."""
+
 import sys
 from pathlib import Path
 

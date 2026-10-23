@@ -1,3 +1,4 @@
+// Control buttons and drag movement for the autumn campaign slider.
 document.addEventListener("DOMContentLoaded", () => {
   // 1. 메인 HTML 6층의 가을/신혼 상품 리스트 컨테이너 선택
   const listContainer = document.querySelector(".autumn-list");

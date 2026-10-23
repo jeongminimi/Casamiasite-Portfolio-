@@ -1,3 +1,4 @@
+// Verify frontend JWT login, registration, refresh, and logout flows.
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const vm = require("node:vm");

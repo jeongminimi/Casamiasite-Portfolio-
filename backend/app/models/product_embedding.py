@@ -1,3 +1,5 @@
+"""Store one pgvector embedding and source document per product."""
+
 from datetime import datetime
 
 from pgvector.sqlalchemy import Vector

@@ -1,3 +1,5 @@
+"""Verify RAG documents, filters, providers, indexing, and chat APIs."""
+
 import unittest
 from types import SimpleNamespace
 from unittest.mock import MagicMock

@@ -1,3 +1,5 @@
+"""Verify image validation, YOLO mapping, and vision recommendations."""
+
 import unittest
 from io import BytesIO
 from types import SimpleNamespace

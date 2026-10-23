@@ -1,3 +1,5 @@
+"""Define users with USER and ADMIN roles."""
+
 from datetime import datetime
 from enum import Enum
 

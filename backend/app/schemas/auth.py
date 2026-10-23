@@ -1,3 +1,5 @@
+"""Validate registration, login, and token payloads."""
+
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 
 

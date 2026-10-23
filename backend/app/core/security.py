@@ -1,3 +1,5 @@
+"""Hash passwords and create or validate JWT access tokens."""
+
 from datetime import datetime, timedelta, timezone
 from typing import Any
 

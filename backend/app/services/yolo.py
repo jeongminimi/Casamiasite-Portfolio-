@@ -1,3 +1,5 @@
+"""Load YOLO lazily and map supported object classes to catalog categories."""
+
 from collections.abc import Callable
 from threading import Lock
 from typing import Any

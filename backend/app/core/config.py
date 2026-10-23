@@ -1,3 +1,5 @@
+"""Load server, database, JWT, RAG, and YOLO settings from the environment."""
+
 import os
 from dataclasses import dataclass, field
 

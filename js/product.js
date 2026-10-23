@@ -1,8 +1,10 @@
+// Render Product API data in the existing detail, gallery, and option UI.
 document.addEventListener("DOMContentLoaded", async () => {
   const state = document.getElementById("productState");
   const detail = document.getElementById("productDetail");
   const id = new URLSearchParams(location.search).get("id");
   if (!id) { state.textContent = "상품 주소가 올바르지 않습니다. 상품 목록에서 다시 선택해 주세요."; return; }
+  // Adapt backend field names to the existing detail view model.
   const adaptProduct = raw => ({
     id: raw.id,
     name: raw.name,
@@ -29,6 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     source: raw.source || {},
   });
   try {
+    // Populate core product data and official catalog metadata.
     const product = adaptProduct(await CasamiaApi.get(`/products/${encodeURIComponent(id)}`));
     const catalog = { priceNotice: "PostgreSQL 상품 DB에 등록된 예시 가격이며 실시간 판매가가 아닙니다." };
     document.title = `${product.name} | casamia 상품 상세`;
@@ -78,6 +81,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("detailImage").src = product.image;
     document.getElementById("detailImage").alt = `${product.name} 상세 이미지`;
     document.getElementById("detailTitle").textContent = product.name;
+    // Build the primary image and thumbnail gallery.
     const thumbnails = document.getElementById("productThumbnails");
     // 상품 데이터에 galleryImages 배열을 추가하면 상세 사진을 순서대로 표시합니다.
     const galleryImages = Array.isArray(product.galleryImages) && product.galleryImages.length
@@ -135,6 +139,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const price = document.getElementById("productPrice");
     const quantity = document.getElementById("productQuantity");
+    // Recalculate totals and add the selected option to the cart.
     const option = document.getElementById("productOption");
     option.options[1].textContent = `${product.name} · ${product.priceKrw.toLocaleString("ko-KR")}원`;
     const updatePrice = () => {

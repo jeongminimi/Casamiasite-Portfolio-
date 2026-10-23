@@ -1,3 +1,5 @@
+"""Resolve JWT users and enforce server-side ADMIN authorization."""
+
 from typing import Annotated
 
 from fastapi import Depends, HTTPException, status

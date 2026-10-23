@@ -1,3 +1,5 @@
+"""Return the authenticated user profile without password data."""
+
 from typing import Annotated
 
 from fastapi import APIRouter, Depends

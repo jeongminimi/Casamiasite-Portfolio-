@@ -1,3 +1,5 @@
+"""Validate image uploads and map YOLO detections to DB products."""
+
 from io import BytesIO
 from pathlib import Path
 from typing import Annotated
